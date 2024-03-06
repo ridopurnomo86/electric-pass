@@ -4,28 +4,28 @@ import { Icon } from "@iconify/react";
 import { Button } from "../ui/Button";
 
 const Navbar = () => (
-  <header className="border-b-[1px] mb-8">
-    <div className="py-4 px-10 w-full flex items-center justify-between bg-transparent">
+  <header className="border-b-[1px]">
+    <div className="flex w-full items-center justify-between bg-transparent px-10 py-4">
       <div className="flex items-center">
         <Link to="/" className="mr-8">
           <div className="w-full">
             <img src={Logo} alt="elastic-pass-logo" className="w-[200px]" />
           </div>
         </Link>
-        <div className="gap-8 flex">
+        <div className="flex gap-8">
           <Link to="/dashboard">
-            <p className="text-neutral-600 font-medium antialiased text-sm">Dashboard</p>
+            <p className="text-sm font-medium text-neutral-600 antialiased">Dashboard</p>
           </Link>
           <Link to="/reporting">
-            <p className="text-neutral-600 font-medium antialiased text-sm">Reporting</p>
+            <p className="text-sm font-medium text-neutral-600 antialiased">Reporting</p>
           </Link>
         </div>
       </div>
       <div className="flex items-center gap-4">
         <Link to="/create-event">
           <div className="flex items-center">
-            <Icon icon="mdi:event-add" className="text-md text-neutral-600 mr-1" />
-            <p className="text-neutral-600 font-medium antialiased text-sm">Create Event</p>
+            <Icon icon="mdi:event-add" className="mr-1 text-neutral-600" />
+            <p className="text-sm font-medium text-neutral-600 antialiased">Create Event</p>
           </div>
         </Link>
         <span className="h-8 w-[1px] bg-neutral-600"></span>

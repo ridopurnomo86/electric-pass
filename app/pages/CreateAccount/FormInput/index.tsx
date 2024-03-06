@@ -21,9 +21,9 @@ type FormInputPropsType = {
 };
 
 const FormInput = ({ onSubmit, form }: FormInputPropsType) => (
-  <div className="w-full flex flex-col justify-center">
+  <div className="flex w-full flex-col justify-center">
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -73,12 +73,12 @@ const FormInput = ({ onSubmit, form }: FormInputPropsType) => (
                 <Input type="password" {...field} />
               </FormControl>
               <FormMessage />
-              <div className="flex items-center mt-8">
-                <Icon icon="ph:check-fat-fill" className="text-md text-neutral-600 mr-1" />
+              <div className="mt-8 flex items-center">
+                <Icon icon="ph:check-fat-fill" className="mr-1 text-neutral-600" />
                 <FormDescription>Must be at least 8 characters</FormDescription>
               </div>
               <div className="flex items-center">
-                <Icon icon="ph:check-fat-fill" className="text-md text-neutral-600 mr-1" />
+                <Icon icon="ph:check-fat-fill" className="mr-1 text-neutral-600" />
                 <FormDescription>Does not contain your email address</FormDescription>
               </div>
             </FormItem>
@@ -88,8 +88,8 @@ const FormInput = ({ onSubmit, form }: FormInputPropsType) => (
           control={form.control}
           name="account_type"
           render={({ field }) => (
-            <FormItem className="pt-3 pb-3">
-              <FormLabel className="flex gap-1 items-center">
+            <FormItem className="py-3">
+              <FormLabel className="flex items-center gap-1">
                 Select type of your account
                 <Icon icon="mingcute:information-line" className="mt-[2px]" />
               </FormLabel>
@@ -99,17 +99,17 @@ const FormInput = ({ onSubmit, form }: FormInputPropsType) => (
                   defaultValue={field.value}
                   className="flex"
                 >
-                  <FormItem className="flex items-center space-x-3 space-y-0 border px-4 py-2 w-auto rounded w-fit">
+                  <FormItem className="flex w-auto items-center space-x-3 space-y-0 rounded border px-4 py-2">
                     <FormControl>
                       <RadioGroupItem value="visitor" />
                     </FormControl>
-                    <FormLabel className="font-normal ml-2">Visitor</FormLabel>
+                    <FormLabel className="ml-2 font-normal">Visitor</FormLabel>
                   </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0 border px-4 py-2 w-auto rounded w-fit">
+                  <FormItem className="flex w-auto items-center space-x-3 space-y-0 rounded border px-4 py-2">
                     <FormControl>
                       <RadioGroupItem value="event_organizer" />
                     </FormControl>
-                    <FormLabel className="font-normal ml-2">Event Organizer</FormLabel>
+                    <FormLabel className="ml-2 font-normal">Event Organizer</FormLabel>
                   </FormItem>
                 </RadioGroup>
               </FormControl>

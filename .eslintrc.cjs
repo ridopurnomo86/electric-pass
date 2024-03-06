@@ -26,19 +26,6 @@ module.exports = {
       typescript: {
         project: "./tsconfig.json",
       },
-      alias: {
-        map: [
-          ["~", "/app"],
-          ["@assets", "/app/assets"],
-          ["@styles", "/app/styles"],
-          ["@components", "/app/components"],
-          ["@lib", "/app/lib"],
-          ["@routes", "/app/routes"],
-          ["@data", "/app/data"],
-          ["@pages", "/app/pages"],
-        ],
-        extensions: [".ts", ".js", ".jsx", ".tsx"],
-      },
     },
   },
 
@@ -51,6 +38,7 @@ module.exports = {
     "plugin:import/recommended",
     "plugin:prettier/recommended",
     "prettier/prettier",
+    "plugin:tailwindcss/recommended",
   ],
 
   overrides: [

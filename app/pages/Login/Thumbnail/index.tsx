@@ -1,10 +1,10 @@
 const Thumbnail = () => (
   <div className="hidden lg:block">
-    <div className="h-full w-full block absolute left-[600px]">
+    <div className="absolute left-[600px] block size-full">
       <img
         src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&dpr=2&q=80"
         alt="thumbnail-background"
-        className="object-cover w-full h-full"
+        className="size-full object-cover"
       />
     </div>
   </div>

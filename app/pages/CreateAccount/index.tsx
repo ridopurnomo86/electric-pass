@@ -23,11 +23,11 @@ const CreateAccount = () => {
 
   return (
     <Mainlayout>
-      <main className="flex items-center justify-center min-h-screen py-8">
-        <section className="w-[600px] mx-4">
-          <div className="rounded bg-transparent p-8 border ">
+      <main className="flex min-h-screen items-center justify-center py-8">
+        <section className="mx-4 w-[600px]">
+          <div className="rounded border bg-transparent p-8 ">
             <h1 className="text-2xl font-semibold tracking-tight">Create Account</h1>
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="mb-4 text-sm text-muted-foreground">
               Enter your email below to create your account.
             </p>
             <FormInput form={form} onSubmit={onSubmit} />

@@ -118,3 +118,8 @@
     -moz-osx-font-smoothing: grayscale;
   }
 }
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+}

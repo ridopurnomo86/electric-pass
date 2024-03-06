@@ -19,18 +19,18 @@ type FormInputPropsType = {
 };
 
 const FormInput = ({ onSubmit, form }: FormInputPropsType) => (
-  <div className="w-[500px] px-8 lg:px-16 min-h-screen flex flex-col justify-center">
-    <div className="w-full mb-4">
+  <div className="flex min-h-screen w-[500px] flex-col justify-center px-8 lg:px-16">
+    <div className="mb-4 w-full">
       <img src={Logo} alt="elastic-pass-logo" className="w-[200px]" />
     </div>
-    <p className="font-semibold text-lg lg:text-xl antialiased text-neutral-900 mt-4">
+    <p className="mt-4 text-lg font-semibold text-neutral-900 antialiased lg:text-xl">
       Welcome Back
     </p>
-    <p className="font-medium text-sm antialiased text-neutral-600 mt-2">
+    <p className="mt-2 text-sm font-medium text-neutral-600 antialiased">
       Join and feel experience the ease of transactions and managing events at the Elastic Pass.
     </p>
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -47,7 +47,7 @@ const FormInput = ({ onSubmit, form }: FormInputPropsType) => (
         <Button type="submit" className="text-neutral-200">
           Login
         </Button>
-        <p className="text-sm font-medium text-neutral-600 antialiased mt-8">
+        <p className="mt-8 text-sm font-medium text-neutral-600 antialiased">
           Need an account?&nbsp;
           <Link to="/create-account">
             <span className="text-black">Create an Account.</span>

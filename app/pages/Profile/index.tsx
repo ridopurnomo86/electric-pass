@@ -39,7 +39,7 @@ const Profile = () => {
     <Mainlayout>
       <ProfileLayout>
         <section>
-          <div className="pb-4 mb-4 border-b-[1px]">
+          <div className="mb-4 border-b-[1px] pb-4">
             <p className="text-xl font-semibold tracking-tight text-neutral-900">Profile</p>
             <p className="text-sm font-medium text-neutral-500">
               This is how others will see you on the site.

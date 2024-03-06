@@ -11,11 +11,11 @@ const Navigation = () => {
   const location = useLocation();
 
   return (
-    <nav className="flex flex-col items-left">
+    <nav className="flex flex-col items-start">
       {DATA.map((item) => (
         <Link to={item.link} key={item.id} className="block w-full">
           <Toggle
-            className="flex items-center justify-start w-full"
+            className="flex w-full items-center justify-start"
             defaultPressed={location.pathname === item.link}
           >
             {item.name}

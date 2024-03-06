@@ -16,7 +16,7 @@ const Login = () => {
 
   return (
     <main className="min-h-screen w-full overflow-hidden">
-      <section className="flex relative">
+      <section className="relative flex">
         <FormInput form={form} onSubmit={onSubmit} />
         <Thumbnail />
       </section>

@@ -1,5 +1,6 @@
 import type { MetaFunction } from "@vercel/remix";
 import Mainlayout from "~/components/layout/MainLayout";
+import MainHome from "~/pages/MainHome";
 
 export const meta: MetaFunction = () => [
   { title: "Elastic Pass" },
@@ -8,7 +9,7 @@ export const meta: MetaFunction = () => [
 
 const Index = () => (
   <Mainlayout>
-    <div>main</div>
+    <MainHome />
   </Mainlayout>
 );
 

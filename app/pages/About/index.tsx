@@ -3,7 +3,7 @@ import Mainlayout from "~/components/layout/MainLayout";
 
 const About = () => (
   <Mainlayout>
-    <main className="mx-auto container py-8">
+    <main className="container mx-auto py-8">
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
         The Joke Tax Chronicles
       </h1>
