@@ -25,7 +25,7 @@ const Hero = ({ onSubmit, form }: HeroPropsType) => (
               control={form.control}
               name="location"
               render={({ field }) => (
-                <FormItem className="w-[20%]">
+                <FormItem className="max-w-[50%]">
                   <FormControl>
                     <Input className="px-4 py-6" placeholder="Jakarta, Indonesia" {...field} />
                   </FormControl>
