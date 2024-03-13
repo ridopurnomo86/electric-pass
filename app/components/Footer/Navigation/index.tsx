@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import Logo from "~/assets/elastic-pass-logo.svg";
 
 const Navigation = () => (
@@ -12,28 +13,60 @@ const Navigation = () => (
     </div>
     <div className="flex flex-wrap gap-20 max-[999px]:mt-8">
       <div className="space-y-2">
-        <p className="text-base font-semibold text-neutral-900 antialiased">Solutions</p>
-        <p className="text-sm font-medium text-neutral-600 antialiased">Marketing</p>
-        <p className="text-sm font-medium text-neutral-600 antialiased">Analytics</p>
-        <p className="text-sm font-medium text-neutral-600 antialiased">Insights</p>
+        <p className="text-base font-semibold text-neutral-900 antialiased">
+          <Link to="#">Solutions</Link>
+        </p>
+        <p className="text-sm font-medium text-neutral-600 antialiased">
+          <Link to="#">Marketing</Link>
+        </p>
+        <p className="text-sm font-medium text-neutral-600 antialiased">
+          <Link to="#">Analytics</Link>
+        </p>
+        <p className="text-sm font-medium text-neutral-600 antialiased">
+          <Link to="#">Insights</Link>
+        </p>
       </div>
       <div className="space-y-2">
-        <p className="text-base font-semibold text-neutral-900 antialiased">Company</p>
-        <p className="text-sm font-medium text-neutral-600 antialiased">About</p>
-        <p className="text-sm font-medium text-neutral-600 antialiased">Blog</p>
-        <p className="text-sm font-medium text-neutral-600 antialiased">Partners</p>
+        <p className="text-base font-semibold text-neutral-900 antialiased">
+          <Link to="#">Company</Link>
+        </p>
+        <p className="text-sm font-medium text-neutral-600 antialiased">
+          <Link to="#">About</Link>
+        </p>
+        <p className="text-sm font-medium text-neutral-600 antialiased">
+          <Link to="#">Blog</Link>
+        </p>
+        <p className="text-sm font-medium text-neutral-600 antialiased">
+          <Link to="#">Partners</Link>
+        </p>
       </div>
       <div className="space-y-2">
-        <p className="text-base font-semibold text-neutral-900 antialiased">Support</p>
-        <p className="text-sm font-medium text-neutral-600 antialiased">Pricing</p>
-        <p className="text-sm font-medium text-neutral-600 antialiased">Documentation</p>
-        <p className="text-sm font-medium text-neutral-600 antialiased">Guides</p>
+        <p className="text-base font-semibold text-neutral-900 antialiased">
+          <Link to="#">Support</Link>
+        </p>
+        <p className="text-sm font-medium text-neutral-600 antialiased">
+          <Link to="#">Pricing</Link>
+        </p>
+        <p className="text-sm font-medium text-neutral-600 antialiased">
+          <Link to="#">Documentation</Link>
+        </p>
+        <p className="text-sm font-medium text-neutral-600 antialiased">
+          <Link to="#">Guides</Link>
+        </p>
       </div>
       <div className="space-y-2">
-        <p className="text-base font-semibold text-neutral-900 antialiased">Legal</p>
-        <p className="text-sm font-medium text-neutral-600 antialiased">Terms</p>
-        <p className="text-sm font-medium text-neutral-600 antialiased">Privacy</p>
-        <p className="text-sm font-medium text-neutral-600 antialiased">Claim</p>
+        <p className="text-base font-semibold text-neutral-900 antialiased">
+          <Link to="#">Legal</Link>
+        </p>
+        <p className="text-sm font-medium text-neutral-600 antialiased">
+          <Link to="#">Terms</Link>
+        </p>
+        <p className="text-sm font-medium text-neutral-600 antialiased">
+          <Link to="#">Privacy</Link>
+        </p>
+        <p className="text-sm font-medium text-neutral-600 antialiased">
+          <Link to="#">Claim</Link>
+        </p>
       </div>
     </div>
   </section>

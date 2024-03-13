@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { HomeSearchValidation } from "~/data/form-validation/HomeSearchValidation";
 import Hero from "./Hero";
-import CategoryEvent from "./CategoryEvent";
 import EventCardList from "~/components/data-display/EventCardList";
 import CreatorCardList from "~/components/data-display/CreatorCardList";
+import CategoryCardList from "~/components/data-display/CategoryCardList";
 
 const DATA = [
   {
@@ -50,6 +50,37 @@ const CREATOR_DATA = [
   },
 ];
 
+const CATEGORY_DATA = [
+  {
+    id: 1,
+    title: "Workshop",
+    icon: "mdi:education-outline",
+    totalEvent: 10,
+    navigateTo: "#",
+  },
+  {
+    id: 2,
+    title: "Concert",
+    icon: "akar-icons:music-album-fill",
+    totalEvent: 10,
+    navigateTo: "#",
+  },
+  {
+    id: 3,
+    title: "Conference",
+    icon: "material-symbols:forum-rounded",
+    totalEvent: 10,
+    navigateTo: "#",
+  },
+  {
+    id: 4,
+    title: "Festival",
+    icon: "material-symbols:festival-rounded",
+    totalEvent: 10,
+    navigateTo: "#",
+  },
+];
+
 const MainHome = () => {
   const form = useForm<z.infer<typeof HomeSearchValidation>>({
     resolver: zodResolver(HomeSearchValidation),
@@ -74,10 +105,10 @@ const MainHome = () => {
         subtitle="Follow the creator from these events and get notified when they create new ones."
         data={CREATOR_DATA}
       />
-      <CategoryEvent />
+      <CategoryCardList title="Category Events" data={CATEGORY_DATA} />
       <EventCardList
         data={DATA}
-        className="container mx-auto mt-12"
+        className="container mx-auto mt-12 pb-12"
         subtitle="Top picks for your country"
         title="Popular in Medan, Indonesia"
       />
