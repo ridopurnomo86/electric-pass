@@ -9,7 +9,7 @@ import {
   FormProvider,
   useFormContext,
 } from "react-hook-form";
-import { cn } from "~/lib/utils";
+import cn from "~/modules/cn";
 import { Label } from "~/components/ui/Label";
 
 const Form = FormProvider;

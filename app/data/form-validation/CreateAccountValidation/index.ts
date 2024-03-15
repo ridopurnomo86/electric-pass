@@ -6,8 +6,7 @@ export type CreateAccountValidationType = z.infer<typeof CreateAccountValidation
 
 export const CreateAccountValidation = z.object({
   email: z.string().email(),
-  first_name: z.string(),
-  last_name: z.string(),
+  name: z.string().min(1),
   password: z.string().min(8),
   account_type: AccountTypeEnum,
 });

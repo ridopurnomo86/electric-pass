@@ -9,21 +9,21 @@ import {
   FormMessage,
   FormDescription,
 } from "~/components/ui/Form";
-import { UseFormReturn } from "react-hook-form";
 import { Link } from "@remix-run/react";
-import { CreateAccountValidationType } from "~/data/form-validation/CreateAccountValidation";
 import { Icon } from "@iconify/react";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/RadioGroup";
 
 type FormInputPropsType = {
-  form: UseFormReturn<CreateAccountValidationType>;
-  onSubmit: (values: CreateAccountValidationType) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  form: any;
+  onSubmit: (e?: React.BaseSyntheticEvent<object> | undefined) => Promise<void>;
+  isLoading: boolean;
 };
 
-const FormInput = ({ onSubmit, form }: FormInputPropsType) => (
+const FormInput = ({ onSubmit, form, isLoading }: FormInputPropsType) => (
   <div className="flex w-full flex-col justify-center">
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
+      <form onSubmit={onSubmit} className="mt-4 space-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -39,23 +39,10 @@ const FormInput = ({ onSubmit, form }: FormInputPropsType) => (
         />
         <FormField
           control={form.control}
-          name="first_name"
+          name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>First Name</FormLabel>
-              <FormControl>
-                <Input type="text" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="last_name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Last Name</FormLabel>
+              <FormLabel>Full Name / Company Name</FormLabel>
               <FormControl>
                 <Input type="text" {...field} />
               </FormControl>
@@ -120,7 +107,7 @@ const FormInput = ({ onSubmit, form }: FormInputPropsType) => (
         <p className="text-sm font-medium text-neutral-600 antialiased">
           By clicking continue, you agree to our Terms of Service and Privacy Policy.
         </p>
-        <Button type="submit" className="text-neutral-200">
+        <Button type="submit" className="text-neutral-200" disabled={isLoading}>
           Create an Account.
         </Button>
         <p className="text-sm font-medium text-neutral-600 antialiased">
