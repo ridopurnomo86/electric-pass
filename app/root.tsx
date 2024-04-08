@@ -1,5 +1,6 @@
 import { LinksFunction } from "@remix-run/node";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
+import { Toaster } from "./components/ui/Toaster/toaster";
 import stylesheet from "~/styles/globals.css";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: stylesheet }];
@@ -16,6 +17,7 @@ export default function App() {
       <body>
         <Outlet />
         <ScrollRestoration />
+        <Toaster />
         <Scripts />
       </body>
     </html>
