@@ -1,4 +1,3 @@
-import { useRemixForm } from "remix-hook-form";
 import FormInput from "./FormInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -6,14 +5,16 @@ import {
   CreateAccountValidationType,
 } from "~/data/form-validation/CreateAccountValidation";
 import Mainlayout from "~/components/layout/MainLayout";
-import { useActionData, useNavigation } from "@remix-run/react";
+import { useActionData, useNavigation, useSubmit } from "@remix-run/react";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/Alert";
 import { CreateAccountResponseType } from "~/services/create-account/types";
+import { useForm } from "react-hook-form";
 
 const CreateAccount = () => {
+  const submit = useSubmit();
   const { state } = useNavigation();
   const actionData = useActionData<CreateAccountResponseType>();
-  const form = useRemixForm<CreateAccountValidationType>({
+  const form = useForm<CreateAccountValidationType>({
     resolver: zodResolver(CreateAccountValidation),
     defaultValues: {
       email: "",
@@ -21,8 +22,11 @@ const CreateAccount = () => {
       password: "",
       account_type: "visitor",
     },
-    mode: "onSubmit",
   });
+
+  const onSubmit = (values: CreateAccountValidationType) => {
+    submit({ ...values }, { method: "post" });
+  };
 
   return (
     <Mainlayout>
@@ -39,11 +43,7 @@ const CreateAccount = () => {
                 <AlertDescription>{actionData?.message}</AlertDescription>
               </Alert>
             )}
-            <FormInput
-              form={form}
-              onSubmit={form.handleSubmit}
-              isLoading={state === "submitting"}
-            />
+            <FormInput form={form} onSubmit={onSubmit} isSubmiting={state === "submitting"} />
           </div>
         </section>
       </main>

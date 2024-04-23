@@ -1,23 +1,21 @@
-import { Authenticator, AuthorizationError } from "remix-auth";
-import { sessionStorage } from "~/services/session.server";
+import { Authenticator } from "remix-auth";
 import { FormStrategy } from "remix-auth-form";
+import { sessionStorage } from "./session.server";
+import verifyLogin from "./utils/auth/user/verifyLogin";
 
-export const authenticator = new Authenticator(sessionStorage);
-
-const formStrategy = new FormStrategy(async ({ form }) => {
-  const defaultUser = {
-    email: "admin",
-    password: "admin",
-  };
-  const email = form.get("email");
-  const password = form.get("password");
-
-  if (email !== defaultUser.email || password !== defaultUser.password)
-    throw new AuthorizationError();
-
-  return defaultUser;
+export const authenticator = new Authenticator(sessionStorage, {
+  throwOnError: true,
+  sessionErrorKey: "user-error",
 });
 
-authenticator.use(formStrategy, "form");
+const formStrategy = new FormStrategy(async ({ form }) => {
+  const email = form.get("email") as string;
+  const password = form.get("password") as string;
+  const user = await verifyLogin(email, password);
+
+  return user;
+});
+
+authenticator.use(formStrategy, "user-pass");
 
 export default { authenticator };

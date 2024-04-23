@@ -12,18 +12,19 @@ import {
 import { Link } from "@remix-run/react";
 import { Icon } from "@iconify/react";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/RadioGroup";
+import { UseFormReturn } from "react-hook-form";
+import { CreateAccountValidationType } from "~/data/form-validation/CreateAccountValidation";
 
 type FormInputPropsType = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  form: any;
-  onSubmit: (e?: React.BaseSyntheticEvent<object> | undefined) => Promise<void>;
-  isLoading: boolean;
+  form: UseFormReturn<CreateAccountValidationType>;
+  onSubmit: (values: CreateAccountValidationType) => void;
+  isSubmiting: boolean;
 };
 
-const FormInput = ({ onSubmit, form, isLoading }: FormInputPropsType) => (
+const FormInput = ({ onSubmit, form, isSubmiting }: FormInputPropsType) => (
   <div className="flex w-full flex-col justify-center">
     <Form {...form}>
-      <form onSubmit={onSubmit} className="mt-4 space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -107,7 +108,7 @@ const FormInput = ({ onSubmit, form, isLoading }: FormInputPropsType) => (
         <p className="text-sm font-medium text-neutral-600 antialiased">
           By clicking continue, you agree to our Terms of Service and Privacy Policy.
         </p>
-        <Button type="submit" className="text-neutral-200" disabled={isLoading}>
+        <Button type="submit" className="text-neutral-200" disabled={isSubmiting}>
           Create an Account.
         </Button>
         <p className="text-sm font-medium text-neutral-600 antialiased">

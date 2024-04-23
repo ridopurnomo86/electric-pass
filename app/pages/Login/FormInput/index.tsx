@@ -12,17 +12,31 @@ import {
 import { UseFormReturn } from "react-hook-form";
 import { LoginValidationType } from "~/data/form-validation/LoginValidation";
 import { Link } from "@remix-run/react";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/Alert";
 
 type FormInputPropsType = {
   form: UseFormReturn<LoginValidationType>;
   onSubmit: (values: LoginValidationType) => void;
+  isSubmit: boolean;
+  actionData?: {
+    type: string;
+    status: string;
+    message: string;
+  };
+  state: string;
 };
 
-const FormInput = ({ onSubmit, form }: FormInputPropsType) => (
+const FormInput = ({ onSubmit, form, isSubmit, actionData, state }: FormInputPropsType) => (
   <div className="flex min-h-screen w-[500px] flex-col justify-center px-8 lg:px-16">
     <div className="mb-4 w-full">
       <img src={Logo} alt="elastic-pass-logo" className="w-[200px]" />
     </div>
+    {actionData?.type === "error" && state !== "submitting" && (
+      <Alert variant="destructive" className="mt-4">
+        <AlertTitle>{actionData?.status}</AlertTitle>
+        <AlertDescription>{actionData?.message}</AlertDescription>
+      </Alert>
+    )}
     <p className="mt-4 text-lg font-semibold text-neutral-900 antialiased lg:text-xl">
       Welcome Back
     </p>
@@ -44,7 +58,20 @@ const FormInput = ({ onSubmit, form }: FormInputPropsType) => (
             </FormItem>
           )}
         />
-        <Button type="submit" className="text-neutral-200">
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input placeholder="********" type="password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" className="text-neutral-200" disabled={isSubmit}>
           Login
         </Button>
         <p className="mt-8 text-sm font-medium text-neutral-600 antialiased">

@@ -1,19 +1,25 @@
-import { LoaderFunction, json } from "@remix-run/node";
-import { commitSession, getSession } from "../session.server";
+import { LoaderFunction } from "@remix-run/node";
+import { getSession } from "../session.server";
+import { authenticator } from "../auth.server";
+import sessionResponse from "../utils/response/sessionResponse";
 
-const loader: LoaderFunction = async ({ request }) => {
+const LoginLoader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
-  const message = session.get("create-account") || null;
 
-  return json(
-    { message },
-    {
-      headers: {
-        "Set-Cookie": await commitSession(session), //will remove the flash message for you
-        // "Set-Cookie": await commitSession(session, { maxAge: SESSION_MAX_AGE }), //re set max age if you previously set a max age for your sessions.
-      },
-    }
-  );
+  const createAccountSessionMessage = session.get("create-account") || null;
+  const errorSessionMessage = session.get(authenticator.sessionErrorKey) || null;
+
+  const user = await authenticator.isAuthenticated(request, {
+    successRedirect: "/",
+  });
+
+  if (errorSessionMessage || errorSessionMessage?.message)
+    return sessionResponse(errorSessionMessage, JSON.parse(errorSessionMessage?.message));
+
+  if (createAccountSessionMessage)
+    return sessionResponse(createAccountSessionMessage, createAccountSessionMessage);
+
+  return user;
 };
 
-export default loader;
+export default LoginLoader;
