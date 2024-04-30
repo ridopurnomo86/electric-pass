@@ -13,7 +13,7 @@ const formStrategy = new FormStrategy(async ({ form }) => {
   const password = form.get("password") as string;
   const user = await verifyLogin(email, password);
 
-  return user;
+  return { id: user.id, name: user.name, isAuthenticated: true };
 });
 
 authenticator.use(formStrategy, "user-pass");

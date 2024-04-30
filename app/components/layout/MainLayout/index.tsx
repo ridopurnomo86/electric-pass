@@ -4,11 +4,13 @@ import Navbar from "~/components/Navbar";
 
 type MainLayoutPropsType = {
   children: React.ReactNode;
+  isAuthenticated?: boolean;
+  name?: string;
 };
 
-const Mainlayout = ({ children }: MainLayoutPropsType) => (
+const Mainlayout = ({ children, isAuthenticated = false, name = "" }: MainLayoutPropsType) => (
   <>
-    <Navbar />
+    <Navbar isAuthenticated={isAuthenticated} name={name} />
     {children}
     <Footer />
   </>

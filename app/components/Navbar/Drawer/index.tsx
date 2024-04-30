@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import Logo from "~/assets/elastic-pass-logo.svg";
 import {
-  Drawer,
+  Drawer as CoreDrawer,
   DrawerContent,
   DrawerOverlay,
   DrawerPortal,
@@ -10,8 +10,8 @@ import {
 } from "~/components/ui/Drawer";
 import { Link } from "@remix-run/react";
 
-const MainDrawer = () => (
-  <Drawer direction="left">
+const Drawer = () => (
+  <CoreDrawer direction="left">
     <DrawerTrigger className="hidden max-[894px]:block" asChild>
       <button className="hidden rounded-md border p-2 max-[894px]:block">
         <Icon icon="material-symbols:bar-chart-rounded" className="rotate-[270deg] text-2xl" />
@@ -89,7 +89,7 @@ const MainDrawer = () => (
         </div>
       </DrawerContent>
     </DrawerPortal>
-  </Drawer>
+  </CoreDrawer>
 );
 
-export default MainDrawer;
+export default Drawer;
