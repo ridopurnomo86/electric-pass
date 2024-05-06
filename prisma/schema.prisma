@@ -13,22 +13,29 @@ model User {
   email             String    @unique
   email_verified_at DateTime? @db.Timestamp(0)
   username          String?   @db.VarChar(255)
-  password          String?   @db.VarChar(255)
+  password          String    @db.VarChar(255)
   remember_token    String?   @db.VarChar(255)
-  role              UserRole  @default(visitor)
+  bio               String?   @db.VarChar(255)
+  address           String?   @db.VarChar(255)
+  phone_number      String?   @db.VarChar(255)
+  dialing_code      String?   @db.VarChar(128)
+  birth_date        DateTime? @db.Timestamp(0)
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
-  Profile           Profile?
 }
 
-model Profile {
-  id     Int    @id @default(autoincrement())
-  bio    String
-  userId Int    @unique
-  user   User   @relation(fields: [userId], references: [id])
-}
-
-enum UserRole {
-  visitor
-  event_organizer
+model Organizer {
+  id                Int       @id @default(autoincrement())
+  name              String    @db.VarChar(255)
+  email             String    @unique
+  email_verified_at DateTime? @db.Timestamp(0)
+  username          String?   @db.VarChar(255)
+  password          String    @db.VarChar(255)
+  remember_token    String?   @db.VarChar(255)
+  bio               String?   @db.VarChar(255)
+  address           String?   @db.VarChar(255)
+  phone_number      String?   @db.VarChar(255)
+  dialing_code      String?   @db.VarChar(128)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 }

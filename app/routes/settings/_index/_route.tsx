@@ -1,8 +1,8 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Mainlayout from "~/components/layout/MainLayout";
-import ProfilePage from "~/pages/Profile";
-import { ProfileAction, ProfileLoader, ProfileLoaderResponseType } from "~/services/profile";
+import ProfilePage from "~/pages/Settings";
+import { ProfileAction, ProfileLoader, SettingsLoaderResponse } from "~/services/settings";
 
 export const meta: MetaFunction = () => [{ title: "Profile" }];
 
@@ -10,8 +10,8 @@ export const action = async (params: ActionFunctionArgs) => await ProfileAction(
 
 export const loader = async (params: LoaderFunctionArgs) => await ProfileLoader(params);
 
-const Profile = () => {
-  const loaderData = useLoaderData<ProfileLoaderResponseType>();
+const Settings = () => {
+  const loaderData = useLoaderData<SettingsLoaderResponse>();
 
   return (
     <Mainlayout isAuthenticated={loaderData?.isAuthenticated} name={loaderData?.name}>
@@ -20,4 +20,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Settings;

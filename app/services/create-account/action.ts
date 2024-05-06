@@ -10,6 +10,8 @@ import { Prisma, db } from "../prisma.server";
 import { commitSession, getSession } from "../session.server";
 
 const CreateAccountAction = async ({ request }: ActionFunctionArgs) => {
+  let createUser;
+  const session = await getSession(request.headers.get("Cookie"));
   const {
     errors,
     data,
@@ -25,31 +27,72 @@ const CreateAccountAction = async ({ request }: ActionFunctionArgs) => {
   const encryptPassword = await bcrypt.hash(data.password, salt);
 
   try {
-    const createUser = await db.user.create({
-      data: {
-        email: data.email,
-        name: data.name,
-        password: encryptPassword,
-        role: data.account_type,
-      },
-    });
+    if (data.account_type === "visitor") {
+      const checkingUser = await db.organizer.findUnique({
+        where: {
+          email: data.email,
+        },
+        select: {
+          email: true,
+        },
+      });
 
-    const session = await getSession(request.headers.get("Cookie"));
+      if (checkingUser)
+        return json({
+          status: "Error",
+          type: "error",
+          message: `A user has been created as a "Organizer"`,
+        });
 
-    session.flash("create-account", {
-      status: "Success",
-      type: "success",
-      message: "Register Successfully",
-    });
+      createUser = await db.user.create({
+        data: {
+          email: data.email,
+          name: data.name,
+          password: encryptPassword,
+        },
+      });
+    } else {
+      const checkingUser = await db.user.findUnique({
+        where: {
+          email: data.email,
+        },
+        select: {
+          email: true,
+        },
+      });
+
+      if (checkingUser)
+        return json({
+          status: "Error",
+          type: "error",
+          message: `A user has been created as a "Visitor"`,
+        });
+
+      createUser = await db.organizer.create({
+        data: {
+          email: data.email,
+          name: data.name,
+          password: encryptPassword,
+        },
+      });
+    }
 
     if (createUser) {
+      session.flash("create-account", {
+        status: "Success",
+        type: "success",
+        message: "Register Successfully",
+      });
+
       json({ status: "Success", type: "success", message: "Register Successfully" });
+
       return redirect("/login", {
         headers: {
           "Set-Cookie": await commitSession(session),
         },
       });
     }
+
     return json({ status: "Error", type: "error", message: "Sorry, email is exist" });
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError)

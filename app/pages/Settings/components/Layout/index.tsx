@@ -13,7 +13,7 @@ const ProfileLayout = ({ children }: ProfileLayoutPropsType) => (
         Manage your account settings and set e-mail preferences.
       </p>
     </div>
-    <div className="grid grid-cols-[200px_minmax(900px,_1fr)_100px] gap-4 pt-8">
+    <div className="grid grid-cols-1 gap-4 pt-8 md:grid-cols-[15%,85%]">
       <Navigation />
       {children}
     </div>

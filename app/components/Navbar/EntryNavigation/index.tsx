@@ -34,8 +34,8 @@ const EntryNavigation = ({ isAuthenticated, name }: EntryNavigationPropsType) =>
         <DropdownMenuContent>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <Link to="/profile">
-            <DropdownMenuItem>Profile</DropdownMenuItem>
+          <Link to="/settings">
+            <DropdownMenuItem>Settings</DropdownMenuItem>
           </Link>
           <DropdownMenuItem
             onClick={() =>

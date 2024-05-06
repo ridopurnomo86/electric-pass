@@ -43,7 +43,7 @@ const CreateAccount = () => {
                 <AlertDescription>{actionData?.message}</AlertDescription>
               </Alert>
             )}
-            <FormInput form={form} onSubmit={onSubmit} isSubmiting={state === "submitting"} />
+            <FormInput form={form} onSubmit={onSubmit} isSubmit={state === "submitting"} />
           </div>
         </section>
       </main>

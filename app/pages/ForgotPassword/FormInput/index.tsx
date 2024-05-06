@@ -20,10 +20,10 @@ type FormInputPropsType = {
 };
 
 const FormInput = ({ onSubmit, form, isSubmit, actionData, state }: FormInputPropsType) => (
-  <div className="flex min-h-screen w-[500px] flex-col justify-center px-8 lg:px-16">
-    <div className="mb-4 w-full">
+  <div className="relative flex min-h-screen w-[500px] flex-col justify-center px-8 lg:px-16">
+    <Link to="/" className="absolute top-8 mb-4 w-full">
       <img src={Logo} alt="elastic-pass-logo" className="w-[200px]" />
-    </div>
+    </Link>
     {actionData?.type === "error" && state !== "submitting" && (
       <Alert variant="destructive" className="mt-4">
         <AlertTitle>{actionData?.status}</AlertTitle>
@@ -31,14 +31,14 @@ const FormInput = ({ onSubmit, form, isSubmit, actionData, state }: FormInputPro
       </Alert>
     )}
     <p className="mt-4 text-lg font-semibold text-neutral-900 antialiased lg:text-xl">
-      Welcome Back
+      Forgot your password?
     </p>
     <p className="mt-2 text-sm font-medium text-neutral-600 antialiased">
-      Join and feel experience the ease of transactions and managing events at the Elastic Pass.
+      Enter your email below to receive a password reset link.
     </p>
     <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA} className="mt-4">
       <Button type="submit" className="text-neutral-200" disabled={isSubmit}>
-        Login
+        Reset Password
       </Button>
       <p className="mt-8 text-sm font-medium text-neutral-600 antialiased">
         Need an account?&nbsp;
@@ -47,6 +47,23 @@ const FormInput = ({ onSubmit, form, isSubmit, actionData, state }: FormInputPro
         </Link>
       </p>
     </Form>
+    <footer className="absolute bottom-8">
+      <div className="flex items-center gap-4">
+        <Link to="#" className="text-sm font-medium text-neutral-600 antialiased">
+          Help Center
+        </Link>
+        <Link to="#" className="text-sm font-medium text-neutral-600 antialiased">
+          About
+        </Link>
+        <span className="h-[32px] w-[1px] bg-neutral-600 text-neutral-600"></span>
+        <Link to="#" className="text-sm font-medium text-neutral-600 antialiased">
+          Terms
+        </Link>
+        <Link to="#" className="text-sm font-medium text-neutral-600 antialiased">
+          Privacy Policy
+        </Link>
+      </div>
+    </footer>
   </div>
 );
 

@@ -3,7 +3,7 @@ import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@verc
 import Mainlayout from "~/components/layout/MainLayout";
 import MainHome from "~/pages/MainHome";
 import { MainHomeLoader, MainHomeAction } from "~/services/main-home";
-import { ProfileLoaderResponseType } from "~/services/profile";
+import { SettingsLoaderResponse } from "~/services/settings";
 
 export const meta: MetaFunction = () => [
   { title: "Elastic Pass" },
@@ -15,7 +15,7 @@ export const action = async (params: ActionFunctionArgs) => await MainHomeAction
 export const loader = async (params: LoaderFunctionArgs) => await MainHomeLoader(params);
 
 const Index = () => {
-  const loaderData = useLoaderData<ProfileLoaderResponseType>();
+  const loaderData = useLoaderData<SettingsLoaderResponse>();
 
   return (
     <Mainlayout isAuthenticated={loaderData?.isAuthenticated} name={loaderData?.name}>
