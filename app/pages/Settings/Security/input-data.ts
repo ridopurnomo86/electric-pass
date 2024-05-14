@@ -16,7 +16,7 @@ const INPUT_DATA: InputDataType[] = [
     type: "password",
   },
   {
-    id: "new-password",
+    id: "newPassword",
     label: "New Password",
     name: "newPassword",
     type: "password",
@@ -24,7 +24,7 @@ const INPUT_DATA: InputDataType[] = [
     description: "You new password must be 8 - 12 characters long",
   },
   {
-    id: "repeat-new-password",
+    id: "repeatNewPassword",
     label: "Re-enter your new Password",
     name: "repeatNewPassword",
     placeholder: "Repeat New Password",

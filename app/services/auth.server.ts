@@ -3,7 +3,11 @@ import { FormStrategy } from "remix-auth-form";
 import { sessionStorage } from "./session.server";
 import verifyLogin from "./utils/auth/user/verifyLogin";
 
-export const authenticator = new Authenticator(sessionStorage, {
+export const authenticator = new Authenticator<{
+  id: number;
+  name: string;
+  isAuthenticated: boolean;
+}>(sessionStorage, {
   throwOnError: true,
   sessionErrorKey: "user-error",
 });

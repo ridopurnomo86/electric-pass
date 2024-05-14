@@ -5,9 +5,9 @@ import {
   CreateAccountValidation,
   CreateAccountValidationType,
 } from "~/data/form-validation/CreateAccountValidation";
-import bcrypt from "bcryptjs";
 import { Prisma, db } from "../prisma.server";
 import { commitSession, getSession } from "../session.server";
+import { encrypt } from "../utils/cipher/encrypt";
 
 const CreateAccountAction = async ({ request }: ActionFunctionArgs) => {
   let createUser;
@@ -23,8 +23,7 @@ const CreateAccountAction = async ({ request }: ActionFunctionArgs) => {
 
   if (errors) return json({ errors, defaultValues });
 
-  const salt = await bcrypt.genSalt();
-  const encryptPassword = await bcrypt.hash(data.password, salt);
+  const encryptPassword = await encrypt({ value: data.password });
 
   try {
     if (data.account_type === "visitor") {

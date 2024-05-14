@@ -1,4 +1,4 @@
-import { Link, useFetcher } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { Icon } from "@iconify/react";
 import { Button } from "~/components/ui/Button";
 import {
@@ -15,10 +15,8 @@ type EntryNavigationPropsType = {
   name: string;
 };
 
-const EntryNavigation = ({ isAuthenticated, name }: EntryNavigationPropsType) => {
-  const fetcher = useFetcher();
-
-  return isAuthenticated ? (
+const EntryNavigation = ({ isAuthenticated, name }: EntryNavigationPropsType) =>
+  isAuthenticated ? (
     <div className="flex items-center gap-4 max-[894px]:hidden">
       <DropdownMenu>
         <DropdownMenuTrigger className="rounded border px-4 py-1">
@@ -37,17 +35,12 @@ const EntryNavigation = ({ isAuthenticated, name }: EntryNavigationPropsType) =>
           <Link to="/settings">
             <DropdownMenuItem>Settings</DropdownMenuItem>
           </Link>
-          <DropdownMenuItem
-            onClick={() =>
-              fetcher.submit(
-                {
-                  _action: "logout",
-                },
-                { method: "POST", encType: "application/json" }
-              )
-            }
-          >
-            <p className="text-sm font-medium text-red-600 antialiased">Logout</p>
+          <DropdownMenuItem>
+            <form method="POST" action="/logout">
+              <button>
+                <p className="text-sm font-medium text-red-600 antialiased">Logout</p>
+              </button>
+            </form>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -71,6 +64,5 @@ const EntryNavigation = ({ isAuthenticated, name }: EntryNavigationPropsType) =>
       </div>
     </div>
   );
-};
 
 export default EntryNavigation;

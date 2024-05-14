@@ -9,8 +9,20 @@ import {
   ChangePasswordValidation,
   ChangePasswordValidationType,
 } from "~/data/form-validation/ChangePasswordValidation";
+import { useActionData, useNavigation, useSubmit } from "@remix-run/react";
+import { useEffect } from "react";
+import { useToast } from "~/components/ui/Toaster/useToast";
 
 const Security = () => {
+  const submit = useSubmit();
+  const { toast } = useToast();
+  const actionData = useActionData<{
+    message: string;
+    type: string;
+    status: string;
+  }>();
+
+  const { state } = useNavigation();
   const form = useForm<ChangePasswordValidationType>({
     resolver: zodResolver(ChangePasswordValidation),
     defaultValues: {
@@ -20,7 +32,21 @@ const Security = () => {
     },
   });
 
-  const onSubmit = (values: ChangePasswordValidationType) => values;
+  useEffect(() => {
+    if (actionData) {
+      toast({
+        title: actionData.status,
+        description: actionData.message,
+        variant: actionData.type === "success" ? "default" : "destructive",
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [actionData]);
+
+  const onSubmit = (values: ChangePasswordValidationType) => {
+    submit({ ...values }, { method: "post" });
+  };
 
   return (
     <ProfileLayout>
@@ -32,7 +58,7 @@ const Security = () => {
           </p>
         </div>
         <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA}>
-          <Button type="submit" className="text-neutral-200">
+          <Button type="submit" className="text-neutral-200" disabled={state === "submitting"}>
             Update Password
           </Button>
         </Form>
