@@ -1,5 +1,5 @@
 import { ActionFunctionArgs } from "@remix-run/node";
-import { authenticator } from "../auth.server";
+import { authenticator } from "~/services/auth.server";
 import { AuthorizationError } from "remix-auth";
 
 const LoginAction = async ({ request }: ActionFunctionArgs) => {

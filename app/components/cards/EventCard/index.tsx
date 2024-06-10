@@ -1,4 +1,3 @@
-import { AspectRatio } from "~/components/ui/AspectRatio";
 import { Icon } from "@iconify/react";
 import { Link } from "@remix-run/react";
 
@@ -24,13 +23,11 @@ const EventCard = ({
   <Link to={navigateTo}>
     <article className="size-full overflow-hidden rounded border p-4">
       <div>
-        <AspectRatio ratio={16 / 10}>
-          <img
-            src={imgUrl}
-            alt={`alt-${imgUrl}`}
-            className="h-[200px] w-full rounded-md object-cover"
-          />
-        </AspectRatio>
+        <img
+          src={imgUrl}
+          alt={`alt-${imgUrl}`}
+          className="h-[200px] w-full rounded-md object-cover"
+        />
       </div>
       <div>
         <p className="mt-4 text-sm font-medium leading-5 text-neutral-600">{type}</p>

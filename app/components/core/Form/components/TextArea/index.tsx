@@ -9,7 +9,15 @@ import {
 import { Textarea as TextareaCore } from "~/components/ui/TextArea";
 import { InputPropsType } from "../../types";
 
-const TextArea = ({ label, placeholder, control, description, id, name }: InputPropsType) => (
+const TextArea = ({
+  label,
+  placeholder,
+  control,
+  description,
+  id,
+  name,
+  isDisabled = false,
+}: InputPropsType) => (
   <FormField
     key={id}
     control={control}
@@ -18,7 +26,12 @@ const TextArea = ({ label, placeholder, control, description, id, name }: InputP
       <FormItem>
         <FormLabel>{label}</FormLabel>
         <FormControl>
-          <TextareaCore placeholder={placeholder} className="resize-none" {...field} />
+          <TextareaCore
+            disabled={isDisabled}
+            placeholder={placeholder}
+            className="resize-none"
+            {...field}
+          />
         </FormControl>
         <FormDescription>{description}</FormDescription>
         <FormMessage />

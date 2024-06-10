@@ -5,6 +5,7 @@ type InputDataType = {
   placeholder?: string;
   type: string;
   description?: string;
+  isDisabled?: boolean;
 };
 
 const INPUT_DATA: InputDataType[] = [
@@ -22,13 +23,14 @@ const INPUT_DATA: InputDataType[] = [
     name: "email",
     placeholder: "zed@email.com",
     type: "email",
+    isDisabled: true,
     description: "You can manage verified email addresses in your email settings.",
   },
   {
     id: "bio",
     label: "Bio",
     name: "bio",
-    placeholder: "Tell us a little bit about yourself",
+    placeholder: "Tell us a little bit about yourself or about your organizations",
     type: "textarea",
     description: "You can @mention other users and organizations.",
   },

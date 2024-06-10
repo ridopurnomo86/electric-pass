@@ -40,6 +40,7 @@ const Form = <T extends FieldValues>({
             description={item.description}
             placeholder={item.placeholder}
             items={item.items}
+            isDisabled={item.isDisabled}
           />
         );
       })}

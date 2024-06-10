@@ -8,14 +8,18 @@ import INPUT_DATA from "./input-data";
 import Form from "~/components/core/Form";
 import { ProfileValidationType, ProfileValidation } from "~/data/form-validation/ProfileValidation";
 import { Icon } from "@iconify/react";
+import { useLoaderData } from "@remix-run/react";
+import { SettingsProfileLoader } from "~/services/main/settings";
 
 const Profile = () => {
+  const loaderData = useLoaderData<typeof SettingsProfileLoader>();
+
   const form = useForm({
     resolver: zodResolver(ProfileValidation),
     defaultValues: {
-      name: "",
-      email: "",
-      bio: "",
+      name: loaderData?.name,
+      email: loaderData?.email,
+      bio: loaderData?.bio || "",
     },
   });
 

@@ -9,7 +9,15 @@ import {
 import { Input as InputCore } from "~/components/ui/Input";
 import { InputPropsType } from "../../types";
 
-const Input = ({ label, placeholder, control, description, id, name }: InputPropsType) => (
+const Input = ({
+  label,
+  placeholder,
+  control,
+  description,
+  id,
+  name,
+  isDisabled = false,
+}: InputPropsType) => (
   <FormField
     key={id}
     control={control}
@@ -18,7 +26,7 @@ const Input = ({ label, placeholder, control, description, id, name }: InputProp
       <FormItem>
         <FormLabel>{label}</FormLabel>
         <FormControl>
-          <InputCore placeholder={placeholder} {...field} />
+          <InputCore disabled={isDisabled} placeholder={placeholder} {...field} />
         </FormControl>
         <FormDescription>{description}</FormDescription>
         <FormMessage />

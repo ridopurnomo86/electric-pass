@@ -1,5 +1,5 @@
 import { ActionFunctionArgs } from "@remix-run/node";
-import { authenticator } from "../auth.server";
+import { authenticator } from "~/services/auth.server";
 
 const ProfileAction = async ({ request }: ActionFunctionArgs) => {
   const { _action } = await request.json();

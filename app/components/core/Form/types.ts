@@ -14,6 +14,7 @@ export type Forms = {
   type: string;
   description?: string;
   items?: Array<RadioItemsType>;
+  isDisabled?: boolean;
 };
 
 export type InputPropsType = {
@@ -24,6 +25,7 @@ export type InputPropsType = {
   id: string;
   name: string;
   items?: Array<RadioItemsType>;
+  isDisabled?: boolean;
 };
 
 export type FormPropstype<T extends FieldValues> = {

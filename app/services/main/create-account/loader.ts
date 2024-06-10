@@ -1,5 +1,5 @@
 import { LoaderFunction } from "@remix-run/node";
-import { authenticator } from "../auth.server";
+import { authenticator } from "~/services/auth.server";
 
 const CreateAccountLoader: LoaderFunction = async ({ request }) =>
   await authenticator.isAuthenticated(request, {

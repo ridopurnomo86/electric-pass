@@ -1,7 +1,7 @@
 import { LoaderFunction } from "@remix-run/node";
-import { getSession } from "../session.server";
-import { authenticator } from "../auth.server";
-import sessionResponse from "../utils/response/sessionResponse";
+import { getSession } from "~/services/session.server";
+import { authenticator } from "~/services/auth.server";
+import sessionResponse from "~/services/utils/response/sessionResponse";
 
 const LoginLoader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
