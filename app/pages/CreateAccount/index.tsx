@@ -1,4 +1,3 @@
-import FormInput from "./FormInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CreateAccountValidation,
@@ -9,6 +8,7 @@ import { useActionData, useNavigation, useSubmit } from "@remix-run/react";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/Alert";
 import { useForm } from "react-hook-form";
 import { CreateAccountAction } from "~/services/main/create-account";
+import FormInput from "./FormInput";
 
 const CreateAccount = () => {
   const submit = useSubmit();

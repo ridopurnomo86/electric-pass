@@ -3,13 +3,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValue, useForm } from "react-hook-form";
 import { Button } from "~/components/ui/Button";
-import ProfileLayout from "./components/Layout";
-import INPUT_DATA from "./input-data";
 import Form from "~/components/core/Form";
 import { ProfileValidationType, ProfileValidation } from "~/data/form-validation/ProfileValidation";
 import { Icon } from "@iconify/react";
 import { useLoaderData } from "@remix-run/react";
 import { SettingsProfileLoader } from "~/services/main/settings";
+import INPUT_DATA from "./input-data";
+import ProfileLayout from "./components/Layout";
 
 const Profile = () => {
   const loaderData = useLoaderData<typeof SettingsProfileLoader>();

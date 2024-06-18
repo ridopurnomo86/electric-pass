@@ -1,14 +1,13 @@
 import React from "react";
+import { useOutletContext } from "@remix-run/react";
 import Navigation from "./Navigation";
-import { useLoaderData } from "@remix-run/react";
-import { SettingsProfileLoader } from "~/services/main/settings";
 
 type ProfileLayoutPropsType = {
   children: React.ReactNode;
 };
 
 const ProfileLayout = ({ children }: ProfileLayoutPropsType) => {
-  const loaderData = useLoaderData<typeof SettingsProfileLoader>();
+  const data = useOutletContext<{ name: string; role: "organizer" | "user"; email: string }>();
 
   return (
     <main className="container mx-auto min-h-screen">
@@ -19,7 +18,7 @@ const ProfileLayout = ({ children }: ProfileLayoutPropsType) => {
         </p>
       </div>
       <div className="grid grid-cols-1 gap-4 pt-8 md:grid-cols-[15%,85%]">
-        <Navigation role={loaderData.role} />
+        <Navigation role={data.role} />
         {children}
       </div>
     </main>

@@ -1,14 +1,5 @@
 import EventCard from "~/components/cards/EventCard";
-
-type EventDataType = {
-  id: number;
-  imgUrl: string;
-  type: string;
-  location: string;
-  title: string;
-  startDate: string;
-  startTime: string;
-};
+import { EventDataType } from "~/data/test-data/event";
 
 type EventCardListPropsType = {
   title: string;
@@ -27,10 +18,11 @@ const EventCardList = ({ data, subtitle, title, className }: EventCardListPropsT
           <EventCard
             imgUrl={item.imgUrl}
             location={item.location}
-            startDate={item.startDate}
-            startTime={item.startTime}
             title={item.title}
             type={item.type}
+            price={item.price}
+            datetime={item.datetime}
+            navigateTo="#"
           />
         </div>
       ))}

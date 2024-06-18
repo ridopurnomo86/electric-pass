@@ -18,8 +18,13 @@ const CreatorCardList = ({ title, subtitle, data }: CreatorCardListPropsType) =>
     <p className="text-sm text-neutral-600">{subtitle}</p>
     <div className="flex gap-4 overflow-x-scroll py-4">
       {data.map((item) => (
-        <div className="max-w-[150px]" key={item.id}>
-          <CreatorCard title={item.title} imgUrl={item.imgUrl} />
+        <div className="min-w-[350px]" key={item.id}>
+          <CreatorCard
+            navigateTo="#"
+            title={item.title}
+            imgUrl={item.imgUrl}
+            description="Popular venue opened since 2002"
+          />
         </div>
       ))}
     </div>

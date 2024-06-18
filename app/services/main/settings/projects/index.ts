@@ -1,1 +1,1 @@
-export { default as SecurityLoader } from "./loader";
+export { default as ProjectLoader } from "./loader";

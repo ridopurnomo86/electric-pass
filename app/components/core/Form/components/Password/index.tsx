@@ -8,8 +8,8 @@ import {
 } from "~/components/ui/Form";
 import { Input as InputCore } from "~/components/ui/Input";
 import { Icon } from "@iconify/react";
-import { InputPropsType } from "../../types";
 import { useState } from "react";
+import { InputPropsType } from "../../types";
 
 const Password = ({
   label,

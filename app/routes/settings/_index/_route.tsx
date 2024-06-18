@@ -1,5 +1,5 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { ClientLoaderFunctionArgs, useLoaderData } from "@remix-run/react";
+import { ClientLoaderFunctionArgs } from "@remix-run/react";
 import { cacheClientLoader } from "remix-client-cache";
 import Mainlayout from "~/components/layout/MainLayout";
 import ProfilePage from "~/pages/Settings";
@@ -15,14 +15,10 @@ export const clientLoader = async (params: ClientLoaderFunctionArgs) => cacheCli
 
 clientLoader.hydrate = true;
 
-const SettingsProfile = () => {
-  const loaderData = useLoaderData<typeof SettingsProfileLoader>();
-
-  return (
-    <Mainlayout isAuthenticated={loaderData?.isAuthenticated} name={loaderData?.name}>
-      <ProfilePage />
-    </Mainlayout>
-  );
-};
+const SettingsProfile = () => (
+  <Mainlayout>
+    <ProfilePage />
+  </Mainlayout>
+);
 
 export default SettingsProfile;

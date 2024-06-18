@@ -1,11 +1,20 @@
-import { LinksFunction } from "@remix-run/node";
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
-import { Toaster } from "./components/ui/Toaster/toaster";
+import { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
 import stylesheet from "~/styles/globals.css";
+import { Toaster } from "./components/ui/Toaster/toaster";
+import { authenticator } from "./services/auth.server";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: stylesheet }];
 
+export const loader = async (args: LoaderFunctionArgs) => {
+  const user = await authenticator.isAuthenticated(args.request);
+
+  return user;
+};
+
 export default function App() {
+  const loaderData = useLoaderData();
+
   return (
     <html lang="en">
       <head>
@@ -15,7 +24,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <Outlet context={loaderData} />
         <ScrollRestoration />
         <Toaster />
         <Scripts />

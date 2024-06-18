@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { Button } from "~/components/ui/Button";
 import Form from "~/components/core/Form";
 import ProfileLayout from "~/pages/Settings/components/Layout";
-import INPUT_DATA from "./input-data";
 import {
   ChangePasswordValidation,
   ChangePasswordValidationType,
@@ -12,6 +11,7 @@ import {
 import { useActionData, useNavigation, useSubmit } from "@remix-run/react";
 import { useEffect } from "react";
 import { useToast } from "~/components/ui/Toaster/useToast";
+import INPUT_DATA from "./input-data";
 
 const Security = () => {
   const submit = useSubmit();

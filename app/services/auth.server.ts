@@ -6,7 +6,6 @@ import UserController from "./controllers/user";
 type AuthenticatorResponseType = {
   id: number;
   name: string;
-  isAuthenticated: boolean;
   role: string;
 };
 
@@ -20,7 +19,7 @@ const formStrategy = new FormStrategy(async ({ form }) => {
   const password = form.get("password") as string;
   const user = await UserController.authorizeUser({ email, password });
 
-  return { id: user.id, name: user.name, role: user.role, isAuthenticated: true };
+  return { id: user.id, name: user.name, role: user.role };
 });
 
 authenticator.use(formStrategy, "user-pass");
