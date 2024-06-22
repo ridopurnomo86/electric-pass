@@ -1,10 +1,10 @@
-import { Link } from "@remix-run/react";
+import { Button } from "~/components/ui/Button";
 
 type TabsType = {
   id: string;
-  path: string;
   label: string;
   isActive: boolean;
+  onClick: () => void;
 };
 
 type TabsPropsType = {
@@ -22,13 +22,14 @@ const TabsNavigation = ({ tabs = [] }: TabsPropsType) => (
       <ul className="-mb-px flex flex-wrap">
         {tabs.map((item) => (
           <li className="me-2" key={item.id}>
-            <Link
-              to={item.path}
-              className={`inline-block rounded-t-lg border-b-2 p-4 ${renderColorTabs(item.isActive)}`}
+            <Button
+              variant="link"
+              onClick={item.onClick}
+              className={`rounded-t-lg border-b-2 p-4 ${renderColorTabs(item.isActive)}`}
               aria-current="page"
             >
               {item.label}
-            </Link>
+            </Button>
           </li>
         ))}
       </ul>

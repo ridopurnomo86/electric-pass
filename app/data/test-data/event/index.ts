@@ -6,6 +6,7 @@ export type EventDataType = {
   location: string;
   datetime: string;
   price: number;
+  slug: string;
 };
 
 const EVENT_DATA: Array<EventDataType> = [
@@ -13,6 +14,7 @@ const EVENT_DATA: Array<EventDataType> = [
     id: 1,
     imgUrl: "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?w=800&dpr=2&q=80",
     type: "Workshop",
+    slug: "manufacture-ai",
     title: "Manufacture AI",
     location: "Philadelphia, United States",
     datetime: "2024-06-14T12:28:34+07:00",
@@ -22,6 +24,7 @@ const EVENT_DATA: Array<EventDataType> = [
     id: 2,
     imgUrl: "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?w=800&dpr=2&q=80",
     type: "Workshop",
+    slug: "manufacture-ai",
     title: "Manufacture AI",
     location: "Philadelphia, United States",
     datetime: "2024-06-14T12:28:34+07:00",
@@ -31,6 +34,7 @@ const EVENT_DATA: Array<EventDataType> = [
     id: 3,
     imgUrl: "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?w=800&dpr=2&q=80",
     type: "Workshop",
+    slug: "manufacture-ai",
     title: "Manufacture AI",
     location: "Philadelphia, United States",
     datetime: "2024-06-14T12:28:34+07:00",
