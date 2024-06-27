@@ -1,10 +1,14 @@
 import bcrypt from "bcryptjs";
 
-export const encrypt = async ({ value }: { value: string }): Promise<string> => {
+export const encrypt = async ({
+  value,
+}: {
+  value: string;
+}): Promise<{ salt: string; hash: string }> => {
   const salt = await bcrypt.genSalt();
-  const hash = bcrypt.hash(value, salt);
+  const hash = await bcrypt.hash(value, salt);
 
-  return hash;
+  return { hash, salt };
 };
 
 export const decrypt = async ({ value, hash }: { value: string; hash: string }) => {

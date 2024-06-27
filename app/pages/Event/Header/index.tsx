@@ -7,7 +7,7 @@ const Header = () => (
     </h2>
     <div className="mb-4 flex gap-4">
       <div className="flex items-center">
-        <Icon icon="material-symbols:location-on-rounded" className="mr-1 text-neutral-600" />
+        <Icon icon="clarity:world-solid" className="mr-1 text-neutral-600" />
         <p className="text-sm font-medium text-neutral-600 antialiased">Jakarta, Indonesia</p>
       </div>
       <div className="flex items-center">

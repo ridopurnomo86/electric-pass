@@ -35,9 +35,11 @@ const SecurityAction = async ({ request }: ActionFunctionArgs) => {
     const match = await decrypt({ hash: checkingUser?.password as string, value: data.password });
 
     if (match) {
+      const { hash } = await encrypt({ value: data.newPassword });
+
       await db.user.update({
         where: { id: user?.id },
-        data: { password: await encrypt({ value: data.newPassword }) },
+        data: { password: hash },
       });
 
       session.flash("change-password", {

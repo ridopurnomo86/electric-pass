@@ -1,44 +1,33 @@
 import { Prisma } from "@prisma/client";
 import { json } from "@remix-run/node";
+import dayjs from "dayjs";
 import { db } from "~/services/prisma.server";
 import { decrypt } from "~/services/utils/cipher/encrypt";
+import {
+  AuthorizeUserResponseType,
+  AuthorizeUserType,
+  GetUserType,
+  RegisterUserType,
+} from "./types";
 
 const UserController = {
-  getUser: async ({
-    type,
-    id,
-    response,
-    select,
-  }: {
-    type: "user" | "organizer" | string;
-    id: number;
-    response?: {
-      [key: string]: string | number | boolean;
-    };
-    select?: {
-      [key: string]: boolean;
-    };
-  }) => {
+  getUser: async ({ id, response, select }: GetUserType) => {
     try {
-      if (type === "user") {
-        const checkingUser = await db.user.findFirst({
-          where: {
-            id,
-          },
-          select,
+      const checkingUser = await db.user.findFirst({
+        where: {
+          id,
+        },
+        select,
+      });
+
+      if (!checkingUser)
+        return json({
+          status: "Error",
+          type: "error",
+          message: "Something gone wrong",
         });
 
-        return { ...checkingUser, ...response };
-      } else {
-        const checkingUser = await db.organizer.findFirst({
-          where: {
-            id,
-          },
-          select,
-        });
-
-        return { ...checkingUser, ...response };
-      }
+      return { ...checkingUser, ...response };
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError)
         return json({
@@ -49,7 +38,7 @@ const UserController = {
       throw json(err);
     }
   },
-  authorizeUser: async ({ email, password }: { email: string; password: string }) => {
+  authorizeUser: async ({ email, password }: AuthorizeUserType): AuthorizeUserResponseType => {
     const user = await db.user.findFirst({
       where: {
         email,
@@ -59,96 +48,43 @@ const UserController = {
     if (user) {
       const match = await decrypt({ value: password, hash: user.password });
 
-      if (match) return { ...user, role: "user" };
+      if (match) return { ...user, role: user.role?.toLowerCase() };
 
       throw new Error(
         JSON.stringify({ message: "Password incorrect", type: "error", status: "Error" })
       );
     }
 
-    const organizer = await db.organizer.findFirst({
-      where: {
-        email,
-      },
-    });
-
-    if (organizer) {
-      const match = await decrypt({ value: password, hash: organizer.password });
-
-      if (match) return { ...organizer, role: "organizer" };
-
-      throw new Error(
-        JSON.stringify({ message: "Password incorrect", type: "error", status: "Error" })
-      );
-    }
-
-    throw new Error(
-      JSON.stringify({ message: "Email doesn't exists", type: "error", status: "Error" })
-    );
+    throw new Error(JSON.stringify({ message: "User not exist", type: "error", status: "Error" }));
   },
-  registerUser: async ({
-    data,
-    encryptPassword,
-  }: {
-    data: {
-      [key: string]: string;
-    };
-    encryptPassword: string;
-  }) => {
-    let createUser;
-
+  registerUser: async ({ data, encryptPassword, salt }: RegisterUserType) => {
     try {
-      if (data.account_type === "visitor") {
-        const checkingUserIsOrganizer = await db.organizer.findUnique({
-          where: {
-            email: data.email,
-          },
-          select: {
-            email: true,
-          },
-        });
+      const checkingUser = await db.user.findUnique({
+        where: {
+          email: data.email,
+        },
+      });
 
-        if (checkingUserIsOrganizer)
-          return json({
+      if (checkingUser?.email === data.email)
+        return json(
+          {
             status: "Error",
             type: "error",
-            message: `A user has been created as a "Organizer"`,
-          });
-
-        createUser = await db.user.create({
-          data: {
-            email: data.email,
-            name: data.name,
-            password: encryptPassword,
+            message: `A user has been created.`,
           },
-        });
-      } else {
-        const checkingUserIsVisitor = await db.user.findUnique({
-          where: {
-            email: data.email,
-          },
-          select: {
-            email: true,
-          },
-        });
+          { status: 500 }
+        );
 
-        if (checkingUserIsVisitor)
-          return json({
-            status: "Error",
-            type: "error",
-            message: `A user has been created as a "Visitor"`,
-          });
-
-        createUser = await db.organizer.create({
-          data: {
-            email: data.email,
-            name: data.name,
-            password: encryptPassword,
-          },
-        });
-      }
-
-      if (createUser) return createUser;
+      await db.user.create({
+        data: {
+          email: data.email,
+          name: data.name,
+          password: encryptPassword,
+          role: data.account_type === "visitor" ? "USER" : "ORGANIZER",
+          salt,
+          updated_at: dayjs().format(),
+        },
+      });
 
       return json({ status: "Error", type: "error", message: "Sorry, email is exist" });
     } catch (err) {

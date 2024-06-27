@@ -9,8 +9,6 @@ const ProfileLoader: LoaderFunction = async ({ request }) => {
 
   const infoUser = await UserController.getUser({
     id: user.id,
-    type: user.role,
-    response: { role: user.role },
     select: {
       name: true,
       email: true,

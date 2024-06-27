@@ -25,11 +25,11 @@ const CreateAccountAction = async ({
 
   if (errors) throw json({ errors, defaultValues });
 
-  const encryptPassword = await encrypt({ value: data.password });
+  const { hash, salt } = await encrypt({ value: data.password });
 
-  const registerUser = await UserController.registerUser({ data, encryptPassword });
+  const registerUser = await UserController.registerUser({ data, encryptPassword: hash, salt });
 
-  if (registerUser) {
+  if (registerUser.status === 200) {
     session.flash("create-account", {
       status: "Success",
       type: "success",
@@ -48,7 +48,7 @@ const CreateAccountAction = async ({
   return json({
     status: "Error",
     type: "error",
-    message: "Something gone wrong",
+    message: "User has been registered.",
   });
 };
 

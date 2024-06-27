@@ -1,31 +1,31 @@
 const CATEGORY_DATA = [
   {
     id: 1,
-    title: "Workshop",
+    name: "Workshop",
+    createdAt: "2024-06-25T11:17:37.000Z",
+    updatedAt: "2024-06-25T11:17:44.000Z",
     icon: "mdi:education-outline",
-    totalEvent: 10,
-    navigateTo: "#",
   },
   {
     id: 2,
-    title: "Concert",
+    name: "Concert",
+    createdAt: "2024-06-25T11:17:48.000Z",
+    updatedAt: "2024-06-25T11:17:51.000Z",
     icon: "akar-icons:music-album-fill",
-    totalEvent: 10,
-    navigateTo: "#",
   },
   {
     id: 3,
-    title: "Conference",
+    name: "Conference",
+    createdAt: "2024-06-25T11:17:59.000Z",
+    updatedAt: "2024-06-25T11:17:59.000Z",
     icon: "material-symbols:forum-rounded",
-    totalEvent: 10,
-    navigateTo: "#",
   },
   {
     id: 4,
-    title: "Festival",
+    name: "Festival",
+    createdAt: "2024-06-25T11:17:59.000Z",
+    updatedAt: "2024-06-25T11:17:59.000Z",
     icon: "material-symbols:festival-rounded",
-    totalEvent: 10,
-    navigateTo: "#",
   },
 ];
 

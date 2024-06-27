@@ -8,9 +8,21 @@ type TicketCardPropsType = {
   expiredDate: string;
   price: number;
   isSoldOut: boolean;
+  eventDate: string;
 };
 
-const renderTag = ({ date, soldOut }: { date: string; soldOut: boolean }) => {
+const renderTag = ({
+  date,
+  soldOut,
+  eventDate,
+}: {
+  date: string;
+  soldOut: boolean;
+  eventDate: string;
+}) => {
+  const isEventEnded = dayjs(date).isAfter(dayjs(eventDate).format());
+
+  if (isEventEnded) return <p className="font-bold text-red-600">EVENT ENDED</p>;
   if (dayjs(date).isBefore(dayjs().format()))
     return <p className="font-bold text-red-600">SALE ENDED</p>;
   if (soldOut) return <p className="font-bold text-red-600">SOLD OUT</p>;
@@ -23,6 +35,7 @@ const TicketCard = ({
   expiredDate,
   price,
   isSoldOut = false,
+  eventDate,
 }: TicketCardPropsType) => (
   <article className="overflow-hidden rounded-md border bg-white px-8 py-4">
     <h2 className="mt-10 scroll-m-20 border-b pb-2 text-xl font-semibold tracking-tight transition-colors first:mt-0">
@@ -43,7 +56,7 @@ const TicketCard = ({
     </div>
     <div className="flex items-center justify-between">
       <p className="font-bold">{formatPrice(price)}</p>
-      {renderTag({ date: expiredDate, soldOut: isSoldOut })}
+      {renderTag({ date: expiredDate, soldOut: isSoldOut, eventDate })}
     </div>
   </article>
 );

@@ -1,15 +1,18 @@
 import TabsNavigation from "~/components/core/TabsNavigation";
 import { useState } from "react";
-import Description from "./Description";
-import Ticket from "./Ticket";
+import Description from "./content/Description";
+import Ticket from "./content/Ticket";
 import Header from "./Header";
+import Information from "./Information";
+
+const EVENT_DATE = "2025-04-20T14:31:37+07:00";
 
 const Event = () => {
   const [type, setType] = useState<"description" | "ticket">("description");
 
   return (
     <main className="min-h-screen bg-[#F8FAFC]">
-      <section className="container mx-auto grid size-full py-4 md:grid-cols-[60%_40%] md:py-10">
+      <section className="container mx-auto grid size-full gap-8 py-4 md:grid-cols-[70%_30%] md:py-10">
         <div>
           <Header />
           <TabsNavigation
@@ -28,8 +31,9 @@ const Event = () => {
               },
             ]}
           />
-          {type === "description" ? <Description /> : <Ticket />}
+          {type === "description" ? <Description /> : <Ticket eventDate={EVENT_DATE} />}
         </div>
+        <Information eventDate={EVENT_DATE} />
       </section>
     </main>
   );

@@ -6,7 +6,7 @@ import UserController from "./controllers/user";
 type AuthenticatorResponseType = {
   id: number;
   name: string;
-  role: string;
+  role: string | undefined;
 };
 
 export const authenticator = new Authenticator<AuthenticatorResponseType>(sessionStorage, {

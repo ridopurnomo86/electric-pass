@@ -7,10 +7,13 @@ import CreatorCardList from "~/components/data-display/CreatorCardList";
 import CategoryCardList from "~/components/data-display/CategoryCardList";
 import EVENT_DATA from "~/data/test-data/event";
 import ORGANIZER_DATA from "~/data/test-data/organizer";
-import CATEGORY_DATA from "~/data/test-data/category";
+import { useLoaderData } from "@remix-run/react";
+import { MainHomeLoader } from "~/services/main/main-home";
 import Hero from "./Hero";
 
 const MainHome = () => {
+  const { category } = useLoaderData<typeof MainHomeLoader>();
+
   const form = useForm<z.infer<typeof HomeSearchValidation>>({
     resolver: zodResolver(HomeSearchValidation),
     defaultValues: {
@@ -29,7 +32,11 @@ const MainHome = () => {
         subtitle="Top picks for you. Updated Daily"
         title="Selected Events"
       />
-      <CategoryCardList title="Category Events" data={CATEGORY_DATA} />
+      <CategoryCardList
+        title="Category Events"
+        subtitle="Top picks for all categories"
+        data={category}
+      />
       <CreatorCardList
         title="Featured Artists & Organizers"
         subtitle="Follow the creator from these events and get notified when they create new ones."
