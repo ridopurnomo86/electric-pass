@@ -18,6 +18,7 @@ model User {
   remember_token    String?   @db.VarChar(255)
   image_url         String?   @db.VarChar(255)
   country           String?   @db.VarChar(255)
+  city           String?   @db.VarChar(255)
   bio               String?   @db.VarChar(255)
   role              Role?     @default(USER)
   gender            Gender?   @default(NONGENDERED)

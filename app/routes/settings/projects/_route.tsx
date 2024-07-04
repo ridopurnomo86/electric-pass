@@ -7,10 +7,10 @@ export const meta: MetaFunction = () => [{ title: "Projects" }];
 
 export const loader = async (params: LoaderFunctionArgs) => await ProjectLoader(params);
 
-const Security = () => (
+const Projects = () => (
   <Mainlayout>
     <ProjectsPage />
   </Mainlayout>
 );
 
-export default Security;
+export default Projects;

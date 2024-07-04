@@ -8,6 +8,13 @@ export type GetUserType = {
   };
 };
 
+export type UpdateUserType = {
+  id: number;
+  data?: {
+    [key: string]: string | number | boolean;
+  };
+};
+
 export type AuthorizeUserType = {
   email: string;
   password: string;

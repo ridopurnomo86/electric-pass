@@ -7,8 +7,10 @@ import CreatorCardList from "~/components/data-display/CreatorCardList";
 import CategoryCardList from "~/components/data-display/CategoryCardList";
 import EVENT_DATA from "~/data/test-data/event";
 import ORGANIZER_DATA from "~/data/test-data/organizer";
-import { useLoaderData } from "@remix-run/react";
+import { Await, useLoaderData } from "@remix-run/react";
 import { MainHomeLoader } from "~/services/main/main-home";
+import { Suspense } from "react";
+import CategoryCardListLoading from "~/components/data-display/CategoryCardList/loading";
 import Hero from "./Hero";
 
 const MainHome = () => {
@@ -32,11 +34,18 @@ const MainHome = () => {
         subtitle="Top picks for you. Updated Daily"
         title="Selected Events"
       />
-      <CategoryCardList
-        title="Category Events"
-        subtitle="Top picks for all categories"
-        data={category}
-      />
+      <Suspense fallback={<CategoryCardListLoading className="container mx-auto mt-12" />}>
+        <Await resolve={category}>
+          {(category) => (
+            <CategoryCardList
+              className="container mx-auto mt-12"
+              title="Category Events"
+              subtitle="Top picks for all categories"
+              data={category}
+            />
+          )}
+        </Await>
+      </Suspense>
       <CreatorCardList
         title="Featured Artists & Organizers"
         subtitle="Follow the creator from these events and get notified when they create new ones."

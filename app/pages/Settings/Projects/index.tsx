@@ -28,8 +28,6 @@ const Projects = () => {
     },
   });
 
-  const country = form.getValues("country");
-
   const onSubmit = (values: FieldValue<AddEventValidationType>) => values;
 
   return (
@@ -37,12 +35,7 @@ const Projects = () => {
       <section>
         <div className="flex justify-between">
           <Header />
-          <FormDialog
-            country={country}
-            form={form}
-            isSubmit={state === "submitting"}
-            onSubmit={onSubmit}
-          />
+          <FormDialog form={form} isSubmit={state === "submitting"} onSubmit={onSubmit} />
         </div>
         <EventProjectList type={type} data={EVENT_DATA} />
       </section>

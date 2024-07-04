@@ -7,7 +7,7 @@ export const AddEventValidation = z.object({
   event_type: z.string().min(1, { message: "The field is required." }),
   country: z.string().min(1, { message: "The field is required." }),
   price: z.string().min(1, { message: "The field is required." }),
-  city: z.string(),
+  city: z.string().min(1, { message: "The field is required." }),
   datetime: z.coerce
     .date()
     .refine((data) => data > new Date(), { message: "Start date must be in the future" }),

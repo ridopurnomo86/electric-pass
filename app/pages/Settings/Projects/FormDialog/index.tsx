@@ -12,39 +12,19 @@ import {
 import Form from "~/components/core/Form";
 import { AddEventValidationType } from "~/data/form-validation/AddEventValidation";
 import { UseFormReturn } from "react-hook-form";
-import axios from "axios";
-import useSWR from "swr";
+import useGetCountries from "~/hooks/useGetCountries";
+import Input from "~/components/core/Form/components/Input";
 import Select from "~/components/core/Form/components/Select";
-import COUNTRY_DATA from "~/data/static-data/country";
 import INPUT_DATA from "./input-data";
-
-type ResponseType = {
-  error: boolean;
-  data: string[];
-  msg: string;
-};
 
 type FormDialogPropsType = {
   form: UseFormReturn<AddEventValidationType>;
   onSubmit: (values: AddEventValidationType) => void;
   isSubmit: boolean;
-  country: string;
 };
 
-const FormDialog = ({ onSubmit, form, isSubmit = false, country }: FormDialogPropsType) => {
-  const fetcher = (url: string) =>
-    axios
-      .post(url, {
-        country,
-      })
-      .then((res) => res.data);
-
-  const { data: cities, isLoading: isCitiesLoading } = useSWR<ResponseType>(
-    country ? "https://countriesnow.space/api/v0.1/countries/cities" : null,
-    fetcher
-  );
-
-  const allCities = cities?.data?.map((item) => ({ label: item, value: item })) || [];
+const FormDialog = ({ onSubmit, form, isSubmit = false }: FormDialogPropsType) => {
+  const { country } = useGetCountries();
 
   return (
     <AlertDialog>
@@ -64,19 +44,16 @@ const FormDialog = ({ onSubmit, form, isSubmit = false, country }: FormDialogPro
               id="country"
               label="Country"
               name="country"
-              placeholder="Choose Country"
-              data={COUNTRY_DATA}
+              placeholder="United States"
+              data={country}
               emptyState="No Country Available"
               control={form.control}
             />
-            <Select
+            <Input
               id="city"
               label="City"
               name="city"
-              placeholder="Choose City"
-              data={allCities}
-              emptyState="No City Available"
-              isLoading={isCitiesLoading}
+              placeholder="New Jersey"
               control={form.control}
             />
           </div>

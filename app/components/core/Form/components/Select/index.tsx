@@ -56,9 +56,11 @@ const Select = ({
   emptyState = "",
   data = [],
   isLoading = false,
+  hasIcon = false,
+  defaultValue,
 }: InputPropsType) => {
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedValue, setSelectedValue] = useState(defaultValue || "");
 
   return (
     <FormField
@@ -66,7 +68,7 @@ const Select = ({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-col">
+        <FormItem>
           <FormLabel>{label}</FormLabel>
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -94,16 +96,22 @@ const Select = ({
                     emptyState,
                     content: (
                       <CommandGroup>
-                        {data?.map((item) => (
+                        {data?.map((item, idx) => (
                           <CommandItem
                             value={item.value}
-                            key={item.value}
+                            key={idx}
                             onSelect={(currentValue) => {
                               setSelectedValue(currentValue);
                               field.onChange(currentValue === selectedValue ? "" : currentValue);
                               setOpen(false);
                             }}
                           >
+                            {hasIcon && (
+                              <div className="size-8">
+                                <img className="size-full" src={item.image} alt={item.value} />
+                              </div>
+                            )}
+                            &nbsp;
                             {item.label}
                             <CheckIcon
                               className={cn(

@@ -10,6 +10,7 @@ type RadioItemsType = {
 type SelectDataType = {
   value: string;
   label: string;
+  image?: string;
 };
 
 export type Forms = {
@@ -40,6 +41,8 @@ export type InputPropsType = {
   data?: Array<SelectDataType>;
   emptyState?: string;
   isLoading?: boolean;
+  hasIcon?: boolean;
+  defaultValue?: string;
 };
 
 export type FormPropstype<T extends FieldValues> = {

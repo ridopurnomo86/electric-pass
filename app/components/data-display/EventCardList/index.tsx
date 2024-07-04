@@ -6,6 +6,7 @@ type EventCardListPropsType = {
   subtitle: string;
   className?: string;
   data: Array<EventDataType>;
+  isLoading?: boolean;
 };
 
 const EventCardList = ({ data, subtitle, title, className }: EventCardListPropsType) => (

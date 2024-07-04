@@ -8,6 +8,7 @@ import {
   AuthorizeUserType,
   GetUserType,
   RegisterUserType,
+  UpdateUserType,
 } from "./types";
 
 const UserController = {
@@ -93,6 +94,33 @@ const UserController = {
           status: "Error",
           type: "error",
           message: "A new user cannot be created with this email.",
+        });
+      throw json(err);
+    }
+  },
+  updateUser: async ({ id, data = {} }: UpdateUserType) => {
+    try {
+      const user = await db.user.update({
+        where: {
+          id,
+        },
+        data,
+      });
+
+      if (!user)
+        return json({
+          status: "Error",
+          type: "error",
+          message: "Something gone wrong",
+        });
+
+      return { ...user };
+    } catch (err) {
+      if (err instanceof Prisma.PrismaClientKnownRequestError)
+        return json({
+          status: "Error",
+          type: "error",
+          message: "A user cannot be update.",
         });
       throw json(err);
     }
