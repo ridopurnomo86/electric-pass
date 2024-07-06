@@ -10,8 +10,8 @@ type HeroPropsType = {
 };
 
 const Hero = ({ onSubmit, form }: HeroPropsType) => (
-  <section className="container mx-auto py-24">
-    <div>
+  <section className="bg-white">
+    <div className="container mx-auto bg-white py-24">
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
         Find Your Next Event
       </h1>

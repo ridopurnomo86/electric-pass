@@ -1,9 +1,15 @@
 import { Authenticator } from "remix-auth";
 import { FormStrategy } from "remix-auth-form";
 import { sessionStorage } from "./session.server";
-import verifyLogin from "./utils/auth/user/verifyLogin";
+import UserController from "./controllers/user";
 
-export const authenticator = new Authenticator(sessionStorage, {
+type AuthenticatorResponseType = {
+  id: number;
+  name: string;
+  role: string | undefined;
+};
+
+export const authenticator = new Authenticator<AuthenticatorResponseType>(sessionStorage, {
   throwOnError: true,
   sessionErrorKey: "user-error",
 });
@@ -11,9 +17,9 @@ export const authenticator = new Authenticator(sessionStorage, {
 const formStrategy = new FormStrategy(async ({ form }) => {
   const email = form.get("email") as string;
   const password = form.get("password") as string;
-  const user = await verifyLogin(email, password);
+  const user = await UserController.authorizeUser({ email, password });
 
-  return { id: user.id, name: user.name, isAuthenticated: true };
+  return { id: user.id, name: user.name, role: user.role };
 });
 
 authenticator.use(formStrategy, "user-pass");

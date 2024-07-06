@@ -1,23 +1,24 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { ClientLoaderFunctionArgs } from "@remix-run/react";
+import { cacheClientLoader } from "remix-client-cache";
 import Mainlayout from "~/components/layout/MainLayout";
 import ProfilePage from "~/pages/Settings";
-import { ProfileAction, ProfileLoader, SettingsLoaderResponse } from "~/services/settings";
+import { SettingsProfileLoader, SettingsProfileAction } from "~/services/main/settings";
 
 export const meta: MetaFunction = () => [{ title: "Profile" }];
 
-export const action = async (params: ActionFunctionArgs) => await ProfileAction(params);
+export const action = async (params: ActionFunctionArgs) => await SettingsProfileAction(params);
 
-export const loader = async (params: LoaderFunctionArgs) => await ProfileLoader(params);
+export const loader = async (params: LoaderFunctionArgs) => await SettingsProfileLoader(params);
 
-const Settings = () => {
-  const loaderData = useLoaderData<SettingsLoaderResponse>();
+export const clientLoader = async (params: ClientLoaderFunctionArgs) => cacheClientLoader(params);
 
-  return (
-    <Mainlayout isAuthenticated={loaderData?.isAuthenticated} name={loaderData?.name}>
-      <ProfilePage />
-    </Mainlayout>
-  );
-};
+clientLoader.hydrate = true;
 
-export default Settings;
+const SettingsProfile = () => (
+  <Mainlayout>
+    <ProfilePage />
+  </Mainlayout>
+);
+
+export default SettingsProfile;

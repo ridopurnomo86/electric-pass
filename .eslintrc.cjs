@@ -100,6 +100,17 @@ module.exports = {
         "import/prefer-default-export": "off",
         "consistent-return": "off",
         "no-console": ["error", { allow: ["warn", "error"] }],
+        "import/order": [
+          "error",
+          {
+            pathGroups: [
+              {
+                pattern: "~/**",
+                group: "external",
+              },
+            ],
+          },
+        ],
         "prettier/prettier": "warn",
         "arrow-body-style": ["error", "as-needed"],
         "no-use-before-define": "off",

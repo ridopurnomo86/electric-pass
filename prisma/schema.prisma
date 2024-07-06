@@ -11,31 +11,47 @@ model User {
   id                Int       @id @default(autoincrement())
   name              String    @db.VarChar(255)
   email             String    @unique
-  email_verified_at DateTime? @db.Timestamp(0)
   username          String?   @db.VarChar(255)
   password          String    @db.VarChar(255)
-  remember_token    String?   @db.VarChar(255)
-  bio               String?   @db.VarChar(255)
+  salt              String?   @db.VarChar(255)
   address           String?   @db.VarChar(255)
+  remember_token    String?   @db.VarChar(255)
+  image_url         String?   @db.VarChar(255)
+  country           String?   @db.VarChar(255)
+  bio               String?   @db.VarChar(255)
+  role              Role?     @default(USER)
+  gender            Gender?   @default(NONGENDERED)
+  birth_date        DateTime? @db.Timestamp(0)
   phone_number      String?   @db.VarChar(255)
   dialing_code      String?   @db.VarChar(128)
-  birth_date        DateTime? @db.Timestamp(0)
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  email_verified_at DateTime? @db.Timestamp(0)
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+  city              String?   @db.VarChar(255)
 }
 
-model Organizer {
-  id                Int       @id @default(autoincrement())
-  name              String    @db.VarChar(255)
-  email             String    @unique
-  email_verified_at DateTime? @db.Timestamp(0)
-  username          String?   @db.VarChar(255)
-  password          String    @db.VarChar(255)
-  remember_token    String?   @db.VarChar(255)
-  bio               String?   @db.VarChar(255)
-  address           String?   @db.VarChar(255)
-  phone_number      String?   @db.VarChar(255)
-  dialing_code      String?   @db.VarChar(128)
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+model EventType {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255)
+  icon       String   @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+model EventCategory {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ORGANIZER
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  NONGENDERED
 }

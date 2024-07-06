@@ -10,7 +10,11 @@ export const ChangePasswordValidation = z
     }),
     repeatNewPassword: z.string(),
   })
-  .refine((data) => data.password === data.repeatNewPassword, {
+  .refine((data) => data.newPassword === data.repeatNewPassword, {
     message: "Passwords don't match",
-    path: ["confirmPassword"],
+    path: ["repeatNewPassword"],
+  })
+  .refine((data) => data.password !== data.newPassword, {
+    message: "Passwords must be different",
+    path: ["password"],
   });

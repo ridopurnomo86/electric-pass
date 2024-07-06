@@ -3,7 +3,7 @@ import { Forms } from "~/components/core/Form/types";
 const INPUT_DATA: Forms[] = [
   {
     id: "email",
-    label: "Name / Company Name",
+    label: "Email",
     name: "email",
     placeholder: "zed@email.com",
     type: "email",

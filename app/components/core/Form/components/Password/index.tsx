@@ -8,10 +8,18 @@ import {
 } from "~/components/ui/Form";
 import { Input as InputCore } from "~/components/ui/Input";
 import { Icon } from "@iconify/react";
-import { InputPropsType } from "../../types";
 import { useState } from "react";
+import { InputPropsType } from "../../types";
 
-const Password = ({ label, placeholder, control, description, id, name }: InputPropsType) => {
+const Password = ({
+  label,
+  placeholder,
+  control,
+  description,
+  id,
+  name,
+  isDisabled = false,
+}: InputPropsType) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -25,6 +33,7 @@ const Password = ({ label, placeholder, control, description, id, name }: InputP
           <div className="relative">
             <FormControl>
               <InputCore
+                disabled={isDisabled}
                 placeholder={placeholder}
                 type={showPassword ? "text" : "password"}
                 {...field}

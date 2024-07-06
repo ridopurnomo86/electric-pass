@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Control, FieldValues, UseFormReturn } from "react-hook-form";
 
 type RadioItemsType = {
@@ -6,24 +7,42 @@ type RadioItemsType = {
   label: string;
 };
 
+type SelectDataType = {
+  value: string;
+  label: string;
+  image?: string;
+};
+
 export type Forms = {
   id: string;
   label: string;
   name: string;
   placeholder?: string;
-  type: string;
   description?: string;
   items?: Array<RadioItemsType>;
+  isDisabled?: boolean;
+  icon?: string;
+  type: string;
+  data?: Array<SelectDataType>;
+  emptyState?: string;
+  isLoading?: boolean;
 };
 
 export type InputPropsType = {
   label: string;
   placeholder?: string;
-  control: Control<FieldValues>;
+  control: Control<FieldValues | any>;
   description?: string;
   id: string;
   name: string;
   items?: Array<RadioItemsType>;
+  isDisabled?: boolean;
+  icon?: string;
+  data?: Array<SelectDataType>;
+  emptyState?: string;
+  isLoading?: boolean;
+  hasIcon?: boolean;
+  defaultValue?: string;
 };
 
 export type FormPropstype<T extends FieldValues> = {

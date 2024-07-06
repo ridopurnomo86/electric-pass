@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginValidation, LoginValidationType } from "~/data/form-validation/LoginValidation";
-import Thumbnail from "./Thumbnail";
-import FormInput from "./FormInput";
 import { useActionData, useLoaderData, useNavigation, useSubmit } from "@remix-run/react";
 import { useToast } from "~/components/ui/Toaster/useToast";
 import { useEffect } from "react";
+import FormInput from "./FormInput";
+import Thumbnail from "./Thumbnail";
 
 const ForgotPassword = () => {
   const actionData = useActionData<{ message: string; type: string; status: string }>();

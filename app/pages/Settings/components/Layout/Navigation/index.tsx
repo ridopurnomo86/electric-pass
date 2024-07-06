@@ -8,7 +8,7 @@ const DATA = [
   { id: 4, name: "Transaction", link: "/settings/transaction" },
 ];
 
-const Navigation = () => {
+const Navigation = ({ role }: { role: "user" | "organizer" }) => {
   const location = useLocation();
 
   return (
@@ -23,6 +23,16 @@ const Navigation = () => {
           </Toggle>
         </Link>
       ))}
+      {role === "organizer" && (
+        <Link to="/settings/projects" className="inline min-w-fit md:block md:w-full">
+          <Toggle
+            className="flex w-full items-center justify-start"
+            defaultPressed={location.pathname === "/settings/projects"}
+          >
+            Projects
+          </Toggle>
+        </Link>
+      )}
     </nav>
   );
 };

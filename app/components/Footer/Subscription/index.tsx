@@ -21,7 +21,7 @@ const Subscription = ({ onSubmit, form }: SubscriptionPropsType) => (
     </div>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4">
-        <div className="flex size-full items-center gap-4">
+        <div className="flex size-full items-start gap-4">
           <FormField
             control={form.control}
             name="email"

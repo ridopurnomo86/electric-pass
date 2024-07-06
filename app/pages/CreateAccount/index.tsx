@@ -1,4 +1,3 @@
-import FormInput from "./FormInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CreateAccountValidation,
@@ -7,13 +6,14 @@ import {
 import Mainlayout from "~/components/layout/MainLayout";
 import { useActionData, useNavigation, useSubmit } from "@remix-run/react";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/Alert";
-import { CreateAccountResponseType } from "~/services/create-account/types";
 import { useForm } from "react-hook-form";
+import { CreateAccountAction } from "~/services/main/create-account";
+import FormInput from "./FormInput";
 
 const CreateAccount = () => {
   const submit = useSubmit();
   const { state } = useNavigation();
-  const actionData = useActionData<CreateAccountResponseType>();
+  const actionData = useActionData<typeof CreateAccountAction>();
   const form = useForm<CreateAccountValidationType>({
     resolver: zodResolver(CreateAccountValidation),
     defaultValues: {
