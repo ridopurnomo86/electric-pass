@@ -1,3 +1,5 @@
+"use client";
+
 import { Icon } from "@iconify/react";
 import Logo from "~/assets/elastic-pass-logo.svg";
 import {
