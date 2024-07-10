@@ -19,7 +19,13 @@ type FormInputPropsType = {
   state: string;
 };
 
-const FormInput = ({ onSubmit, form, isSubmit, actionData, state }: FormInputPropsType) => (
+const FormInput = ({
+  onSubmit,
+  form,
+  isSubmit,
+  actionData,
+  state,
+}: FormInputPropsType) => (
   <div className="relative flex min-h-screen w-[500px] flex-col justify-center px-8 lg:px-16">
     <Link to="/" className="absolute top-8 mb-4 w-full">
       <img src={Logo} alt="elastic-pass-logo" className="w-[200px]" />
@@ -49,17 +55,29 @@ const FormInput = ({ onSubmit, form, isSubmit, actionData, state }: FormInputPro
     </Form>
     <footer className="absolute bottom-8">
       <div className="flex items-center gap-4">
-        <Link to="#" className="text-sm font-medium text-neutral-600 antialiased">
+        <Link
+          to="#"
+          className="text-sm font-medium text-neutral-600 antialiased"
+        >
           Help Center
         </Link>
-        <Link to="#" className="text-sm font-medium text-neutral-600 antialiased">
+        <Link
+          to="#"
+          className="text-sm font-medium text-neutral-600 antialiased"
+        >
           About
         </Link>
-        <span className="h-[32px] w-[1px] bg-neutral-600 text-neutral-600"></span>
-        <Link to="#" className="text-sm font-medium text-neutral-600 antialiased">
+        <span className="h-[32px] w-px bg-neutral-600 text-neutral-600"></span>
+        <Link
+          to="#"
+          className="text-sm font-medium text-neutral-600 antialiased"
+        >
           Terms
         </Link>
-        <Link to="#" className="text-sm font-medium text-neutral-600 antialiased">
+        <Link
+          to="#"
+          className="text-sm font-medium text-neutral-600 antialiased"
+        >
           Privacy Policy
         </Link>
       </div>

@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-export type ChangePasswordValidationType = z.infer<typeof ChangePasswordValidation>;
+export type ChangePasswordValidationType = z.infer<
+  typeof ChangePasswordValidation
+>;
 
 export const ChangePasswordValidation = z
   .object({

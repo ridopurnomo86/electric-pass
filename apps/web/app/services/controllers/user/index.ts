@@ -39,7 +39,10 @@ const UserController = {
       throw json(err);
     }
   },
-  authorizeUser: async ({ email, password }: AuthorizeUserType): AuthorizeUserResponseType => {
+  authorizeUser: async ({
+    email,
+    password,
+  }: AuthorizeUserType): AuthorizeUserResponseType => {
     const user = await db.user.findFirst({
       where: {
         email,
@@ -52,11 +55,21 @@ const UserController = {
       if (match) return { ...user, role: user.role?.toLowerCase() };
 
       throw new Error(
-        JSON.stringify({ message: "Password incorrect", type: "error", status: "Error" })
+        JSON.stringify({
+          message: "Password incorrect",
+          type: "error",
+          status: "Error",
+        }),
       );
     }
 
-    throw new Error(JSON.stringify({ message: "User not exist", type: "error", status: "Error" }));
+    throw new Error(
+      JSON.stringify({
+        message: "User not exist",
+        type: "error",
+        status: "Error",
+      }),
+    );
   },
   registerUser: async ({ data, encryptPassword, salt }: RegisterUserType) => {
     try {
@@ -73,7 +86,7 @@ const UserController = {
             type: "error",
             message: `A user has been created.`,
           },
-          { status: 500 }
+          { status: 500 },
         );
 
       await db.user.create({
@@ -87,7 +100,11 @@ const UserController = {
         },
       });
 
-      return json({ status: "Error", type: "error", message: "Sorry, email is exist" });
+      return json({
+        status: "Error",
+        type: "error",
+        message: "Sorry, email is exist",
+      });
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError)
         return json({

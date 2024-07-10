@@ -13,7 +13,8 @@ const INPUT_DATA = [
     placeholder: "Business",
     icon: "bxs:category",
     type: "text",
-    description: "Is a classification derived from the type of events presented.",
+    description:
+      "Is a classification derived from the type of events presented.",
   },
   {
     id: "price",
@@ -22,7 +23,8 @@ const INPUT_DATA = [
     placeholder: "100",
     icon: "f7:money-dollar-circle",
     type: "text",
-    description: "Order amount to access this event, we use dollar as a international currency.",
+    description:
+      "Order amount to access this event, we use dollar as a international currency.",
   },
   {
     id: "datetime",

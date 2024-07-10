@@ -11,7 +11,13 @@ export const encrypt = async ({
   return { hash, salt };
 };
 
-export const decrypt = async ({ value, hash }: { value: string; hash: string }) => {
+export const decrypt = async ({
+  value,
+  hash,
+}: {
+  value: string;
+  hash: string;
+}) => {
   const match = await bcrypt.compare(value, hash);
 
   return match;

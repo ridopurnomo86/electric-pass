@@ -11,7 +11,7 @@ const sessionResponse = async (session: any, response: any) => {
           "Set-Cookie": await commitSession(session), //will remove the flash message for you
           // "Set-Cookie": await commitSession(session, { maxAge: SESSION_MAX_AGE }), //re set max age if you previously set a max age for your sessions.
         },
-      }
+      },
     );
 
   return null;

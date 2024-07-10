@@ -23,7 +23,11 @@ type FormDialogPropsType = {
   isSubmit: boolean;
 };
 
-const FormDialog = ({ onSubmit, form, isSubmit = false }: FormDialogPropsType) => {
+const FormDialog = ({
+  onSubmit,
+  form,
+  isSubmit = false,
+}: FormDialogPropsType) => {
   const { country } = useGetCountries();
 
   return (
@@ -58,12 +62,18 @@ const FormDialog = ({ onSubmit, form, isSubmit = false }: FormDialogPropsType) =
             />
           </div>
           <AlertDialogFooter className="gap-4">
-            <Button type="submit" className="flex items-center" disabled={isSubmit}>
+            <Button
+              type="submit"
+              className="flex items-center"
+              disabled={isSubmit}
+            >
               <Icon
                 icon="material-symbols:check-small-rounded"
                 className="mr-1 text-2xl text-neutral-200"
               />
-              <p className="text-sm font-medium text-neutral-200 antialiased">Save</p>
+              <p className="text-sm font-medium text-neutral-200 antialiased">
+                Save
+              </p>
             </Button>
             <AlertDialogCancel disabled={isSubmit}>Cancel</AlertDialogCancel>
           </AlertDialogFooter>

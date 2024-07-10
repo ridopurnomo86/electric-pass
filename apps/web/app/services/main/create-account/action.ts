@@ -20,14 +20,18 @@ const CreateAccountAction = async ({
     receivedValues: defaultValues,
   } = await getValidatedFormData<CreateAccountValidationType>(
     request,
-    zodResolver(CreateAccountValidation)
+    zodResolver(CreateAccountValidation),
   );
 
   if (errors) throw json({ errors, defaultValues });
 
   const { hash, salt } = await encrypt({ value: data.password });
 
-  const registerUser = await UserController.registerUser({ data, encryptPassword: hash, salt });
+  const registerUser = await UserController.registerUser({
+    data,
+    encryptPassword: hash,
+    salt,
+  });
 
   if (registerUser.status === 200) {
     session.flash("create-account", {
@@ -36,7 +40,11 @@ const CreateAccountAction = async ({
       message: "Register Successfully",
     });
 
-    json({ status: "Success", type: "success", message: "Register Successfully" });
+    json({
+      status: "Success",
+      type: "success",
+      message: "Register Successfully",
+    });
 
     return redirect("/login", {
       headers: {

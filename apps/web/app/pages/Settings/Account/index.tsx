@@ -70,8 +70,10 @@ const Account = () => {
       <Suspense key={location.key} fallback={<ProfileLoading />}>
         <Await resolve={user}>
           <section>
-            <div className="mb-4 border-b-[1px] pb-4">
-              <p className="text-xl font-semibold tracking-tight text-neutral-900">Account</p>
+            <div className="mb-4 border-b pb-4">
+              <p className="text-xl font-semibold tracking-tight text-neutral-900">
+                Account
+              </p>
               <p className="text-sm font-medium text-neutral-500">
                 Update your account details here.
               </p>
@@ -115,7 +117,11 @@ const Account = () => {
                   control={form.control}
                 />
               </div>
-              <Button type="submit" className="text-neutral-200" disabled={state === "submitting"}>
+              <Button
+                type="submit"
+                className="text-neutral-200"
+                disabled={state === "submitting"}
+              >
                 Update Account
               </Button>
             </Form>

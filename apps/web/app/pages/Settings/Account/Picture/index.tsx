@@ -32,7 +32,9 @@ const Picture = ({ name = "" }: PicturePropsType) => {
 
   return (
     <div className="py-4">
-      <p className="text-xl font-semibold tracking-tight text-neutral-900">Profile Picture</p>
+      <p className="text-xl font-semibold tracking-tight text-neutral-900">
+        Profile Picture
+      </p>
       <p className="mb-4 text-sm font-normal text-neutral-600">
         We support only JPEGs or PNGs under 5MB.
       </p>
@@ -47,8 +49,13 @@ const Picture = ({ name = "" }: PicturePropsType) => {
           </AvatarFallback>
         </Avatar>
         <div>
-          <Input id="picture" type="file" className="w-auto" onChange={onSelectedImage} />
-          <Button className="mt-2" variant="outline" onClick={() => {}}>
+          <Input
+            id="picture"
+            type="file"
+            className="w-auto"
+            onChange={onSelectedImage}
+          />
+          <Button className="mt-2" variant="outline">
             Upload
           </Button>
         </div>

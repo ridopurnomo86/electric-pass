@@ -6,7 +6,7 @@ const CategoryCardLoading = () => (
       <Skeleton className="size-[40px] rounded" />
     </div>
     <div className="w-full">
-      <Skeleton className="mb-1 h-[14px] w-[50%] rounded" />
+      <Skeleton className="mb-1 h-[14px] w-1/2 rounded" />
       <Skeleton className="h-[14px] w-full rounded" />
     </div>
   </div>

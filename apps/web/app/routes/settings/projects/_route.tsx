@@ -5,7 +5,8 @@ import { ProjectLoader } from "~/services/main/settings/projects";
 
 export const meta: MetaFunction = () => [{ title: "Projects" }];
 
-export const loader = async (params: LoaderFunctionArgs) => await ProjectLoader(params);
+export const loader = async (params: LoaderFunctionArgs) =>
+  await ProjectLoader(params);
 
 const Projects = () => (
   <Mainlayout>

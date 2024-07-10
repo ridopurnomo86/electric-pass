@@ -35,7 +35,11 @@ const Projects = () => {
       <section>
         <div className="flex justify-between">
           <Header />
-          <FormDialog form={form} isSubmit={state === "submitting"} onSubmit={onSubmit} />
+          <FormDialog
+            form={form}
+            isSubmit={state === "submitting"}
+            onSubmit={onSubmit}
+          />
         </div>
         <EventProjectList type={type} data={EVENT_DATA} />
       </section>

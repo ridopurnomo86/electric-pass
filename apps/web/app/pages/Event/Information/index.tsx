@@ -10,10 +10,15 @@ type InformationPropsType = {
 const Information = ({ eventDate }: InformationPropsType) => (
   <div>
     <div className="rounded-md border bg-white px-6 py-4">
-      <div className="mb-4 flex border-b-[1px] pb-4">
-        <Icon icon="fluent:calendar-48-filled" className="size-[35px] text-neutral-600" />
+      <div className="mb-4 flex border-b pb-4">
+        <Icon
+          icon="fluent:calendar-48-filled"
+          className="size-[35px] text-neutral-600"
+        />
         <div className="ml-3">
-          <p className="mb-1 text-sm font-medium text-neutral-600 antialiased">Date & Time</p>
+          <p className="mb-1 text-sm font-medium text-neutral-600 antialiased">
+            Date & Time
+          </p>
           <p className="text-sm font-medium text-neutral-600 antialiased">
             {dayjs(eventDate).format("MMMM D, YYYY")}
           </p>
@@ -22,7 +27,7 @@ const Information = ({ eventDate }: InformationPropsType) => (
           </p>
         </div>
       </div>
-      <div className="mb-4 flex border-b-[1px] pb-4">
+      <div className="mb-4 flex border-b pb-4">
         <div>
           <img
             src={`https://images.unsplash.com/photo-1535074049622-26a855b904c2?w=800&dpr=2&q=80`}
@@ -36,14 +41,21 @@ const Information = ({ eventDate }: InformationPropsType) => (
           </p>
           <p className="text-sm font-medium antialiased">Yoga Studio</p>
           <Link to="#">
-            <p className="text-sm font-medium text-indigo-600 antialiased">See More.</p>
+            <p className="text-sm font-medium text-indigo-600 antialiased">
+              See More.
+            </p>
           </Link>
         </div>
       </div>
-      <div className="mb-4 flex border-b-[1px] pb-4">
-        <Icon icon="hugeicons:location-08" className="size-[35px] text-neutral-600" />
+      <div className="mb-4 flex border-b pb-4">
+        <Icon
+          icon="hugeicons:location-08"
+          className="size-[35px] text-neutral-600"
+        />
         <div className="ml-3">
-          <p className="mb-1 text-sm font-medium text-neutral-600 antialiased">Location</p>
+          <p className="mb-1 text-sm font-medium text-neutral-600 antialiased">
+            Location
+          </p>
           <p className="text-sm font-medium text-neutral-600 antialiased">
             {dayjs(eventDate).format("MMMM D, YYYY")}
           </p>

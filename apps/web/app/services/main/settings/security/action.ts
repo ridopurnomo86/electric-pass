@@ -20,7 +20,7 @@ const SecurityAction = async ({ request }: ActionFunctionArgs) => {
     receivedValues: defaultValues,
   } = await getValidatedFormData<ChangePasswordValidationType>(
     request,
-    zodResolver(ChangePasswordValidation)
+    zodResolver(ChangePasswordValidation),
   );
 
   if (errors) return json({ errors, defaultValues });
@@ -32,7 +32,10 @@ const SecurityAction = async ({ request }: ActionFunctionArgs) => {
       },
     });
 
-    const match = await decrypt({ hash: checkingUser?.password as string, value: data.password });
+    const match = await decrypt({
+      hash: checkingUser?.password as string,
+      value: data.password,
+    });
 
     if (match) {
       const { hash } = await encrypt({ value: data.newPassword });

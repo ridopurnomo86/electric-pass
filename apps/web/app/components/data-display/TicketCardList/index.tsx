@@ -7,7 +7,11 @@ type TicketCardListPropsType = {
   eventDate: string;
 };
 
-const TicketCardList = ({ data = [], className, eventDate }: TicketCardListPropsType) => (
+const TicketCardList = ({
+  data = [],
+  className,
+  eventDate,
+}: TicketCardListPropsType) => (
   <div className={className}>
     <div className="gap-4 py-4">
       {data.map((item, idx) => (

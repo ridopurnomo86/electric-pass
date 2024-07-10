@@ -33,7 +33,9 @@ const CreateAccount = () => {
       <main className="flex min-h-screen items-center justify-center py-8">
         <section className="mx-4 w-[600px]">
           <div className="rounded border bg-transparent p-8">
-            <h1 className="text-2xl font-semibold tracking-tight">Create Account</h1>
+            <h1 className="text-2xl font-semibold tracking-tight">
+              Create Account
+            </h1>
             <p className="mb-4 text-sm text-muted-foreground">
               Enter your email below to create your account.
             </p>
@@ -43,7 +45,11 @@ const CreateAccount = () => {
                 <AlertDescription>{actionData?.message}</AlertDescription>
               </Alert>
             )}
-            <FormInput form={form} onSubmit={onSubmit} isSubmit={state === "submitting"} />
+            <FormInput
+              form={form}
+              onSubmit={onSubmit}
+              isSubmit={state === "submitting"}
+            />
           </div>
         </section>
       </main>

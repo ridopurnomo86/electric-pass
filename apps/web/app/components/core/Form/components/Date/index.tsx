@@ -7,7 +7,11 @@ import {
   FormMessage,
 } from "~/components/ui/Form";
 import { Icon } from "@iconify/react";
-import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/Popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/Popover";
 import { Button } from "~/components/ui/Button";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "~/components/ui/Calendar";
@@ -39,10 +43,14 @@ const Date = ({
                 variant={"outline"}
                 className={cn(
                   "w-[240px] pl-3 text-left font-normal",
-                  !field.value && "text-muted-foreground"
+                  !field.value && "text-muted-foreground",
                 )}
               >
-                {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                {field.value ? (
+                  format(field.value, "PPP")
+                ) : (
+                  <span>Pick a date</span>
+                )}
                 {icon ? (
                   <Icon icon={icon} />
                 ) : (

@@ -19,7 +19,7 @@ const AccountProfileAction = async ({ request }: ActionFunctionArgs) => {
     receivedValues: defaultValues,
   } = await getValidatedFormData<AccountProfileValidationType>(
     request,
-    zodResolver(AccountProfileValidation)
+    zodResolver(AccountProfileValidation),
   );
 
   if (errors) return json({ errors, defaultValues });

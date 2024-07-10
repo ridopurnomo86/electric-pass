@@ -1,8 +1,12 @@
 import { z } from "zod";
 
-export type AccountProfileValidationType = z.infer<typeof AccountProfileValidation>;
+export type AccountProfileValidationType = z.infer<
+  typeof AccountProfileValidation
+>;
 
-const phoneRegex = new RegExp(/^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/);
+const phoneRegex = new RegExp(
+  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/,
+);
 
 export const AccountProfileValidation = z.object({
   address: z.string().min(1, { message: "The field is required." }),

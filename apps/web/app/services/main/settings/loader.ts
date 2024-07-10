@@ -1,8 +1,10 @@
-import { LoaderFunction, defer } from "@remix-run/node";
+import { LoaderFunction, LoaderFunctionArgs, defer } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 import UserController from "~/services/controllers/user";
 
-const ProfileLoader: LoaderFunction = async ({ request }) => {
+const ProfileLoader: LoaderFunction = async ({
+  request,
+}: LoaderFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });

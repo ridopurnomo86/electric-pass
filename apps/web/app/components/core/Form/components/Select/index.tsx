@@ -6,7 +6,11 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/Form";
-import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/Popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/Popover";
 import { Button } from "~/components/ui/Button";
 import cn from "~/modules/cn";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
@@ -40,7 +44,8 @@ const renderContent = ({
       </CommandGroup>
     );
 
-  if (data?.length < 0 || !data?.length) return <CommandEmpty>{emptyState}</CommandEmpty>;
+  if (data?.length < 0 || !data?.length)
+    return <CommandEmpty>{emptyState}</CommandEmpty>;
 
   return content;
 };
@@ -77,7 +82,10 @@ const Select = ({
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
-                  className={cn("w-full justify-between", !field.value && "text-muted-foreground")}
+                  className={cn(
+                    "w-full justify-between",
+                    !field.value && "text-muted-foreground",
+                  )}
                 >
                   {selectedValue
                     ? data.find((item) => item.value === selectedValue)?.label
@@ -88,7 +96,11 @@ const Select = ({
             </PopoverTrigger>
             <PopoverContent className="w-full p-0">
               <Command>
-                <CommandInput disabled={isDisabled} placeholder={placeholder} className="h-9" />
+                <CommandInput
+                  disabled={isDisabled}
+                  placeholder={placeholder}
+                  className="h-9"
+                />
                 <CommandList>
                   {renderContent({
                     isLoading,
@@ -102,13 +114,21 @@ const Select = ({
                             key={idx}
                             onSelect={(currentValue) => {
                               setSelectedValue(currentValue);
-                              field.onChange(currentValue === selectedValue ? "" : currentValue);
+                              field.onChange(
+                                currentValue === selectedValue
+                                  ? ""
+                                  : currentValue,
+                              );
                               setOpen(false);
                             }}
                           >
                             {hasIcon && (
                               <div className="size-8">
-                                <img className="size-full" src={item.image} alt={item.value} />
+                                <img
+                                  className="size-full"
+                                  src={item.image}
+                                  alt={item.value}
+                                />
                               </div>
                             )}
                             &nbsp;
@@ -116,7 +136,9 @@ const Select = ({
                             <CheckIcon
                               className={cn(
                                 "ml-auto size-4",
-                                item.value === field.value ? "opacity-100" : "opacity-0"
+                                item.value === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0",
                               )}
                             />
                           </CommandItem>

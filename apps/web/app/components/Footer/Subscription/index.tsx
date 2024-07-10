@@ -1,4 +1,10 @@
-import { Form, FormControl, FormField, FormItem, FormMessage } from "~/components/ui/Form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "~/components/ui/Form";
 import { Button } from "~/components/ui/Button";
 import { Input } from "~/components/ui/Input";
 import { SubscriptionValidationType } from "~/data/form-validation/SubscriptionValidation";
@@ -10,7 +16,7 @@ type SubscriptionPropsType = {
 };
 
 const Subscription = ({ onSubmit, form }: SubscriptionPropsType) => (
-  <section className="container mx-auto mt-8 flex items-center justify-between border-y-[1px] py-8 max-[999px]:flex-col max-[999px]:items-start">
+  <section className="container mx-auto mt-8 flex items-center justify-between border-y py-8 max-[999px]:flex-col max-[999px]:items-start">
     <div className="max-[999px]:mb-4">
       <p className="text-base font-medium text-neutral-900 antialiased">
         Subscribe to our newsletter

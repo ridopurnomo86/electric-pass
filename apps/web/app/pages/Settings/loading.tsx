@@ -2,8 +2,8 @@ import { Skeleton } from "~/components/ui/Skeleton";
 
 const ProfileLoading = () => (
   <section>
-    <div className="mb-4 border-b-[1px] pb-4">
-      <Skeleton className="mb-1 h-[24px] w-[20%]" />
+    <div className="mb-4 border-b pb-4">
+      <Skeleton className="mb-1 h-[24px] w-1/5" />
       <Skeleton className="h-[20px] w-[10%]" />
     </div>
     <div>
@@ -16,11 +16,11 @@ const ProfileLoading = () => (
     </div>
     <div className="my-4">
       <Skeleton className="mb-1 h-[20px] w-[10%]" />
-      <Skeleton className=" h-[24px] w-[40%]" />
+      <Skeleton className=" h-[24px] w-2/5" />
     </div>
     <div className="my-4">
       <Skeleton className="mb-1 h-[20px] w-[10%]" />
-      <Skeleton className=" h-[24px] w-[25%]" />
+      <Skeleton className=" h-[24px] w-1/4" />
     </div>
   </section>
 );
