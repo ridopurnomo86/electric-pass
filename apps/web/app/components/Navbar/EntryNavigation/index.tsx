@@ -15,14 +15,10 @@ type EntryNavigationPropsType = {
   name: string;
 };
 
-<<<<<<< HEAD:app/components/Navbar/EntryNavigation/index.tsx
-const EntryNavigation = ({ isAuthenticated, name }: EntryNavigationPropsType) =>
-=======
 const EntryNavigation = ({
   isAuthenticated,
   name,
 }: EntryNavigationPropsType) =>
->>>>>>> 4119967f4fd90070dabbb09e6375abaca5c4daeb:apps/web/app/components/Navbar/EntryNavigation/index.tsx
   isAuthenticated ? (
     <div className="flex items-center gap-4 max-[894px]:hidden">
       <DropdownMenu>
@@ -47,13 +43,9 @@ const EntryNavigation = ({
           <DropdownMenuItem>
             <form method="POST" action="/logout">
               <button>
-<<<<<<< HEAD:app/components/Navbar/EntryNavigation/index.tsx
-                <p className="text-sm font-medium text-red-600 antialiased">Logout</p>
-=======
                 <p className="text-sm font-medium text-red-600 antialiased">
                   Logout
                 </p>
->>>>>>> 4119967f4fd90070dabbb09e6375abaca5c4daeb:apps/web/app/components/Navbar/EntryNavigation/index.tsx
               </button>
             </form>
           </DropdownMenuItem>

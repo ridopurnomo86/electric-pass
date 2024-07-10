@@ -28,14 +28,10 @@ const Navigation = ({ role }: { role: "user" | "organizer" }) => {
         </Link>
       ))}
       {role === "organizer" && (
-<<<<<<< HEAD:app/pages/Settings/components/Layout/Navigation/index.tsx
-        <Link to="/settings/projects" className="inline min-w-fit md:block md:w-full">
-=======
         <Link
           to="/settings/projects"
           className="inline min-w-fit md:block md:w-full"
         >
->>>>>>> 4119967f4fd90070dabbb09e6375abaca5c4daeb:apps/web/app/pages/Settings/components/Layout/Navigation/index.tsx
           <Toggle
             className="flex w-full items-center justify-start"
             defaultPressed={location.pathname === "/settings/projects"}

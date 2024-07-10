@@ -9,11 +9,6 @@ type EventCardListPropsType = {
   isLoading?: boolean;
 };
 
-<<<<<<< HEAD:app/components/data-display/EventCardList/index.tsx
-const EventCardList = ({ data, subtitle, title, className }: EventCardListPropsType) => (
-  <div className={className}>
-    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">{title}</h3>
-=======
 const EventCardList = ({
   data,
   subtitle,
@@ -24,7 +19,6 @@ const EventCardList = ({
     <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
       {title}
     </h3>
->>>>>>> 4119967f4fd90070dabbb09e6375abaca5c4daeb:apps/web/app/components/data-display/EventCardList/index.tsx
     <p className="text-sm text-neutral-600">{subtitle}</p>
     <div className="flex gap-4 overflow-x-scroll py-4">
       {data.map((item) => (

@@ -1,9 +1,5 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-<<<<<<< HEAD:app/pages/ForgotPassword/index.tsx
-import { LoginValidation, LoginValidationType } from "~/data/form-validation/LoginValidation";
-import { useActionData, useLoaderData, useNavigation, useSubmit } from "@remix-run/react";
-=======
 import {
   LoginValidation,
   LoginValidationType,
@@ -14,7 +10,6 @@ import {
   useNavigation,
   useSubmit,
 } from "@remix-run/react";
->>>>>>> 4119967f4fd90070dabbb09e6375abaca5c4daeb:apps/web/app/pages/ForgotPassword/index.tsx
 import { useToast } from "~/components/ui/Toaster/useToast";
 import { useEffect } from "react";
 import FormInput from "./FormInput";

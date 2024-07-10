@@ -60,15 +60,11 @@ const Security = () => {
           </p>
         </div>
         <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA}>
-<<<<<<< HEAD:app/pages/Settings/Security/index.tsx
-          <Button type="submit" className="text-neutral-200" disabled={state === "submitting"}>
-=======
           <Button
             type="submit"
             className="text-neutral-200"
             disabled={state === "submitting"}
           >
->>>>>>> 4119967f4fd90070dabbb09e6375abaca5c4daeb:apps/web/app/pages/Settings/Security/index.tsx
             Update Password
           </Button>
         </Form>
