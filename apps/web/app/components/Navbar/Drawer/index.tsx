@@ -22,10 +22,7 @@ const Drawer = ({ name, isAuthenticated }: DrawerPropsType) => (
   <CoreDrawer direction="left">
     <DrawerTrigger className="hidden max-[894px]:block" asChild>
       <button className="hidden rounded-md border p-2 max-[894px]:block">
-        <Icon
-          icon="material-symbols:bar-chart-rounded"
-          className="rotate-[270deg] text-2xl"
-        />
+        <Icon icon="material-symbols:bar-chart-rounded" className="rotate-[270deg] text-2xl" />
       </button>
     </DrawerTrigger>
     <DrawerPortal>

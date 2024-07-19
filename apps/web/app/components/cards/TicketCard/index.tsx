@@ -22,8 +22,7 @@ const renderTag = ({
 }) => {
   const isEventEnded = dayjs(date).isAfter(dayjs(eventDate).format());
 
-  if (isEventEnded)
-    return <p className="font-bold text-red-600">EVENT ENDED</p>;
+  if (isEventEnded) return <p className="font-bold text-red-600">EVENT ENDED</p>;
   if (dayjs(date).isBefore(dayjs().format()))
     return <p className="font-bold text-red-600">SALE ENDED</p>;
   if (soldOut) return <p className="font-bold text-red-600">SOLD OUT</p>;
@@ -42,15 +41,10 @@ const TicketCard = ({
     <h2 className="mt-10 scroll-m-20 border-b pb-2 text-xl font-semibold tracking-tight transition-colors first:mt-0">
       {title}
     </h2>
-    <p className="text-sm leading-normal [&:not(:first-child)]:mt-2">
-      {description}
-    </p>
+    <p className="text-sm leading-normal [&:not(:first-child)]:mt-2">{description}</p>
     <div className="mt-3">
       <div className="flex items-center">
-        <Icon
-          icon="ic:round-access-time-filled"
-          className="mr-1 text-neutral-600"
-        />
+        <Icon icon="ic:round-access-time-filled" className="mr-1 text-neutral-600" />
         <p className="mt-1 text-sm leading-normal text-indigo-600">
           Ends on {dayjs(expiredDate).format("MMM D YYYY, HH:mm A")}
         </p>

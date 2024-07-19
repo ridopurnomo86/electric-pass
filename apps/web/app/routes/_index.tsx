@@ -10,11 +10,9 @@ export const meta: MetaFunction = () => [
   { name: "description", content: "Welcome to Remix!" },
 ];
 
-export const loader = async (params: LoaderFunctionArgs) =>
-  await MainHomeLoader(params);
+export const loader = async (params: LoaderFunctionArgs) => await MainHomeLoader(params);
 
-export const clientLoader = async (params: ClientLoaderFunctionArgs) =>
-  cacheClientLoader(params);
+export const clientLoader = async (params: ClientLoaderFunctionArgs) => cacheClientLoader(params);
 
 clientLoader.hydrate = true;
 

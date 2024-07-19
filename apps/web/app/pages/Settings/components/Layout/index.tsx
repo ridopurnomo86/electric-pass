@@ -16,9 +16,7 @@ const ProfileLayout = ({ children }: ProfileLayoutPropsType) => {
   return (
     <main className="container mx-auto min-h-screen">
       <div className="border-b py-8">
-        <p className="text-2xl font-bold tracking-tight text-neutral-900">
-          Settings
-        </p>
+        <p className="text-2xl font-bold tracking-tight text-neutral-900">Settings</p>
         <p className="font-medium text-neutral-500">
           Manage your account settings and set e-mail preferences.
         </p>

@@ -20,7 +20,7 @@ const CreateAccountAction = async ({
     receivedValues: defaultValues,
   } = await getValidatedFormData<CreateAccountValidationType>(
     request,
-    zodResolver(CreateAccountValidation),
+    zodResolver(CreateAccountValidation)
   );
 
   if (errors) throw json({ errors, defaultValues });

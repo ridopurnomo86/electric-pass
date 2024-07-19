@@ -20,7 +20,7 @@ const SecurityAction = async ({ request }: ActionFunctionArgs) => {
     receivedValues: defaultValues,
   } = await getValidatedFormData<ChangePasswordValidationType>(
     request,
-    zodResolver(ChangePasswordValidation),
+    zodResolver(ChangePasswordValidation)
   );
 
   if (errors) return json({ errors, defaultValues });

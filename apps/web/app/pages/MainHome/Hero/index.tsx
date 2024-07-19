@@ -1,12 +1,6 @@
 import { UseFormReturn } from "react-hook-form";
 import { Button } from "~/components/ui/Button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "~/components/ui/Form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "~/components/ui/Form";
 import { Input } from "~/components/ui/Input";
 import { HomeSearchValidationType } from "~/data/form-validation/HomeSearchValidation";
 
@@ -33,11 +27,7 @@ const Hero = ({ onSubmit, form }: HeroPropsType) => (
               render={({ field }) => (
                 <FormItem className="max-w-[50%]">
                   <FormControl>
-                    <Input
-                      className="px-4 py-6"
-                      placeholder="Jakarta, Indonesia"
-                      {...field}
-                    />
+                    <Input className="px-4 py-6" placeholder="Jakarta, Indonesia" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

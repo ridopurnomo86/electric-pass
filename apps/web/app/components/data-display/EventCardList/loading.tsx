@@ -6,10 +6,7 @@ type EventCardListLoadingPropsType = {
   count?: number;
 };
 
-const EventCardListLoading = ({
-  className,
-  count = 3,
-}: EventCardListLoadingPropsType) => (
+const EventCardListLoading = ({ className, count = 3 }: EventCardListLoadingPropsType) => (
   <div className={className}>
     <Skeleton className="mb-1 h-[32px] w-1/5 rounded" />
     <Skeleton className="h-[16px] w-[10%] rounded" />

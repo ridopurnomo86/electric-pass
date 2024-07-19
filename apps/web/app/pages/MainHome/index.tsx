@@ -34,11 +34,7 @@ const MainHome = () => {
         subtitle="Top picks for you. Updated Daily"
         title="Selected Events"
       />
-      <Suspense
-        fallback={
-          <CategoryCardListLoading className="container mx-auto mt-12" />
-        }
-      >
+      <Suspense fallback={<CategoryCardListLoading className="container mx-auto mt-12" />}>
         <Await resolve={category}>
           {(category) => (
             <CategoryCardList

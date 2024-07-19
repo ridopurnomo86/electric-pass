@@ -2,9 +2,7 @@ import { z } from "zod";
 
 const AccountTypeEnum = z.enum(["visitor", "event_organizer"]);
 
-export type CreateAccountValidationType = z.infer<
-  typeof CreateAccountValidation
->;
+export type CreateAccountValidationType = z.infer<typeof CreateAccountValidation>;
 
 export const CreateAccountValidation = z.object({
   email: z.string().email(),

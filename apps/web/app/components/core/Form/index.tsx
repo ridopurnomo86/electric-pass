@@ -33,10 +33,7 @@ const Form = <T extends FieldValues>({
   className,
 }: FormPropstype<T>) => (
   <FormCore {...form}>
-    <form
-      onSubmit={form.handleSubmit(onSubmit)}
-      className={`space-y-4 ${className}`}
-    >
+    <form onSubmit={form.handleSubmit(onSubmit)} className={`space-y-4 ${className}`}>
       {forms.map((item) => {
         const Comp = getComponent(item.type);
 

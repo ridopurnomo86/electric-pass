@@ -31,11 +31,7 @@ const Event = () => {
               },
             ]}
           />
-          {type === "description" ? (
-            <Description />
-          ) : (
-            <Ticket eventDate={EVENT_DATE} />
-          )}
+          {type === "description" ? <Description /> : <Ticket eventDate={EVENT_DATE} />}
         </div>
         <Information eventDate={EVENT_DATE} />
       </section>

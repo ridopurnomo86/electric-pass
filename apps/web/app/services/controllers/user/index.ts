@@ -39,10 +39,7 @@ const UserController = {
       throw json(err);
     }
   },
-  authorizeUser: async ({
-    email,
-    password,
-  }: AuthorizeUserType): AuthorizeUserResponseType => {
+  authorizeUser: async ({ email, password }: AuthorizeUserType): AuthorizeUserResponseType => {
     const user = await db.user.findFirst({
       where: {
         email,
@@ -59,7 +56,7 @@ const UserController = {
           message: "Password incorrect",
           type: "error",
           status: "Error",
-        }),
+        })
       );
     }
 
@@ -68,7 +65,7 @@ const UserController = {
         message: "User not exist",
         type: "error",
         status: "Error",
-      }),
+      })
     );
   },
   registerUser: async ({ data, encryptPassword, salt }: RegisterUserType) => {
@@ -86,7 +83,7 @@ const UserController = {
             type: "error",
             message: `A user has been created.`,
           },
-          { status: 500 },
+          { status: 500 }
         );
 
       await db.user.create({

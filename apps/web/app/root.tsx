@@ -1,19 +1,10 @@
 import { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useLoaderData,
-} from "@remix-run/react";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
 import stylesheet from "~/styles/globals.css";
 import { Toaster } from "./components/ui/Toaster/toaster";
 import { authenticator } from "./services/auth.server";
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesheet },
-];
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: stylesheet }];
 
 export const loader = async (args: LoaderFunctionArgs) => {
   const user = await authenticator.isAuthenticated(args.request);

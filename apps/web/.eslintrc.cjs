@@ -67,14 +67,8 @@ module.exports = {
         rules: {
           "react/jsx-props-no-spreading": "off",
           "react/jsx-filename-extension": "error",
-          "react/jsx-wrap-multilines": [
-            "error",
-            { declaration: false, assignment: false },
-          ],
-          "react/function-component-definition": [
-            2,
-            { namedComponents: "arrow-function" },
-          ],
+          "react/jsx-wrap-multilines": ["error", { declaration: false, assignment: false }],
+          "react/function-component-definition": [2, { namedComponents: "arrow-function" }],
           "react/require-default-props": "off",
         },
       },

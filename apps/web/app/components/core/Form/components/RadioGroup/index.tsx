@@ -1,23 +1,11 @@
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/components/ui/Form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/Form";
 import {
   RadioGroup as CoreRadioGroup,
   RadioGroupItem as CoreRadioItem,
 } from "~/components/ui/RadioGroup";
 import { InputPropsType } from "../../types";
 
-const RadioGroup = ({
-  label,
-  control,
-  id,
-  name,
-  items = [],
-}: InputPropsType) => (
+const RadioGroup = ({ label, control, id, name, items = [] }: InputPropsType) => (
   <FormField
     key={id}
     control={control}

@@ -15,8 +15,7 @@ const FormInput = ({ onSubmit, form, isSubmit }: FormInputPropsType) => (
   <div className="flex w-full flex-col justify-center">
     <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA} className="mt-4">
       <p className="text-sm font-medium text-neutral-600 antialiased">
-        By clicking continue, you agree to our Terms of Service and Privacy
-        Policy.
+        By clicking continue, you agree to our Terms of Service and Privacy Policy.
       </p>
       <Button type="submit" className="text-neutral-200" disabled={isSubmit}>
         Create an Account.

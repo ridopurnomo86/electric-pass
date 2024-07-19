@@ -14,11 +14,7 @@ const Navigation = ({ role }: { role: "user" | "organizer" }) => {
   return (
     <nav className="flex items-start gap-2 overflow-x-scroll md:flex-col md:gap-1 md:overflow-x-hidden">
       {DATA.map((item) => (
-        <Link
-          to={item.link}
-          key={item.id}
-          className="inline min-w-fit md:block md:w-full"
-        >
+        <Link to={item.link} key={item.id} className="inline min-w-fit md:block md:w-full">
           <Toggle
             className="flex w-full items-center justify-start"
             defaultPressed={location.pathname === item.link}
@@ -28,10 +24,7 @@ const Navigation = ({ role }: { role: "user" | "organizer" }) => {
         </Link>
       ))}
       {role === "organizer" && (
-        <Link
-          to="/settings/projects"
-          className="inline min-w-fit md:block md:w-full"
-        >
+        <Link to="/settings/projects" className="inline min-w-fit md:block md:w-full">
           <Toggle
             className="flex w-full items-center justify-start"
             defaultPressed={location.pathname === "/settings/projects"}

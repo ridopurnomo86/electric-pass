@@ -6,10 +6,7 @@ type CategoryCardListLoadingPropsType = {
   count?: number;
 };
 
-const CategoryCardListLoading = ({
-  className,
-  count = 4,
-}: CategoryCardListLoadingPropsType) => (
+const CategoryCardListLoading = ({ className, count = 4 }: CategoryCardListLoadingPropsType) => (
   <section className={className}>
     <Skeleton className="mb-1 h-[32px] w-1/5 rounded" />
     <Skeleton className="h-[16px] w-[10%] rounded" />
