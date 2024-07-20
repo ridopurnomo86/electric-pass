@@ -4,6 +4,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/Avatar";
 import { Button } from "~/components/ui/Button";
 import { Input } from "~/components/ui/Input";
+// import axios from "axios";
 
 type PicturePropsType = {
   name: string;
@@ -29,6 +30,13 @@ const Picture = ({ name = "" }: PicturePropsType) => {
     setSelectedImage(target.files[0]);
     setPreviewImage(URL.createObjectURL(target.files[0]));
   };
+
+  // const uploadImage = () => {
+  //   const formData = new FormData();
+  //   formData.append("image_profile", selectedImage);
+
+  //   console.log(formData);
+  // };
 
   return (
     <div className="py-4">

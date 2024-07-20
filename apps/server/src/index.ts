@@ -16,7 +16,7 @@ app.use(
   })
 );
 
-const PORT = 3000 || process.env.PORT;
+const PORT = 4004 || process.env.PORT;
 
 app.use(morgan("dev"));
 
@@ -26,5 +26,5 @@ app.use(errorNotFoundHandler);
 app.use(errorHandler);
 
 app.listen(PORT, "localhost", () => {
-  console.log(`Starting Server`);
+  console.log(`Starting Server on port:${PORT}`);
 });

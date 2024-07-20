@@ -10,6 +10,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
+    project: ["apps/web/tsconfig.*?.json"],
     ecmaFeatures: {
       jsx: true,
     },
@@ -24,7 +25,7 @@ module.exports = {
   settings: {
     "import/resolver": {
       typescript: {
-        project: "./tsconfig.json",
+        project: ["tsconfig.json", "apps/web/tsconfig.json"],
       },
     },
   },
@@ -125,7 +126,7 @@ module.exports = {
 
     // Node
     {
-      files: [".eslintrc.js"],
+      files: [".eslintrc.cjs"],
       env: {
         node: true,
       },

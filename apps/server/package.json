@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node src/index.ts",
+    "dev": "ts-node src/index.ts",
     "build": "tsc",
     "serve": "node dist/index.js",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",

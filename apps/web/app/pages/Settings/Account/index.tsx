@@ -70,7 +70,7 @@ const Account = () => {
       <Suspense key={location.key} fallback={<ProfileLoading />}>
         <Await resolve={user}>
           <section>
-            <div className="mb-4 border-b-[1px] pb-4">
+            <div className="mb-4 border-b pb-4">
               <p className="text-xl font-semibold tracking-tight text-neutral-900">Account</p>
               <p className="text-sm font-medium text-neutral-500">
                 Update your account details here.
