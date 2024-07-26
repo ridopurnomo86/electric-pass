@@ -1,5 +1,6 @@
-import multer from "multer";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import path from "path";
+import multer, { FileFilterCallback } from "multer";
 
 const maxSize = 512 * 512;
 const fileName = new Date().toISOString().replace(/:/g, "-");
@@ -13,7 +14,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const fileFilter = (req: any, file: any, callback: any) => {
+const fileFilter = (req: any, file: Express.Multer.File, callback: FileFilterCallback) => {
   const filetypes = /jpeg|jpg|png|gif/;
 
   // Check ext
@@ -24,7 +25,7 @@ const fileFilter = (req: any, file: any, callback: any) => {
   if (mimetype && extname) {
     return callback(null, true);
   } else {
-    callback("Error: Images Only!");
+    callback(null, false);
   }
 };
 

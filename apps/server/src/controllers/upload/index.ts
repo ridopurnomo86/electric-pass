@@ -1,6 +1,7 @@
+import fs from "fs";
 import { Request, Response } from "express";
 import ImageKit from "imagekit";
-import fs from "fs";
+import { db } from "~/config/prisma";
 
 const imageKit = new ImageKit({
   publicKey: process.env.IMAGEKIT_RESTRICTED_PUBLIC_KEY as string,
@@ -10,20 +11,30 @@ const imageKit = new ImageKit({
 
 export class UploadController {
   public async uploadImage(req: Request, res: Response) {
+    const { user_id, name } = req.body;
+
     return fs.readFile(req.file?.path as string, (err, data) => {
       if (err) throw err;
       if (data) {
         imageKit.upload(
           {
             file: data,
-            fileName: "my_file_name.jpg",
+            fileName: `${user_id}-${name}`,
             folder: "/users",
             overwriteFile: true,
             useUniqueFileName: false,
           },
-          function (_, result) {
+          async (_, result) => {
             if (result) {
               fs.unlinkSync(req.file?.path as string);
+              await db.user.update({
+                where: {
+                  id: Number(user_id),
+                },
+                data: {
+                  image_url: result.url,
+                },
+              });
               return res.json({
                 message: "Success upload",
                 type: "success",

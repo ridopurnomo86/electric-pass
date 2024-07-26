@@ -4,16 +4,23 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/Avatar";
 import { Button } from "~/components/ui/Button";
 import { Input } from "~/components/ui/Input";
-// import axios from "axios";
 
 type PicturePropsType = {
   name: string;
+  isLoading: boolean;
+  onSelectedImage: (e: ChangeEvent) => void;
+  onUploadImage: () => void;
+  previewImage: string;
 };
 
-const Picture = ({ name = "" }: PicturePropsType) => {
+const Picture = ({
+  name = "",
+  isLoading,
+  onSelectedImage,
+  onUploadImage,
+  previewImage,
+}: PicturePropsType) => {
   const [initialName, setInitialName] = useState("");
-  const [, setSelectedImage] = useState({});
-  const [previewImage, setPreviewImage] = useState("");
 
   useEffect(() => {
     const names = name.split(" ");
@@ -23,20 +30,6 @@ const Picture = ({ name = "" }: PicturePropsType) => {
     });
     setInitialName(label);
   }, [name]);
-
-  const onSelectedImage = (event: ChangeEvent) => {
-    const target = event.target as HTMLInputElement;
-    if (!target.files || target.files.length === 0) return;
-    setSelectedImage(target.files[0]);
-    setPreviewImage(URL.createObjectURL(target.files[0]));
-  };
-
-  // const uploadImage = () => {
-  //   const formData = new FormData();
-  //   formData.append("image_profile", selectedImage);
-
-  //   console.log(formData);
-  // };
 
   return (
     <div className="py-4">
@@ -55,8 +48,20 @@ const Picture = ({ name = "" }: PicturePropsType) => {
           </AvatarFallback>
         </Avatar>
         <div>
-          <Input id="picture" type="file" className="w-auto" onChange={onSelectedImage} />
-          <Button className="mt-2" variant="outline" onClick={() => {}}>
+          <Input
+            id="picture"
+            type="file"
+            className="w-auto"
+            onChange={(e: ChangeEvent) => onSelectedImage(e)}
+          />
+          <Button
+            onClick={() => {
+              onUploadImage();
+            }}
+            className="mt-2"
+            variant="outline"
+            disabled={isLoading}
+          >
             Upload
           </Button>
         </div>

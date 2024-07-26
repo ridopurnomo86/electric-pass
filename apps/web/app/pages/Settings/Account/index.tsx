@@ -18,12 +18,13 @@ import {
 } from "~/data/form-validation/AccountProfileValidation";
 import Select from "~/components/core/Form/components/Select";
 import useGetCountries from "~/hooks/useGetCountries";
-import { AccountProfileLoader } from "~/services/main/settings/account";
+import { SettingsAccountLoader } from "~/services/main/settings/account";
 import Input from "~/components/core/Form/components/Input";
 import ProfileLoading from "../loading";
 import ProfileLayout from "../components/Layout";
 import INPUT_DATA from "./input-data";
 import Picture from "./Picture";
+import useUploadImage from "./useUploadImage";
 
 const Account = () => {
   const location = useLocation();
@@ -34,7 +35,7 @@ const Account = () => {
     type: string;
     status: string;
   }>();
-  const { user } = useLoaderData<typeof AccountProfileLoader>();
+  const { user } = useLoaderData<typeof SettingsAccountLoader>();
   const { state } = useNavigation();
   const form = useForm<AccountProfileValidationType>({
     resolver: zodResolver(AccountProfileValidation),
@@ -48,6 +49,8 @@ const Account = () => {
   });
 
   const { country, dialCode } = useGetCountries();
+
+  const { isLoading, onSelectedImage, onUploadImage, previewImage } = useUploadImage();
 
   useEffect(() => {
     if (actionData) {
@@ -76,7 +79,13 @@ const Account = () => {
                 Update your account details here.
               </p>
             </div>
-            <Picture name={user.name} />
+            <Picture
+              name={user.name}
+              isLoading={isLoading || state === "submitting"}
+              onSelectedImage={onSelectedImage}
+              onUploadImage={onUploadImage}
+              previewImage={user?.image_url ? user?.image_url : previewImage}
+            />
             <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA}>
               <div className="grid grid-cols-[10%_20%] gap-4">
                 <Select
@@ -115,7 +124,11 @@ const Account = () => {
                   control={form.control}
                 />
               </div>
-              <Button type="submit" className="text-neutral-200" disabled={state === "submitting"}>
+              <Button
+                type="submit"
+                className="text-neutral-200"
+                disabled={state === "submitting" || isLoading}
+              >
                 Update Account
               </Button>
             </Form>

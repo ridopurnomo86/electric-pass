@@ -1,2 +1,2 @@
-export { default as AccountProfileLoader } from "./loader";
-export { default as AccountProfileAction } from "./action";
+export { default as SettingsAccountLoader } from "./loader";
+export { default as SettingsAccountAction } from "./action";
