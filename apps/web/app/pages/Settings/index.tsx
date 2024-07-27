@@ -1,24 +1,29 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FieldValue, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button } from "~/components/ui/Button";
 import Form from "~/components/core/Form";
-import { ProfileValidationType, ProfileValidation } from "~/data/form-validation/ProfileValidation";
+import {
+  SettingsBasicInfoValidation,
+  SettingsBasicInfoValidationType,
+} from "~/data/form-validation/ProfileValidation";
 import { Icon } from "@iconify/react";
-import { Await, useLoaderData, useLocation } from "@remix-run/react";
+import { Await, useLoaderData, useLocation, useNavigation, useSubmit } from "@remix-run/react";
 import { Suspense } from "react";
-import { SettingsProfileLoader } from "~/services/main/settings";
+import { SettingsBasicInfoLoader } from "~/services/main/settings";
 import INPUT_DATA from "./input-data";
 import ProfileLayout from "./components/Layout";
 import ProfileLoading from "./loading";
 
 const Profile = () => {
+  const submit = useSubmit();
+  const { state } = useNavigation();
   const location = useLocation();
-  const { user } = useLoaderData<typeof SettingsProfileLoader>();
+  const { user } = useLoaderData<typeof SettingsBasicInfoLoader>();
 
   const form = useForm({
-    resolver: zodResolver(ProfileValidation),
+    resolver: zodResolver(SettingsBasicInfoValidation),
     defaultValues: {
       name: user?.name,
       email: user?.email,
@@ -26,7 +31,8 @@ const Profile = () => {
     },
   });
 
-  const onSubmit = (values: FieldValue<ProfileValidationType>) => values;
+  const onSubmit = (values: SettingsBasicInfoValidationType) =>
+    submit({ ...values }, { method: "post" });
 
   return (
     <ProfileLayout>
@@ -40,7 +46,11 @@ const Profile = () => {
               </p>
             </div>
             <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA}>
-              <Button type="submit" className="mt-6 flex items-center">
+              <Button
+                type="submit"
+                className="mt-6 flex items-center"
+                disabled={state === "submitting"}
+              >
                 <Icon
                   icon="material-symbols:check-small-rounded"
                   className="mr-1 text-2xl text-neutral-200"

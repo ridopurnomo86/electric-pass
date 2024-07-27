@@ -2,16 +2,16 @@ import React from "react";
 import { useOutletContext } from "@remix-run/react";
 import Navigation from "./Navigation";
 
+type ContextPropsType = {
+  user: { name: string; role: "organizer" | "user"; email: string };
+};
+
 type ProfileLayoutPropsType = {
   children: React.ReactNode;
 };
 
 const ProfileLayout = ({ children }: ProfileLayoutPropsType) => {
-  const data = useOutletContext<{
-    name: string;
-    role: "organizer" | "user";
-    email: string;
-  }>();
+  const { user } = useOutletContext<ContextPropsType>();
 
   return (
     <main className="container mx-auto min-h-screen">
@@ -22,7 +22,7 @@ const ProfileLayout = ({ children }: ProfileLayoutPropsType) => {
         </p>
       </div>
       <div className="grid grid-cols-1 gap-4 pt-8 md:grid-cols-[15%,85%]">
-        <Navigation role={data.role} />
+        <Navigation role={user.role} />
         {children}
       </div>
     </main>

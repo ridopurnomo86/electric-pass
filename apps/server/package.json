@@ -2,6 +2,8 @@
   "name": "server",
   "version": "1.0.0",
   "license": "MIT",
+  "private": true,
+  "sideEffects": false,
   "scripts": {
     "start": "ts-node src/index.ts",
     "dev": "ts-node src/index.ts",
@@ -9,8 +11,8 @@
     "serve": "node dist/index.js",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "type:check": "tsc --noEmit",
-    "prettier:check": "yarn run-prettier -c",
-    "prettier:format": "yarn run-prettier --write"
+    "format:code": "prettier . --write",
+    "check:code": "npx prettier . --check && yarn lint && tsc"
   },
   "dependencies": {
     "@prisma/client": "^5.17.0",
@@ -42,6 +44,7 @@
     "eslint-plugin-unicorn": "^55.0.0",
     "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.5.3"
   }
 }
