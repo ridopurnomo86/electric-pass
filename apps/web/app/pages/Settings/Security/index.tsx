@@ -52,19 +52,13 @@ const Security = () => {
     <ProfileLayout>
       <section>
         <div className="mb-4 border-b pb-4">
-          <p className="text-xl font-semibold tracking-tight text-neutral-900">
-            Security
-          </p>
+          <p className="text-xl font-semibold tracking-tight text-neutral-900">Security</p>
           <p className="text-sm font-medium text-neutral-500">
             Please enter your current password to change your password.
           </p>
         </div>
         <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA}>
-          <Button
-            type="submit"
-            className="text-neutral-200"
-            disabled={state === "submitting"}
-          >
+          <Button type="submit" className="text-neutral-200" disabled={state === "submitting"}>
             Update Password
           </Button>
         </Form>

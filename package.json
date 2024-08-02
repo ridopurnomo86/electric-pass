@@ -5,11 +5,16 @@
   "author": "ridopurnomo <ridopurnomo86@gmail.com>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "lint": "nx run-many -t lint",
+    "format:code": "nx run-many -t format:code"
+  },
   "workspaces": [
     "apps/*"
   ],
   "dependencies": {},
   "devDependencies": {
-    "nx": "^19.4.2"
+    "nx": "^19.4.2",
+    "prettier": "^3.3.3"
   }
 }

@@ -25,9 +25,7 @@ const TabsNavigation = ({ tabs = [] }: TabsPropsType) => (
             <Button
               variant="link"
               onClick={item.onClick}
-              className={`rounded-t-lg border-b-2 p-4 ${renderColorTabs(
-                item.isActive,
-              )}`}
+              className={`rounded-t-lg border-b-2 p-4 ${renderColorTabs(item.isActive)}`}
               aria-current="page"
             >
               {item.label}

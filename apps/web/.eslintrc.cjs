@@ -10,6 +10,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
+    project: ["apps/web/tsconfig.*?.json"],
     ecmaFeatures: {
       jsx: true,
     },
@@ -24,7 +25,7 @@ module.exports = {
   settings: {
     "import/resolver": {
       typescript: {
-        project: "./tsconfig.json",
+        project: ["tsconfig.json", "apps/web/tsconfig.json"],
       },
     },
   },
@@ -67,15 +68,10 @@ module.exports = {
         rules: {
           "react/jsx-props-no-spreading": "off",
           "react/jsx-filename-extension": "error",
-          "react/jsx-wrap-multilines": [
-            "error",
-            { declaration: false, assignment: false },
-          ],
-          "react/function-component-definition": [
-            2,
-            { namedComponents: "arrow-function" },
-          ],
+          "react/jsx-wrap-multilines": ["error", { declaration: false, assignment: false }],
+          "react/function-component-definition": [2, { namedComponents: "arrow-function" }],
           "react/require-default-props": "off",
+          "no-console": ["error", { allow: ["warn", "error"] }],
         },
       },
     },
@@ -131,7 +127,7 @@ module.exports = {
 
     // Node
     {
-      files: [".eslintrc.js"],
+      files: [".eslintrc.cjs"],
       env: {
         node: true,
       },

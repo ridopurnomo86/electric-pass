@@ -3,13 +3,13 @@ import { ClientLoaderFunctionArgs } from "@remix-run/react";
 import { cacheClientLoader } from "remix-client-cache";
 import Mainlayout from "~/components/layout/MainLayout";
 import AccountPage from "~/pages/Settings/Account";
-import { AccountProfileLoader, AccountProfileAction } from "~/services/main/settings/account";
+import { SettingsAccountLoader, SettingsAccountAction } from "~/services/main/settings/account";
 
 export const meta: MetaFunction = () => [{ title: "Account" }];
 
-export const action = async (params: ActionFunctionArgs) => await AccountProfileAction(params);
+export const action = async (params: ActionFunctionArgs) => await SettingsAccountAction(params);
 
-export const loader = async (params: LoaderFunctionArgs) => await AccountProfileLoader(params);
+export const loader = async (params: LoaderFunctionArgs) => await SettingsAccountLoader(params);
 
 export const clientLoader = async (params: ClientLoaderFunctionArgs) => cacheClientLoader(params);
 

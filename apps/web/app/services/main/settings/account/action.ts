@@ -9,7 +9,7 @@ import { authenticator } from "~/services/auth.server";
 import UserController from "~/services/controllers/user";
 import { getSession } from "~/services/session.server";
 
-const AccountProfileAction = async ({ request }: ActionFunctionArgs) => {
+const SettingsAccountAction = async ({ request }: ActionFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request);
   const session = await getSession(request.headers.get("Cookie"));
 
@@ -19,7 +19,7 @@ const AccountProfileAction = async ({ request }: ActionFunctionArgs) => {
     receivedValues: defaultValues,
   } = await getValidatedFormData<AccountProfileValidationType>(
     request,
-    zodResolver(AccountProfileValidation),
+    zodResolver(AccountProfileValidation)
   );
 
   if (errors) return json({ errors, defaultValues });
@@ -36,7 +36,7 @@ const AccountProfileAction = async ({ request }: ActionFunctionArgs) => {
   });
 
   if (updateUser) {
-    session.flash("change-password", {
+    session.flash("update-profile", {
       status: "Success",
       type: "success",
       message: "Success updating profile",
@@ -56,4 +56,4 @@ const AccountProfileAction = async ({ request }: ActionFunctionArgs) => {
   });
 };
 
-export default AccountProfileAction;
+export default SettingsAccountAction;

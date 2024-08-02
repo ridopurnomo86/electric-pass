@@ -1,2 +1,2 @@
-export { default as SettingsProfileLoader } from "./loader";
-export { default as SettingsProfileAction } from "./action";
+export { default as SettingsBasicInfoLoader } from "./loader";
+export { default as SettingsBasicInfoAction } from "./action";

@@ -2,9 +2,7 @@ import { LoaderFunction, LoaderFunctionArgs, defer } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
 import UserController from "~/services/controllers/user";
 
-const ProfileLoader: LoaderFunction = async ({
-  request,
-}: LoaderFunctionArgs) => {
+const SettingsBasicInfoLoader: LoaderFunction = async ({ request }: LoaderFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
@@ -23,4 +21,4 @@ const ProfileLoader: LoaderFunction = async ({
   return null;
 };
 
-export default ProfileLoader;
+export default SettingsBasicInfoLoader;

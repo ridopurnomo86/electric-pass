@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-export type ProfileValidationType = z.infer<typeof ProfileValidation>;
+export type SettingsBasicInfoValidationType = z.infer<typeof SettingsBasicInfoValidation>;
 
-export const ProfileValidation = z.object({
+export const SettingsBasicInfoValidation = z.object({
   email: z.string().email(),
   name: z.string().min(1),
   bio: z
@@ -10,7 +10,7 @@ export const ProfileValidation = z.object({
     .min(10, {
       message: "Bio must be at least 10 characters.",
     })
-    .max(160, {
-      message: "Bio must not be longer than 30 characters.",
+    .max(255, {
+      message: "Bio must not be longer than 255 characters.",
     }),
 });

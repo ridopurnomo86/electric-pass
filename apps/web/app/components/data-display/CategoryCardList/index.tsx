@@ -15,26 +15,15 @@ type CategoryCardListPropsType = {
   className?: string;
 };
 
-const CategoryCardList = ({
-  title,
-  subtitle,
-  data,
-  className,
-}: CategoryCardListPropsType) => (
+const CategoryCardList = ({ title, subtitle, data, className }: CategoryCardListPropsType) => (
   <section className={className}>
-    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-      {title}
-    </h3>
+    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">{title}</h3>
     <p className="text-sm text-neutral-600">{subtitle}</p>
     <div className="flex gap-4 overflow-x-scroll py-4">
       {data.map((item) => (
-        <Link to={`/events?category=${item.name}`} key={item.id}>
+        <Link to={`/events?category=${item.name.toLocaleLowerCase()}`} key={item.id}>
           <div className="min-w-[180px]">
-            <CategoryCard
-              title={item?.name}
-              totalEvent={10}
-              icon={item?.icon}
-            />
+            <CategoryCard title={item?.name} totalEvent={10} icon={item?.icon} />
           </div>
         </Link>
       ))}

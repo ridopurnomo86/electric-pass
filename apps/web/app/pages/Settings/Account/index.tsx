@@ -18,12 +18,13 @@ import {
 } from "~/data/form-validation/AccountProfileValidation";
 import Select from "~/components/core/Form/components/Select";
 import useGetCountries from "~/hooks/useGetCountries";
-import { AccountProfileLoader } from "~/services/main/settings/account";
+import { SettingsAccountLoader } from "~/services/main/settings/account";
 import Input from "~/components/core/Form/components/Input";
 import ProfileLoading from "../loading";
 import ProfileLayout from "../components/Layout";
 import INPUT_DATA from "./input-data";
 import Picture from "./Picture";
+import useUploadImage from "./useUploadImage";
 
 const Account = () => {
   const location = useLocation();
@@ -34,7 +35,7 @@ const Account = () => {
     type: string;
     status: string;
   }>();
-  const { user } = useLoaderData<typeof AccountProfileLoader>();
+  const { user } = useLoaderData<typeof SettingsAccountLoader>();
   const { state } = useNavigation();
   const form = useForm<AccountProfileValidationType>({
     resolver: zodResolver(AccountProfileValidation),
@@ -49,6 +50,10 @@ const Account = () => {
 
   const { country, dialCode } = useGetCountries();
 
+  const { isLoading, onSelectedImage, onUploadImage, previewImage } = useUploadImage({
+    currentImage: user.image,
+  });
+
   useEffect(() => {
     if (actionData) {
       toast({
@@ -61,22 +66,27 @@ const Account = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionData]);
 
-  const onSubmit = (values: AccountProfileValidationType) => {
+  const onSubmit = (values: AccountProfileValidationType) =>
     submit({ ...values }, { method: "post" });
-  };
 
   return (
     <ProfileLayout>
       <Suspense key={location.key} fallback={<ProfileLoading />}>
         <Await resolve={user}>
           <section>
-            <div className="mb-4 border-b-[1px] pb-4">
+            <div className="mb-4 border-b pb-4">
               <p className="text-xl font-semibold tracking-tight text-neutral-900">Account</p>
               <p className="text-sm font-medium text-neutral-500">
                 Update your account details here.
               </p>
             </div>
-            <Picture name={user.name} />
+            <Picture
+              name={user.name}
+              isLoading={isLoading || state === "submitting"}
+              onSelectedImage={onSelectedImage}
+              onUploadImage={onUploadImage}
+              previewImage={previewImage}
+            />
             <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA}>
               <div className="grid grid-cols-[10%_20%] gap-4">
                 <Select
@@ -115,7 +125,11 @@ const Account = () => {
                   control={form.control}
                 />
               </div>
-              <Button type="submit" className="text-neutral-200" disabled={state === "submitting"}>
+              <Button
+                type="submit"
+                className="text-neutral-200"
+                disabled={state === "submitting" || isLoading}
+              >
                 Update Account
               </Button>
             </Form>

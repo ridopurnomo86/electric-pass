@@ -8,15 +8,11 @@ const Header = () => (
     <div className="mb-4 flex gap-4">
       <div className="flex items-center">
         <Icon icon="clarity:world-solid" className="mr-1 text-neutral-600" />
-        <p className="text-sm font-medium text-neutral-600 antialiased">
-          Jakarta, Indonesia
-        </p>
+        <p className="text-sm font-medium text-neutral-600 antialiased">Jakarta, Indonesia</p>
       </div>
       <div className="flex items-center">
         <Icon icon="bxs:category" className="mr-1 text-neutral-600" />
-        <p className="text-sm font-medium text-neutral-600 antialiased">
-          IT & Development
-        </p>
+        <p className="text-sm font-medium text-neutral-600 antialiased">IT & Development</p>
       </div>
     </div>
     <div>

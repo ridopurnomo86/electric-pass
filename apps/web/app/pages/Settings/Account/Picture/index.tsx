@@ -7,12 +7,20 @@ import { Input } from "~/components/ui/Input";
 
 type PicturePropsType = {
   name: string;
+  isLoading: boolean;
+  onSelectedImage: (e: ChangeEvent) => void;
+  onUploadImage: () => void;
+  previewImage: string;
 };
 
-const Picture = ({ name = "" }: PicturePropsType) => {
+const Picture = ({
+  name = "",
+  isLoading,
+  onSelectedImage,
+  onUploadImage,
+  previewImage,
+}: PicturePropsType) => {
   const [initialName, setInitialName] = useState("");
-  const [, setSelectedImage] = useState({});
-  const [previewImage, setPreviewImage] = useState("");
 
   useEffect(() => {
     const names = name.split(" ");
@@ -23,13 +31,6 @@ const Picture = ({ name = "" }: PicturePropsType) => {
     setInitialName(label);
   }, [name]);
 
-  const onSelectedImage = (event: ChangeEvent) => {
-    const target = event.target as HTMLInputElement;
-    if (!target.files || target.files.length === 0) return;
-    setSelectedImage(target.files[0]);
-    setPreviewImage(URL.createObjectURL(target.files[0]));
-  };
-
   return (
     <div className="py-4">
       <p className="text-xl font-semibold tracking-tight text-neutral-900">Profile Picture</p>
@@ -39,7 +40,8 @@ const Picture = ({ name = "" }: PicturePropsType) => {
       <div className="flex items-center">
         <Avatar className="mr-4 size-[100px]">
           <AvatarImage
-            src={previewImage ? previewImage : "https://github.com/shadcn.png"}
+            src={previewImage}
+            srcSet={previewImage}
             className="size-[100px] object-cover"
           />
           <AvatarFallback className="size-[100px]">
@@ -47,8 +49,20 @@ const Picture = ({ name = "" }: PicturePropsType) => {
           </AvatarFallback>
         </Avatar>
         <div>
-          <Input id="picture" type="file" className="w-auto" onChange={onSelectedImage} />
-          <Button className="mt-2" variant="outline" onClick={() => {}}>
+          <Input
+            id="picture"
+            type="file"
+            className="w-auto"
+            onChange={(e: ChangeEvent) => onSelectedImage(e)}
+          />
+          <Button
+            onClick={() => {
+              onUploadImage();
+            }}
+            className="mt-2"
+            variant="outline"
+            disabled={isLoading}
+          >
             Upload
           </Button>
         </div>

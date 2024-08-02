@@ -9,7 +9,7 @@ type MainLayoutPropsType = {
 };
 
 const Mainlayout = ({ children }: MainLayoutPropsType) => {
-  const user = useOutletContext<{ name: string; email: string }>();
+  const { user } = useOutletContext<{ user: { name: string; email: string } }>();
 
   return (
     <>

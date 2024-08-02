@@ -19,13 +19,7 @@ type FormInputPropsType = {
   state: string;
 };
 
-const FormInput = ({
-  onSubmit,
-  form,
-  isSubmit,
-  actionData,
-  state,
-}: FormInputPropsType) => (
+const FormInput = ({ onSubmit, form, isSubmit, actionData, state }: FormInputPropsType) => (
   <div className="flex min-h-screen w-[500px] flex-col justify-center px-8 lg:px-16">
     <div className="mb-4 w-full">
       <img src={Logo} alt="elastic-pass-logo" className="w-[200px]" />
@@ -40,8 +34,7 @@ const FormInput = ({
       Welcome Back
     </p>
     <p className="mt-2 text-sm font-medium text-neutral-600 antialiased">
-      Join and feel experience the ease of transactions and managing events at
-      the Elastic Pass.
+      Join and feel experience the ease of transactions and managing events at the Elastic Pass.
     </p>
     <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA} className="mt-4">
       <Button type="submit" className="text-neutral-200" disabled={isSubmit}>

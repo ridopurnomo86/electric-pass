@@ -9,13 +9,10 @@ type AuthenticatorResponseType = {
   role: string | undefined;
 };
 
-export const authenticator = new Authenticator<AuthenticatorResponseType>(
-  sessionStorage,
-  {
-    throwOnError: true,
-    sessionErrorKey: "user-error",
-  },
-);
+export const authenticator = new Authenticator<AuthenticatorResponseType>(sessionStorage, {
+  throwOnError: true,
+  sessionErrorKey: "user-error",
+});
 
 const formStrategy = new FormStrategy(async ({ form }) => {
   const email = form.get("email") as string;
