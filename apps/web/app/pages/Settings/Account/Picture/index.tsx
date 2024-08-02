@@ -40,7 +40,8 @@ const Picture = ({
       <div className="flex items-center">
         <Avatar className="mr-4 size-[100px]">
           <AvatarImage
-            src={previewImage ? previewImage : "https://github.com/shadcn.png"}
+            src={previewImage}
+            srcSet={previewImage}
             className="size-[100px] object-cover"
           />
           <AvatarFallback className="size-[100px]">

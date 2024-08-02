@@ -34,7 +34,33 @@ const UserController = {
         return json({
           status: "Error",
           type: "error",
-          message: "A new user cannot be created with this email.",
+          message: "Something gone wrong",
+        });
+      throw json(err);
+    }
+  },
+  getUserImage: async ({ id, response }: GetUserType) => {
+    try {
+      const user = await db.userImageProfile.findFirst({
+        where: {
+          userId: id,
+        },
+      });
+
+      if (!user)
+        return json({
+          status: "Error",
+          type: "error",
+          message: "Something gone wrong",
+        });
+
+      return { ...user, ...response };
+    } catch (err) {
+      if (err instanceof Prisma.PrismaClientKnownRequestError)
+        return json({
+          status: "Error",
+          type: "error",
+          message: "Something gone wrong",
         });
       throw json(err);
     }

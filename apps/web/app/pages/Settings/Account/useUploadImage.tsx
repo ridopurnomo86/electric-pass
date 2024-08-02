@@ -4,18 +4,22 @@ import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import { useToast } from "~/components/ui/Toaster/useToast";
 
-const useUploadImage = () => {
+const useUploadImage = ({ currentImage }: { currentImage: any }) => {
   const { user } = useOutletContext<{ user: { name: string; id: string } }>();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<any>({});
-  const [previewImage, setPreviewImage] = useState("");
+  const [previewImage, setPreviewImage] = useState(
+    currentImage
+      ? `${currentImage.image_url}?v=${currentImage.version}`
+      : "https://github.com/shadcn.png"
+  );
 
   const onSelectedImage = (event: ChangeEvent) => {
     const target = event.target as HTMLInputElement;
     if (!target.files || target.files.length === 0) return;
     setSelectedImage(target.files[0]);
-    setPreviewImage(URL.createObjectURL(target.files[0]));
+    setPreviewImage(window.URL.createObjectURL(target.files[0]));
   };
 
   const onUploadImage = async () => {
@@ -26,7 +30,7 @@ const useUploadImage = () => {
     formData.append("name", user.name);
 
     try {
-      const post = await axios.post("/upload", formData, {
+      const post = await axios.post("/settings/account/upload", formData, {
         baseURL: window.process.env.BACKEND_URL,
         headers: {
           "Content-Type": "multipart/form-data",

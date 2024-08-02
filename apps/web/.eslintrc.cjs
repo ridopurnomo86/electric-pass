@@ -71,6 +71,7 @@ module.exports = {
           "react/jsx-wrap-multilines": ["error", { declaration: false, assignment: false }],
           "react/function-component-definition": [2, { namedComponents: "arrow-function" }],
           "react/require-default-props": "off",
+          "no-console": ["error", { allow: ["warn", "error"] }],
         },
       },
     },

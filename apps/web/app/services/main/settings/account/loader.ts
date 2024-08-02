@@ -7,20 +7,33 @@ const SettingsAccountLoader: LoaderFunction = async ({ request }) => {
     failureRedirect: "/login",
   });
 
-  const getUser = await UserController.getUser({
-    id: user.id,
-    select: {
-      address: true,
-      dialing_code: true,
-      phone_number: true,
-      country: true,
-      city: true,
-      name: true,
-      image_url: true,
+  const [getUser, getUserImage] = await Promise.all([
+    UserController.getUser({
+      id: user.id,
+      select: {
+        address: true,
+        dialing_code: true,
+        phone_number: true,
+        country: true,
+        city: true,
+        name: true,
+      },
+    }),
+    UserController.getUserImage({
+      id: user.id,
+    }),
+  ]);
+
+  return defer({
+    user: {
+      ...getUser,
+      ...(getUserImage && {
+        image: {
+          ...getUserImage,
+        },
+      }),
     },
   });
-
-  return defer({ user: getUser });
 };
 
 export default SettingsAccountLoader;

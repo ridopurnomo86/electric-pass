@@ -50,7 +50,9 @@ const Account = () => {
 
   const { country, dialCode } = useGetCountries();
 
-  const { isLoading, onSelectedImage, onUploadImage, previewImage } = useUploadImage();
+  const { isLoading, onSelectedImage, onUploadImage, previewImage } = useUploadImage({
+    currentImage: user.image,
+  });
 
   useEffect(() => {
     if (actionData) {
@@ -83,7 +85,7 @@ const Account = () => {
               isLoading={isLoading || state === "submitting"}
               onSelectedImage={onSelectedImage}
               onUploadImage={onUploadImage}
-              previewImage={user?.image_url ? user?.image_url : previewImage}
+              previewImage={previewImage}
             />
             <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA}>
               <div className="grid grid-cols-[10%_20%] gap-4">
