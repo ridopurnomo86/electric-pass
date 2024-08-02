@@ -8,6 +8,7 @@
     "start": "ts-node src/index.ts",
     "dev": "ts-node src/index.ts",
     "build": "tsc",
+    "build-ts": "yarn build-ts --output public",
     "serve": "node dist/index.js",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "type:check": "tsc --noEmit",
