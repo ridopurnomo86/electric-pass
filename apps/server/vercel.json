@@ -1,1 +1,10 @@
-{ "version": 2, "rewrites": [{ "source": "/(.*)", "destination": "/api" }] }
+{
+  "version": 2,
+  "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
+  "builds": [
+    {
+      "src": "./public/src/index.js",
+      "use": "@now/node"
+    }
+  ]
+}
