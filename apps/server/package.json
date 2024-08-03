@@ -9,6 +9,7 @@
     "dev": "ts-node src/index.ts",
     "build": "prisma db pull && prisma generate && yarn build-ts",
     "build-ts": "tsc",
+    "build:prod": "cd ../.. && nx run server:build --configuration=production",
     "serve": "node dist/index.js",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "type:check": "tsc --noEmit",

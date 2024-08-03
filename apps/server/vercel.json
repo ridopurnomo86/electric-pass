@@ -3,8 +3,9 @@
   "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
   "builds": [
     {
-      "src": "./public/src/index.js",
-      "use": "@now/node"
+      "src": "app.js",
+      "use": "@vercel/node",
+      "config": { "includeFiles": ["dist/**"] }
     }
   ]
 }
