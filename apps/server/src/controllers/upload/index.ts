@@ -1,8 +1,8 @@
 import fs from "fs";
 import { Request, Response } from "express";
 import ImageKit from "imagekit";
-import { db } from "~/config/prisma";
-import settingsAccountUploadSchema from "~/validation/upload";
+import settingsAccountUploadSchema from "../../validation/upload";
+import { db } from "../../config/prisma";
 
 const imageKit = new ImageKit({
   publicKey: process.env.IMAGEKIT_RESTRICTED_PUBLIC_KEY as string,
