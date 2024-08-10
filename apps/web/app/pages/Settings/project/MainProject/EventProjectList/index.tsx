@@ -12,20 +12,20 @@ const EventProjectList = ({ data, type }: EventProjectListPropsType) => {
   const navigate = useNavigate();
 
   return (
-    <div className="mb-8">
+    <div className="mb-8 mt-4">
       <TabsNavigation
         tabs={[
           {
             id: "ongoing",
             isActive: type === "ongoing",
             label: "Ongoing",
-            onClick: () => navigate("/settings/projects?type=ongoing"),
+            onClick: () => navigate("/settings/project?type=ongoing"),
           },
           {
             id: "finished",
             isActive: type === "finished",
             label: "Finished",
-            onClick: () => navigate("/settings/projects?type=finished"),
+            onClick: () => navigate("/settings/project?type=finished"),
           },
         ]}
       />

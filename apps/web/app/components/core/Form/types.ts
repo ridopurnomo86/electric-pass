@@ -30,6 +30,10 @@ export type Forms = {
 
 export type InputPropsType = {
   label: string;
+  type?: string;
+  min?: string;
+  max?: string;
+  className?: string;
   placeholder?: string;
   control: Control<FieldValues | any>;
   description?: string;
@@ -43,6 +47,7 @@ export type InputPropsType = {
   isLoading?: boolean;
   hasIcon?: boolean;
   defaultValue?: string;
+  step?: string;
 };
 
 export type FormPropstype<T extends FieldValues> = {

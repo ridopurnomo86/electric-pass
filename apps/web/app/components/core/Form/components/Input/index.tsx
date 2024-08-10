@@ -19,6 +19,10 @@ const Input = ({
   name,
   isDisabled = false,
   icon = "",
+  type,
+  min,
+  max,
+  step,
 }: InputPropsType) => (
   <FormField
     key={id}
@@ -30,9 +34,13 @@ const Input = ({
         <div className="relative">
           <FormControl>
             <InputCore
+              type={type}
               className={`${icon ? "pl-9" : ""}`}
               disabled={isDisabled}
               placeholder={placeholder}
+              min={min}
+              max={max}
+              step={step}
               {...field}
             />
           </FormControl>

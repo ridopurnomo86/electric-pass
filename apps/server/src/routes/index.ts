@@ -9,7 +9,12 @@ router.get("/", (req, res) => {
   res.send("Hello World");
 });
 router.post(
-  "/settings/account/upload",
+  "/settings/account/image/upload",
   [upload.single("image_profile"), validateToken],
   new SettingsAccountController().uploadImage
+);
+router.post(
+  "/settings/account/image/delete",
+  validateToken,
+  new SettingsAccountController().deleteImage
 );

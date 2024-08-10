@@ -1,16 +1,17 @@
-"use client";
-
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/Avatar";
 import { Button } from "~/components/ui/Button";
 import { Input } from "~/components/ui/Input";
+import useInitialName from "../../hooks/useInitialName";
 
 type PicturePropsType = {
   name: string;
   isLoading: boolean;
   onSelectedImage: (e: ChangeEvent) => void;
   onUploadImage: () => void;
+  onDeleteImage: () => void;
   previewImage: string;
+  isImageEmpty: boolean;
 };
 
 const Picture = ({
@@ -19,17 +20,10 @@ const Picture = ({
   onSelectedImage,
   onUploadImage,
   previewImage,
+  onDeleteImage,
+  isImageEmpty,
 }: PicturePropsType) => {
-  const [initialName, setInitialName] = useState("");
-
-  useEffect(() => {
-    const names = name.split(" ");
-    let label = "";
-    names.forEach((n) => {
-      if (n.length > 0) label += n[0];
-    });
-    setInitialName(label);
-  }, [name]);
+  const { initialName } = useInitialName({ name });
 
   return (
     <div className="py-4">
@@ -55,16 +49,27 @@ const Picture = ({
             className="w-auto"
             onChange={(e: ChangeEvent) => onSelectedImage(e)}
           />
-          <Button
-            onClick={() => {
-              onUploadImage();
-            }}
-            className="mt-2"
-            variant="outline"
-            disabled={isLoading}
-          >
-            Upload
-          </Button>
+          <div className="mt-2 flex items-center gap-2">
+            <Button
+              onClick={() => {
+                onUploadImage();
+              }}
+              variant="outline"
+              disabled={isLoading}
+            >
+              Upload
+            </Button>
+            <Button
+              onClick={() => {
+                onDeleteImage();
+              }}
+              variant="outline"
+              className="bg-red-600 text-white"
+              disabled={isLoading || isImageEmpty}
+            >
+              Delete
+            </Button>
+          </div>
         </div>
       </div>
     </div>

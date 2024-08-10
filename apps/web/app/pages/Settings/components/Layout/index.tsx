@@ -1,5 +1,6 @@
-import React from "react";
-import { useOutletContext } from "@remix-run/react";
+import React, { Suspense } from "react";
+import { Await, useLocation, useOutletContext } from "@remix-run/react";
+import ProfileLoading from "../../loading";
 import Navigation from "./Navigation";
 
 type ContextPropsType = {
@@ -8,9 +9,12 @@ type ContextPropsType = {
 
 type ProfileLayoutPropsType = {
   children: React.ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  resolve?: any;
 };
 
-const ProfileLayout = ({ children }: ProfileLayoutPropsType) => {
+const ProfileLayout = ({ children, resolve }: ProfileLayoutPropsType) => {
+  const location = useLocation();
   const { user } = useOutletContext<ContextPropsType>();
 
   return (
@@ -23,7 +27,9 @@ const ProfileLayout = ({ children }: ProfileLayoutPropsType) => {
       </div>
       <div className="grid grid-cols-1 gap-4 pt-8 md:grid-cols-[15%,85%]">
         <Navigation role={user.role} />
-        {children}
+        <Suspense key={location.key} fallback={<ProfileLoading />}>
+          <Await resolve={resolve}>{children}</Await>
+        </Suspense>
       </div>
     </main>
   );

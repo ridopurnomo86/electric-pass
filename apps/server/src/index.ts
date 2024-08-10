@@ -25,7 +25,6 @@ app.use(
     preflightContinue: false,
     allowedHeaders: ["Content-Type", "Authorization", "Origin", " X-Requested-With", "Accept"],
     origin: whitelist,
-    optionsSuccessStatus: 200,
   })
 );
 

@@ -30,7 +30,7 @@ const Form = <T extends FieldValues>({
   onSubmit,
   forms = [],
   children,
-  className,
+  className = "",
 }: FormPropstype<T>) => (
   <FormCore {...form}>
     <form onSubmit={form.handleSubmit(onSubmit)} className={`space-y-4 ${className}`}>

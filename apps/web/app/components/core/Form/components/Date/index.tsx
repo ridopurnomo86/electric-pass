@@ -23,6 +23,7 @@ const Date = ({
   name,
   isDisabled = false,
   icon = "",
+  className,
 }: InputPropsType) => (
   <FormField
     key={id}
@@ -30,7 +31,7 @@ const Date = ({
     name={name}
     disabled={isDisabled}
     render={({ field }) => (
-      <FormItem className="flex flex-col">
+      <FormItem>
         <FormLabel>{label}</FormLabel>
         <Popover>
           <PopoverTrigger asChild>
@@ -39,7 +40,8 @@ const Date = ({
                 variant={"outline"}
                 className={cn(
                   "w-[240px] pl-3 text-left font-normal",
-                  !field.value && "text-muted-foreground"
+                  !field.value && "text-muted-foreground",
+                  className
                 )}
               >
                 {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}

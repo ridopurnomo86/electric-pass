@@ -24,10 +24,10 @@ const Navigation = ({ role }: { role: "user" | "organizer" }) => {
         </Link>
       ))}
       {role === "organizer" && (
-        <Link to="/settings/projects" className="inline min-w-fit md:block md:w-full">
+        <Link to="/settings/project" className="inline min-w-fit md:block md:w-full">
           <Toggle
             className="flex w-full items-center justify-start"
-            defaultPressed={location.pathname === "/settings/projects"}
+            defaultPressed={location.pathname.includes("/settings/project")}
           >
             Projects
           </Toggle>

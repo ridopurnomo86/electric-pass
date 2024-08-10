@@ -9,17 +9,14 @@ import {
   SettingsBasicInfoValidationType,
 } from "~/data/form-validation/ProfileValidation";
 import { Icon } from "@iconify/react";
-import { Await, useLoaderData, useLocation, useNavigation, useSubmit } from "@remix-run/react";
-import { Suspense } from "react";
+import { useLoaderData, useNavigation, useSubmit } from "@remix-run/react";
 import { SettingsBasicInfoLoader } from "~/services/main/settings";
 import INPUT_DATA from "./input-data";
 import ProfileLayout from "./components/Layout";
-import ProfileLoading from "./loading";
 
 const Profile = () => {
   const submit = useSubmit();
   const { state } = useNavigation();
-  const location = useLocation();
   const { user } = useLoaderData<typeof SettingsBasicInfoLoader>();
 
   const form = useForm({
@@ -35,32 +32,28 @@ const Profile = () => {
     submit({ ...values }, { method: "post" });
 
   return (
-    <ProfileLayout>
-      <Suspense key={location.key} fallback={<ProfileLoading />}>
-        <Await resolve={user}>
-          <section>
-            <div className="mb-4 border-b pb-4">
-              <p className="text-xl font-semibold tracking-tight text-neutral-900">Basic Info</p>
-              <p className="text-sm font-medium text-neutral-500">
-                Tell us about your basic info details.
-              </p>
-            </div>
-            <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA}>
-              <Button
-                type="submit"
-                className="mt-6 flex items-center"
-                disabled={state === "submitting"}
-              >
-                <Icon
-                  icon="material-symbols:check-small-rounded"
-                  className="mr-1 text-2xl text-neutral-200"
-                />
-                <p className="text-sm font-medium text-neutral-200 antialiased">Save</p>
-              </Button>
-            </Form>
-          </section>
-        </Await>
-      </Suspense>
+    <ProfileLayout resolve={user}>
+      <section>
+        <div className="mb-4 border-b pb-4">
+          <p className="text-xl font-semibold tracking-tight text-neutral-900">Basic Info</p>
+          <p className="text-sm font-medium text-neutral-500">
+            Tell us about your basic info details.
+          </p>
+        </div>
+        <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA}>
+          <Button
+            type="submit"
+            className="mt-6 flex items-center"
+            disabled={state === "submitting"}
+          >
+            <Icon
+              icon="material-symbols:check-small-rounded"
+              className="mr-1 text-2xl text-neutral-200"
+            />
+            <p className="text-sm font-medium text-neutral-200 antialiased">Save</p>
+          </Button>
+        </Form>
+      </section>
     </ProfileLayout>
   );
 };

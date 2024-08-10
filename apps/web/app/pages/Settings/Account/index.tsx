@@ -1,15 +1,8 @@
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "~/components/ui/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Await,
-  useActionData,
-  useLoaderData,
-  useLocation,
-  useNavigation,
-  useSubmit,
-} from "@remix-run/react";
+import { useActionData, useLoaderData, useNavigation, useSubmit } from "@remix-run/react";
 import Form from "~/components/core/Form";
 import { useToast } from "~/components/ui/Toaster/useToast";
 import {
@@ -20,14 +13,12 @@ import Select from "~/components/core/Form/components/Select";
 import useGetCountries from "~/hooks/useGetCountries";
 import { SettingsAccountLoader } from "~/services/main/settings/account";
 import Input from "~/components/core/Form/components/Input";
-import ProfileLoading from "../loading";
+import useUploadImage from "../hooks/useUploadImage";
 import ProfileLayout from "../components/Layout";
 import INPUT_DATA from "./input-data";
 import Picture from "./Picture";
-import useUploadImage from "./useUploadImage";
 
 const Account = () => {
-  const location = useLocation();
   const { toast } = useToast();
   const submit = useSubmit();
   const actionData = useActionData<{
@@ -50,9 +41,10 @@ const Account = () => {
 
   const { country, dialCode } = useGetCountries();
 
-  const { isLoading, onSelectedImage, onUploadImage, previewImage } = useUploadImage({
-    currentImage: user.image,
-  });
+  const { isLoading, onSelectedImage, onUploadImage, previewImage, isImageEmpty, onDeleteImage } =
+    useUploadImage({
+      currentImage: user.image,
+    });
 
   useEffect(() => {
     if (actionData) {
@@ -70,72 +62,68 @@ const Account = () => {
     submit({ ...values }, { method: "post" });
 
   return (
-    <ProfileLayout>
-      <Suspense key={location.key} fallback={<ProfileLoading />}>
-        <Await resolve={user}>
-          <section>
-            <div className="mb-4 border-b pb-4">
-              <p className="text-xl font-semibold tracking-tight text-neutral-900">Account</p>
-              <p className="text-sm font-medium text-neutral-500">
-                Update your account details here.
-              </p>
-            </div>
-            <Picture
-              name={user.name}
-              isLoading={isLoading || state === "submitting"}
-              onSelectedImage={onSelectedImage}
-              onUploadImage={onUploadImage}
-              previewImage={previewImage}
+    <ProfileLayout resolve={user}>
+      <section>
+        <div className="mb-4 border-b pb-4">
+          <p className="text-xl font-semibold tracking-tight text-neutral-900">Account</p>
+          <p className="text-sm font-medium text-neutral-500">Update your account details here.</p>
+        </div>
+        <Picture
+          isImageEmpty={isImageEmpty}
+          name={user.name}
+          isLoading={isLoading || state === "submitting"}
+          onSelectedImage={onSelectedImage}
+          onUploadImage={onUploadImage}
+          onDeleteImage={onDeleteImage}
+          previewImage={previewImage}
+        />
+        <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA}>
+          <div className="grid grid-cols-[10%_20%] gap-4">
+            <Select
+              id="dialing_code"
+              label="Dialing Code"
+              name="dialing_code"
+              placeholder="+1"
+              data={dialCode}
+              control={form.control}
+              hasIcon
             />
-            <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA}>
-              <div className="grid grid-cols-[10%_20%] gap-4">
-                <Select
-                  id="dialing_code"
-                  label="Dialing Code"
-                  name="dialing_code"
-                  placeholder="+1"
-                  data={dialCode}
-                  control={form.control}
-                  hasIcon
-                />
-                <Input
-                  id="phone_number"
-                  label="Phone Number"
-                  name="phone_number"
-                  placeholder="Phone Number"
-                  control={form.control}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <Select
-                  id="country"
-                  label="Country"
-                  name="country"
-                  placeholder="Choose Country"
-                  data={country}
-                  emptyState="No Country Available"
-                  control={form.control}
-                  defaultValue={form.getValues("country")}
-                />
-                <Input
-                  id="city"
-                  label="City"
-                  name="city"
-                  placeholder="New Jersey"
-                  control={form.control}
-                />
-              </div>
-              <Button
-                type="submit"
-                className="text-neutral-200"
-                disabled={state === "submitting" || isLoading}
-              >
-                Update Account
-              </Button>
-            </Form>
-          </section>
-        </Await>
-      </Suspense>
+            <Input
+              id="phone_number"
+              label="Phone Number"
+              name="phone_number"
+              placeholder="Phone Number"
+              control={form.control}
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <Select
+              id="country"
+              label="Country"
+              name="country"
+              placeholder="Choose Country"
+              data={country}
+              emptyState="No Country Available"
+              control={form.control}
+              defaultValue={form.getValues("country")}
+            />
+            <Input
+              id="city"
+              label="City"
+              name="city"
+              placeholder="New Jersey"
+              control={form.control}
+            />
+          </div>
+          <Button
+            type="submit"
+            className="text-neutral-200"
+            disabled={state === "submitting" || isLoading}
+          >
+            Update Account
+          </Button>
+        </Form>
+      </section>
     </ProfileLayout>
   );
 };

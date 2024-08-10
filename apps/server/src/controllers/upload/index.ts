@@ -10,17 +10,31 @@ const imageKit = new ImageKit({
   urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT as string,
 });
 
+const purgeCacheImage = ({ imageUrl }: { imageUrl: string }) => imageKit.purgeCache(imageUrl);
+
+const deleteImage = ({ fileId }: { fileId: string }) => imageKit.deleteFile(fileId);
+
 export class SettingsAccountController {
   public async uploadImage(req: Request, res: Response) {
     const { user_id, name } = req.body;
 
     const { error } = settingsAccountUploadSchema.validate({ user_id, name });
 
+    const userImageProfile = await db.userImageProfile.findFirst({
+      where: {
+        userId: Number(user_id),
+      },
+    });
+
+    if (userImageProfile) {
+      purgeCacheImage({ imageUrl: userImageProfile.image_url });
+      deleteImage({ fileId: userImageProfile.file_id });
+    }
+
     if (error || !req.file?.path)
       return res.status(422).json({
-        message: "Invalid request",
         type: "error",
-        data: error ? error.details : "Cannot find file path",
+        message: error ? error.details : "Cannot find file path",
       });
 
     return fs.readFile(req.file?.path as string, (err, data) => {
@@ -37,6 +51,7 @@ export class SettingsAccountController {
           async (_, result) => {
             if (result) {
               fs.unlinkSync(req.file?.path as string);
+              purgeCacheImage({ imageUrl: result.url });
               await db.userImageProfile.upsert({
                 where: {
                   userId: Number(user_id),
@@ -71,5 +86,42 @@ export class SettingsAccountController {
         );
       }
     });
+  }
+
+  public async deleteImage(req: Request, res: Response) {
+    const { user_id, name } = req.body;
+
+    const { error } = settingsAccountUploadSchema.validate({ user_id, name });
+
+    if (error)
+      return res.status(422).json({
+        message: "Invalid request",
+        type: "error",
+        data: error ? error.details : "Something gone wrong",
+      });
+
+    try {
+      const deleteUserImage = await db.userImageProfile.delete({
+        where: {
+          userId: Number(user_id),
+        },
+      });
+
+      const removeImage = await imageKit.deleteFile(deleteUserImage.file_id);
+
+      if (deleteUserImage && removeImage)
+        return res.status(200).json({
+          message: "Success",
+          type: "success",
+        });
+
+      return null;
+    } catch (err) {
+      if (err)
+        return res.status(500).json({
+          message: "Something gone wrong",
+          type: "error",
+        });
+    }
   }
 }

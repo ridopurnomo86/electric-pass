@@ -22,7 +22,7 @@ const CategoryCardList = ({ title, subtitle, data, className }: CategoryCardList
     <div className="flex gap-4 overflow-x-scroll py-4">
       {data.map((item) => (
         <Link to={`/events?category=${item.name.toLocaleLowerCase()}`} key={item.id}>
-          <div className="min-w-[180px]">
+          <div className="min-w-[200px]">
             <CategoryCard title={item?.name} totalEvent={10} icon={item?.icon} />
           </div>
         </Link>
