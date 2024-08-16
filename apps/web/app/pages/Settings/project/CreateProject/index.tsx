@@ -7,6 +7,7 @@ import Header from "./Header";
 import AboutForm from "./form/About";
 import Description from "./form/Description";
 import Stepper from "./Stepper";
+import CreateProjectLoading from "./loading";
 
 export type StepType = "description" | "about";
 
@@ -41,12 +42,12 @@ const CreateProject = () => {
             },
           ]}
         />
-        <ClientOnly fallback={<p>Loading...</p>}>
+        <ClientOnly fallback={<CreateProjectLoading />}>
           {() =>
             step === "about" ? (
               <AboutForm currentData={currentDataRef} onStep={setStep} category={category} />
             ) : (
-              <Description />
+              <Description currentData={currentDataRef} />
             )
           }
         </ClientOnly>

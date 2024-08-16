@@ -8,8 +8,8 @@ import { Icon } from "@iconify/react";
 import { useNavigation } from "@remix-run/react";
 import { useForm } from "react-hook-form";
 import {
-  AddEventValidation,
-  AddEventValidationType,
+  CreateEventValidation,
+  CreateEventValidationType,
 } from "~/data/form-validation/AddEventValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
@@ -27,8 +27,8 @@ const About = ({ category, onStep, currentData }: AboutPropsType) => {
   const { state } = useNavigation();
   const { country } = useGetCountries();
 
-  const form = useForm<AddEventValidationType>({
-    resolver: zodResolver(AddEventValidation),
+  const form = useForm<CreateEventValidationType>({
+    resolver: zodResolver(CreateEventValidation),
     defaultValues: {
       event_name: "",
       topic_type: "",
@@ -43,7 +43,7 @@ const About = ({ category, onStep, currentData }: AboutPropsType) => {
     },
   });
 
-  const onSubmit = (values: AddEventValidationType) => {
+  const onSubmit = (values: CreateEventValidationType) => {
     const [hours, minutes] = values.time.split(":");
     const formatStartDate = values.start_date.setHours(Number(hours), Number(minutes));
 

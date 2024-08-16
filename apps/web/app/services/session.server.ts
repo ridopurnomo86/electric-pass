@@ -8,7 +8,7 @@ export const sessionStorage = createCookieSessionStorage({
     httpOnly: true,
     secrets: [process.env.SESSION_SECRET],
     secure: process.env.NODE_ENV === "production",
-    maxAge: 7200,
+    maxAge: 86400,
   },
 });
 

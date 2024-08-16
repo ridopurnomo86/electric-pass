@@ -10,17 +10,19 @@ import { ListNode, ListItemNode } from "@lexical/list";
 import ToolbarPlugin from "./Toolbar";
 import editorTheme from "./theme";
 import LinkPlugin from "./plugin/LinkPlugin";
+import OnChangePlugin from "./plugin/onChangePlugin";
 
 type EditorPropsType = {
   label: string;
   description: string;
+  onChange: (node: string) => void;
 };
 
 function onError(error: Error) {
   console.error(error);
 }
 
-const Editor = ({ label, description }: EditorPropsType) => {
+const RichTextEditor = ({ label, description, onChange }: EditorPropsType) => {
   const initialConfig: InitialConfigType = {
     namespace: "Editor",
     theme: editorTheme,
@@ -49,9 +51,10 @@ const Editor = ({ label, description }: EditorPropsType) => {
         <ListPlugin />
         <HistoryPlugin />
         <AutoFocusPlugin />
+        <OnChangePlugin onChange={onChange} />
       </div>
     </LexicalComposer>
   );
 };
 
-export default Editor;
+export default RichTextEditor;
