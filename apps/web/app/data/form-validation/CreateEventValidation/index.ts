@@ -13,14 +13,14 @@ export const CreateEventValidation = z
     topic_type: z.string().min(1, { message: "The field is required." }),
     category_type: z.string().min(1, { message: "The field is required." }),
     country: z.string().min(1, { message: "The field is required." }),
-    price: z.string().min(1, { message: "The field is required." }),
+    price: z.any(),
     city: z.string().min(1, { message: "The field is required." }),
     start_date: z.coerce.date().refine((data) => data > new Date(), {
       message: "Start date must be in the future",
     }),
     time: z.string(),
     ended_date: z.coerce.date(),
-    duration: z.string().min(1, { message: "The field is required." }),
+    duration: z.any(),
   })
   .refine((data) => data.ended_date > data.start_date, {
     message: "End date cannot be earlier than start date.",

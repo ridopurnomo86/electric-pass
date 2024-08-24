@@ -1,12 +1,11 @@
 /* eslint-disable tailwindcss/no-custom-classname */
-/* eslint-disable tailwindcss/classnames-order */
 import { Icon } from "@iconify/react";
-import { useNavigation } from "@remix-run/react";
+import { useNavigation, useSubmit } from "@remix-run/react";
 import { ChangeEvent, useState } from "react";
 import RichTextEditor from "~/components/core/RichTextEditor";
 import { Button } from "~/components/ui/Button";
 import { Input } from "~/components/ui/Input";
-import { CreateEventDescriptionValidation } from "~/data/form-validation/AddEventValidation";
+import { CreateEventDescriptionValidation } from "~/data/form-validation/CreateEventValidation";
 import { handleZodValidation, ValidationError } from "~/modules/zod-validation";
 import useUploadImage from "~/pages/Settings/hooks/useUploadImage";
 
@@ -16,6 +15,7 @@ type DescriptionPropsType = {
 };
 
 const Description = ({ currentData }: DescriptionPropsType) => {
+  const submit = useSubmit();
   const [editorValue, setEditorValue] = useState<string>();
   const [errors, setErrors] = useState<ValidationError<typeof CreateEventDescriptionValidation>>(
     {}
@@ -34,7 +34,17 @@ const Description = ({ currentData }: DescriptionPropsType) => {
         description: editorValue,
       },
       onSuccess: (res) => {
-        const data = { ...currentData.current, ...res };
+        // const data = {
+        //   ...currentData.current,
+        //   ...res,
+        //   price: String(currentData.current.price),
+        //   duration: String(currentData.current.duration),
+        // };
+        const data = {
+          ...currentData.current,
+          ...res,
+        };
+        // submit({ ...data }, { method: "POST" });
         return data;
       },
       schema: CreateEventDescriptionValidation,
@@ -57,7 +67,7 @@ const Description = ({ currentData }: DescriptionPropsType) => {
             onChange={(e: ChangeEvent) => onSelectedImage(e)}
           />
           {errors.image && (
-            <p className="mt-2 text-destructive text-[0.8rem] font-medium">{errors.image}</p>
+            <p className="text-destructive mt-2 text-[0.8rem] font-medium">{errors.image}</p>
           )}
         </div>
       </div>
@@ -68,7 +78,7 @@ const Description = ({ currentData }: DescriptionPropsType) => {
           description="We need some more descriptions about the events being held, this is can help visitors / users."
         />
         {errors.description && (
-          <p className="mt-2 text-destructive text-[0.8rem] font-medium">{errors.description}</p>
+          <p className="text-destructive mt-2 text-[0.8rem] font-medium">{errors.description}</p>
         )}
       </div>
       <Button

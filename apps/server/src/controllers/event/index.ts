@@ -2,7 +2,8 @@ import fs from "fs";
 import { Request, Response } from "express";
 import ImageKit from "imagekit";
 import { db } from "../../config/prisma";
-import EventsUploadSchema from "../../validation/events/upload";
+import CreateEventSchema from "../../validation/events";
+import generateSlug from "../../modules/slug";
 
 const imageKit = new ImageKit({
   publicKey: process.env.IMAGEKIT_RESTRICTED_PUBLIC_KEY as string,
@@ -12,30 +13,33 @@ const imageKit = new ImageKit({
 
 const purgeCacheImage = ({ imageUrl }: { imageUrl: string }) => imageKit.purgeCache(imageUrl);
 
-const deleteImage = ({ fileId }: { fileId: string }) => imageKit.deleteFile(fileId);
+const checkingUser = async ({ userId }: { userId: number }) => {
+  const user = await db.user.findFirst({
+    where: {
+      id: userId,
+    },
+  });
+
+  return user;
+};
 
 export class EventController {
-  public async uploadImage(req: Request, res: Response) {
-    const { user_id, event_name } = req.body;
+  public async createEvent(req: Request, res: Response) {
+    const body = req.body;
+    const image = req.file;
 
-    const { error } = EventsUploadSchema.validate({ user_id, event_name });
+    const { error } = CreateEventSchema.validate(body);
 
-    const userImageProfile = await db.userImageProfile.findFirst({
-      where: {
-        userId: Number(user_id),
-      },
-    });
-
-    if (userImageProfile) {
-      purgeCacheImage({ imageUrl: userImageProfile.image_url });
-      deleteImage({ fileId: userImageProfile.file_id });
-    }
-
-    if (error || !req.file?.path)
+    if (error || !image?.path)
       return res.status(422).json({
         type: "error",
         message: error ? error.details : "Cannot find file path",
       });
+
+    const user = await checkingUser({ userId: Number(body.user_id) });
+
+    if (!user || user.role === "USER")
+      return res.status(401).json({ message: "Unauthorized", type: "Error" });
 
     return fs.readFile(req.file?.path as string, (err, data) => {
       if (err) throw err;
@@ -43,7 +47,7 @@ export class EventController {
         imageKit.upload(
           {
             file: data,
-            fileName: `${user_id}-${event_name}`,
+            fileName: `${user.id}-${generateSlug(body.event_name)}`,
             folder: "/events",
             overwriteFile: true,
             useUniqueFileName: false,
@@ -52,28 +56,27 @@ export class EventController {
             if (result) {
               fs.unlinkSync(req.file?.path as string);
               purgeCacheImage({ imageUrl: result.url });
-              await db.userImageProfile.upsert({
-                where: {
-                  userId: Number(user_id),
-                },
-                update: {
+              await db.event.create({
+                data: {
+                  slug: generateSlug(body.event_name),
+                  city: body.city,
+                  country: body.country,
+                  description: body.description,
+                  name: body.event_name,
+                  price: body.price,
+                  start_date: body.start_date,
+                  ended_date: body.ended_date,
+                  category_id: Number(body.category_type),
+                  type_id: Number(body.topic_type),
+                  user_id: user.id,
+                  updated_at: new Date().toISOString(),
                   image_url: result.url,
-                  file_id: result.fileId,
-                  version: {
-                    increment: 1,
-                  },
-                },
-                create: {
-                  image_url: result.url,
-                  file_id: result.fileId,
-                  version: 0,
-                  userId: Number(user_id),
                 },
               });
+
               return res.json({
-                message: "Success upload",
+                message: "Success create event",
                 type: "success",
-                data: { thumnailUrl: result.thumbnailUrl, url: result.url },
               });
             }
             return res.json(

@@ -11,14 +11,14 @@ router.get("/", (req, res) => {
 });
 
 router.post(
-  "/event/upload",
-  [upload.single("event_image"), validateToken],
-  new EventController().uploadImage
+  "/event",
+  [validateToken, upload.single("event_image")],
+  new EventController().createEvent
 );
 
 router.post(
   "/settings/account/image/upload",
-  [upload.single("image_profile"), validateToken],
+  [validateToken, upload.single("image_profile")],
   new SettingsAccountController().uploadImage
 );
 

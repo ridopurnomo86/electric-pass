@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import {
   CreateEventValidation,
   CreateEventValidationType,
-} from "~/data/form-validation/AddEventValidation";
+} from "~/data/form-validation/CreateEventValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import { StepType } from "../..";
@@ -33,11 +33,11 @@ const About = ({ category, onStep, currentData }: AboutPropsType) => {
       event_name: "",
       topic_type: "",
       category_type: "",
-      price: "",
+      price: "0",
       start_date: new Date(),
       ended_date: new Date(),
       time: "08:00",
-      duration: "",
+      duration: "0",
       country: "",
       city: "",
     },
@@ -51,12 +51,13 @@ const About = ({ category, onStep, currentData }: AboutPropsType) => {
       event_name: values.event_name,
       topic_type: values.topic_type,
       category_type: values.category_type,
-      price: Number(values.price),
-      start_datetime: dayjs(formatStartDate).format(),
-      ended_datetime: dayjs(values.ended_date).format(),
-      duration: Number(values.duration),
+      price: values.price,
+      start_date: dayjs(formatStartDate).format(),
+      ended_date: dayjs(values.ended_date).format(),
+      duration: values.duration,
       country: values.country,
       city: values.city,
+      time: values.time,
     };
 
     if (submitValues) {

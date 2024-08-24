@@ -7,6 +7,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Event {
+  id                Int               @id @default(autoincrement())
+  slug              String            @unique()
+  name              String            @db.VarChar(255)
+  price             Decimal           @db.Decimal()
+  description       String            @db.Text
+  country           String            @db.VarChar(255)
+  city              String            @db.VarChar(255)
+  start_date        DateTime?         @db.Timestamp(0)           
+  ended_date        DateTime?         @db.Timestamp(0)
+  image_url         String            @db.VarChar(255)    
+  type_id           Int?              
+  EventType         EventType?        @relation(fields: [type_id], references: [id], onUpdate: SetNull, onDelete: Cascade)
+  category_id       Int?
+  EventCategory     EventCategory?    @relation(fields: [category_id], references: [id], onUpdate: SetNull, onDelete: Cascade)
+  user_id           Int
+  User              User              @relation(fields: [user_id], references: [id],  onDelete: Cascade)
+  created_at        DateTime          @default(now())
+  updated_at        DateTime          @updatedAt
+}
+
 model User {
   id                Int               @id @default(autoincrement())
   name              String            @db.VarChar(255)
@@ -27,22 +48,8 @@ model User {
   created_at        DateTime          @default(now())
   updated_at        DateTime          @updatedAt
   city              String?           @db.VarChar(255)
-  UserImageProfile  UserImageProfile?
-}
-
-model EventType {
-  id         Int      @id @default(autoincrement())
-  name       String   @db.VarChar(255)
-  icon       String   @db.VarChar(255)
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
-}
-
-model EventCategory {
-  id         Int      @id @default(autoincrement())
-  name       String   @db.VarChar(255)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  image_profile     UserImageProfile?
+  Event             Event[]
 }
 
 model UserImageProfile {
@@ -51,7 +58,24 @@ model UserImageProfile {
   version   Int    @default(0)
   image_url String @db.VarChar(255)
   file_id   String @db.VarChar(255)
-  User      User   @relation(fields: [userId], references: [id])
+  user      User   @relation(fields: [userId], references: [id])
+}
+
+model EventType {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255)
+  icon       String   @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  Event      Event[]
+}
+
+model EventCategory {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  Event      Event[]
 }
 
 enum Role {
