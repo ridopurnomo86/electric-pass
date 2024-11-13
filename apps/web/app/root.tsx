@@ -1,8 +1,8 @@
 import { json, LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
 import stylesheet from "~/styles/globals.css";
+import { authenticator } from "../services/auth.server";
 import { Toaster } from "./components/ui/Toaster/toaster";
-import { authenticator } from "./services/auth.server";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: stylesheet }];
 

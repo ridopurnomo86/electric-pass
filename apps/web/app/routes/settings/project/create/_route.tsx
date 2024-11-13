@@ -6,7 +6,7 @@ import CreateProjectPage from "~/pages/Settings/project/CreateProject";
 import {
   SettingsCreateProjectAction,
   SettingsCreateProjectLoader,
-} from "~/services/main/settings/project/create-project";
+} from "services/main/settings/project/create-project";
 
 export const meta: MetaFunction = () => [{ title: "Create Project" }];
 

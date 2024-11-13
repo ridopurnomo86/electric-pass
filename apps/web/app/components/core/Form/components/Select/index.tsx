@@ -80,7 +80,7 @@ const Select = ({
                   className={cn("w-full justify-between", !field.value && "text-muted-foreground")}
                 >
                   {selectedValue
-                    ? data.find((item) => item.value === selectedValue)?.label
+                    ? data.find((item) => item.label === selectedValue)?.label
                     : placeholder}
                   <CaretSortIcon className="ml-2 size-4 shrink-0 opacity-50" />
                 </Button>
@@ -102,7 +102,7 @@ const Select = ({
                             key={idx}
                             onSelect={(currentValue) => {
                               setSelectedValue(currentValue);
-                              field.onChange(currentValue === selectedValue ? "" : currentValue);
+                              field.onChange(currentValue === selectedValue ? "" : item.value);
                               setOpen(false);
                             }}
                           >

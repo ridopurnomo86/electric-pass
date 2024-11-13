@@ -8,7 +8,7 @@ import CategoryCardList from "~/components/data-display/CategoryCardList";
 import EVENT_DATA from "~/data/test-data/event";
 import ORGANIZER_DATA from "~/data/test-data/organizer";
 import { Await, useLoaderData } from "@remix-run/react";
-import { MainHomeLoader } from "~/services/main/main-home";
+import { MainHomeLoader } from "services/main/main-home";
 import { Suspense } from "react";
 import CategoryCardListLoading from "~/components/data-display/CategoryCardList/loading";
 import Hero from "./Hero";

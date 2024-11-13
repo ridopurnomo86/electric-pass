@@ -8,24 +8,25 @@ datasource db {
 }
 
 model Event {
-  id                Int               @id @default(autoincrement())
-  slug              String            @unique()
-  name              String            @db.VarChar(255)
-  price             Decimal           @db.Decimal()
-  description       String            @db.Text
-  country           String            @db.VarChar(255)
-  city              String            @db.VarChar(255)
-  start_date        DateTime?         @db.Timestamp(0)           
-  ended_date        DateTime?         @db.Timestamp(0)
-  image_url         String            @db.VarChar(255)    
-  type_id           Int?              
-  EventType         EventType?        @relation(fields: [type_id], references: [id], onUpdate: SetNull, onDelete: Cascade)
-  category_id       Int?
-  EventCategory     EventCategory?    @relation(fields: [category_id], references: [id], onUpdate: SetNull, onDelete: Cascade)
-  user_id           Int
-  User              User              @relation(fields: [user_id], references: [id],  onDelete: Cascade)
-  created_at        DateTime          @default(now())
-  updated_at        DateTime          @updatedAt
+  id            Int            @id @default(autoincrement())
+  slug          String         @unique
+  name          String         @db.VarChar(255)
+  description   String         @db.Text
+  country       String         @db.VarChar(255)
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+  category_id   Int
+  user_id       Int
+  city          String         @db.VarChar(255)
+  image_url     String         @db.VarChar(255)
+  ended_date    DateTime       @db.Timestamp(0)
+  start_date    DateTime       @db.Timestamp(0)
+  Plan          EventPlan[]
+  EventCategory EventCategory  @relation(fields: [category_id], references: [id], onDelete: Cascade)
+  User          User           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([category_id], map: "Event_category_id_fkey")
+  @@index([user_id], map: "Event_user_id_fkey")
 }
 
 model User {
@@ -48,8 +49,8 @@ model User {
   created_at        DateTime          @default(now())
   updated_at        DateTime          @updatedAt
   city              String?           @db.VarChar(255)
-  image_profile     UserImageProfile?
   Event             Event[]
+  image_profile     UserImageProfile?
 }
 
 model UserImageProfile {
@@ -67,7 +68,6 @@ model EventType {
   icon       String   @db.VarChar(255)
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
-  Event      Event[]
 }
 
 model EventCategory {
@@ -76,6 +76,19 @@ model EventCategory {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   Event      Event[]
+}
+
+model EventPlan {
+  id          Int       @id @default(autoincrement())
+  event_id    Int
+  Event       Event     @relation(fields: [event_id], references: [id])
+  name        String    @db.VarChar(255)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  amount      Int       @default(0)
+  description String    @db.Text
+  ended_date  DateTime? @db.Timestamp(0)
+  price       Decimal   @db.Decimal(10, 0)
 }
 
 enum Role {

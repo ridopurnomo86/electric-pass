@@ -1,6 +1,6 @@
 import { useLoaderData } from "@remix-run/react";
 import EVENT_DATA from "~/data/test-data/event";
-import { ProjectLoader } from "~/services/main/settings/project";
+import { ProjectLoader } from "services/main/settings/project";
 import ProfileLayout from "../../components/Layout";
 import EventProjectList from "./EventProjectList";
 import Header from "./Header";

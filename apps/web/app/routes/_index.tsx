@@ -3,7 +3,7 @@ import type { LoaderFunctionArgs, MetaFunction } from "@vercel/remix";
 import { cacheClientLoader } from "remix-client-cache";
 import Mainlayout from "~/components/layout/MainLayout";
 import MainHome from "~/pages/MainHome";
-import { MainHomeLoader } from "~/services/main/main-home";
+import { MainHomeLoader } from "services/main/main-home";
 
 export const meta: MetaFunction = () => [
   { title: "Elastic Pass" },

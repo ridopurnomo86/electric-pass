@@ -1,56 +1,48 @@
 import { useLoaderData } from "@remix-run/react";
-import { SettingsCreateProjectLoader } from "~/services/main/settings/project/create-project";
+import { SettingsCreateProjectLoader } from "services/main/settings/project/create-project";
 import { useRef, useState } from "react";
-import { ClientOnly } from "remix-utils/client-only";
 import ProfileLayout from "../../components/Layout";
 import Header from "./Header";
-import AboutForm from "./form/About";
-import Description from "./form/Description";
-import Stepper from "./Stepper";
-import CreateProjectLoading from "./loading";
+import Form from "./form";
 
-export type StepType = "description" | "about";
+export type StepType = "about" | "description" | "ticket";
+
+export type CurrentDataRefType = {
+  event_name: string;
+  topic_type: string;
+  category_type: number;
+  start_date: string;
+  ended_date: string;
+  duration: string;
+  country: string;
+  city: string;
+  time: string;
+  description: string;
+  image: File;
+  plans: {
+    pricing_name: string;
+    description: string;
+    price: string;
+  }[];
+};
 
 const CreateProject = () => {
-  const currentDataRef = useRef();
+  const currentDataRef = useRef<CurrentDataRefType>({} as CurrentDataRefType);
+
   const [step, setStep] = useState<StepType>("about");
 
   const loaderData = useLoaderData<typeof SettingsCreateProjectLoader>();
 
-  const category = loaderData.category.map((item: { name: string }) => ({
-    value: item.name,
+  const category = loaderData.category.map((item: { name: string; id: number }) => ({
+    value: item.id,
     label: item.name,
   }));
 
   return (
     <ProfileLayout>
       <section>
-        <Header />
-        <Stepper
-          steps={[
-            {
-              id: "about",
-              title: "About",
-              description: "This is description text.",
-              isActive: step === "about",
-            },
-            {
-              id: "description",
-              title: "Description",
-              description: "This is description text.",
-              isActive: step === "description",
-            },
-          ]}
-        />
-        <ClientOnly fallback={<CreateProjectLoading />}>
-          {() =>
-            step === "about" ? (
-              <AboutForm currentData={currentDataRef} onStep={setStep} category={category} />
-            ) : (
-              <Description currentData={currentDataRef} />
-            )
-          }
-        </ClientOnly>
+        <Header step={step} />
+        <Form category={category} currentData={currentDataRef} onStep={setStep} step={step} />
       </section>
     </ProfileLayout>
   );

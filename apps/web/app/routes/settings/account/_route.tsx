@@ -3,7 +3,7 @@ import { ClientLoaderFunctionArgs } from "@remix-run/react";
 import { cacheClientLoader } from "remix-client-cache";
 import Mainlayout from "~/components/layout/MainLayout";
 import AccountPage from "~/pages/Settings/Account";
-import { SettingsAccountLoader, SettingsAccountAction } from "~/services/main/settings/account";
+import { SettingsAccountLoader, SettingsAccountAction } from "services/main/settings/account";
 
 export const meta: MetaFunction = () => [{ title: "Account" }];
 

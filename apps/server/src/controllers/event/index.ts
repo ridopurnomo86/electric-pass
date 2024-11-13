@@ -1,9 +1,6 @@
 import fs from "fs";
 import { Request, Response } from "express";
 import ImageKit from "imagekit";
-import { db } from "../../config/prisma";
-import CreateEventSchema from "../../validation/events";
-import generateSlug from "../../modules/slug";
 
 const imageKit = new ImageKit({
   publicKey: process.env.IMAGEKIT_RESTRICTED_PUBLIC_KEY as string,
@@ -13,33 +10,15 @@ const imageKit = new ImageKit({
 
 const purgeCacheImage = ({ imageUrl }: { imageUrl: string }) => imageKit.purgeCache(imageUrl);
 
-const checkingUser = async ({ userId }: { userId: number }) => {
-  const user = await db.user.findFirst({
-    where: {
-      id: userId,
-    },
-  });
-
-  return user;
-};
-
 export class EventController {
-  public async createEvent(req: Request, res: Response) {
-    const body = req.body;
-    const image = req.file;
+  public async uploadImage(req: Request, res: Response) {
+    const { user_id, event_name } = req.body;
 
-    const { error } = CreateEventSchema.validate(body);
-
-    if (error || !image?.path)
+    if (!req.file?.path)
       return res.status(422).json({
         type: "error",
-        message: error ? error.details : "Cannot find file path",
+        message: "Cannot find file path",
       });
-
-    const user = await checkingUser({ userId: Number(body.user_id) });
-
-    if (!user || user.role === "USER")
-      return res.status(401).json({ message: "Unauthorized", type: "Error" });
 
     return fs.readFile(req.file?.path as string, (err, data) => {
       if (err) throw err;
@@ -47,7 +26,7 @@ export class EventController {
         imageKit.upload(
           {
             file: data,
-            fileName: `${user.id}-${generateSlug(body.event_name)}`,
+            fileName: `${user_id}-${event_name}`,
             folder: "/events",
             overwriteFile: true,
             useUniqueFileName: false,
@@ -56,27 +35,10 @@ export class EventController {
             if (result) {
               fs.unlinkSync(req.file?.path as string);
               purgeCacheImage({ imageUrl: result.url });
-              await db.event.create({
-                data: {
-                  slug: generateSlug(body.event_name),
-                  city: body.city,
-                  country: body.country,
-                  description: body.description,
-                  name: body.event_name,
-                  price: body.price,
-                  start_date: body.start_date,
-                  ended_date: body.ended_date,
-                  category_id: Number(body.category_type),
-                  type_id: Number(body.topic_type),
-                  user_id: user.id,
-                  updated_at: new Date().toISOString(),
-                  image_url: result.url,
-                },
-              });
-
               return res.json({
-                message: "Success create event",
+                message: "Success upload",
                 type: "success",
+                data: { thumbnailUrl: result.thumbnailUrl, url: result.url },
               });
             }
             return res.json(

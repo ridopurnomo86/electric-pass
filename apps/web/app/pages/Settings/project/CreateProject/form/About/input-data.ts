@@ -30,15 +30,6 @@ const INPUT_DATA = ({ categoryData }: InputDataType) => [
     icon: "bxs:category",
     data: categoryData,
   },
-  {
-    id: "price",
-    label: "Price",
-    name: "price",
-    placeholder: "100",
-    icon: "f7:money-dollar-circle",
-    type: "text",
-    description: "Order amount to access this event, we use dollar as a international currency.",
-  },
 ];
 
 export default INPUT_DATA;

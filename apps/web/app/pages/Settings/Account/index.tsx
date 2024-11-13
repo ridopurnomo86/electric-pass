@@ -11,7 +11,7 @@ import {
 } from "~/data/form-validation/AccountProfileValidation";
 import Select from "~/components/core/Form/components/Select";
 import useGetCountries from "~/hooks/useGetCountries";
-import { SettingsAccountLoader } from "~/services/main/settings/account";
+import { SettingsAccountLoader } from "services/main/settings/account";
 import Input from "~/components/core/Form/components/Input";
 import useUploadImage from "../hooks/useUploadImage";
 import ProfileLayout from "../components/Layout";
@@ -54,7 +54,6 @@ const Account = () => {
         variant: actionData.type === "success" ? "default" : "destructive",
       });
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionData]);
 

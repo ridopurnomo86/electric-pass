@@ -8,7 +8,7 @@ type RadioItemsType = {
 };
 
 type SelectDataType = {
-  value: string;
+  value: any;
   label: string;
   image?: string;
 };

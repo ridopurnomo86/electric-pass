@@ -10,7 +10,7 @@ import {
 } from "~/data/form-validation/ProfileValidation";
 import { Icon } from "@iconify/react";
 import { useLoaderData, useNavigation, useSubmit } from "@remix-run/react";
-import { SettingsBasicInfoLoader } from "~/services/main/settings";
+import { SettingsBasicInfoLoader } from "services/main/settings";
 import INPUT_DATA from "./input-data";
 import ProfileLayout from "./components/Layout";
 

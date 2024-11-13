@@ -1,21 +1,20 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import { Icon } from "@iconify/react";
-import { useNavigation, useSubmit } from "@remix-run/react";
-import { ChangeEvent, useState } from "react";
+import { useNavigation } from "@remix-run/react";
+import { ChangeEvent, MutableRefObject, useState } from "react";
 import RichTextEditor from "~/components/core/RichTextEditor";
 import { Button } from "~/components/ui/Button";
 import { Input } from "~/components/ui/Input";
 import { CreateEventDescriptionValidation } from "~/data/form-validation/CreateEventValidation";
 import { handleZodValidation, ValidationError } from "~/modules/zod-validation";
 import useUploadImage from "~/pages/Settings/hooks/useUploadImage";
+import { CurrentDataRefType, StepType } from "../..";
 
 type DescriptionPropsType = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  currentData: any;
+  currentData: MutableRefObject<CurrentDataRefType>;
+  onStep: (step: StepType) => void;
 };
 
-const Description = ({ currentData }: DescriptionPropsType) => {
-  const submit = useSubmit();
+const Description = ({ currentData, onStep }: DescriptionPropsType) => {
   const [editorValue, setEditorValue] = useState<string>();
   const [errors, setErrors] = useState<ValidationError<typeof CreateEventDescriptionValidation>>(
     {}
@@ -26,7 +25,7 @@ const Description = ({ currentData }: DescriptionPropsType) => {
     currentImage: "",
   });
 
-  const handleSUbmit = () => {
+  const handleSubmit = () => {
     handleZodValidation({
       onError: setErrors,
       data: {
@@ -34,18 +33,12 @@ const Description = ({ currentData }: DescriptionPropsType) => {
         description: editorValue,
       },
       onSuccess: (res) => {
-        // const data = {
-        //   ...currentData.current,
-        //   ...res,
-        //   price: String(currentData.current.price),
-        //   duration: String(currentData.current.duration),
-        // };
         const data = {
           ...currentData.current,
           ...res,
         };
-        // submit({ ...data }, { method: "POST" });
-        return data;
+        currentData.current = data;
+        onStep("ticket");
       },
       schema: CreateEventDescriptionValidation,
     });
@@ -82,7 +75,7 @@ const Description = ({ currentData }: DescriptionPropsType) => {
         )}
       </div>
       <Button
-        onClick={handleSUbmit}
+        onClick={handleSubmit}
         type="submit"
         className="flex items-center"
         disabled={state === "submitting"}
@@ -91,7 +84,7 @@ const Description = ({ currentData }: DescriptionPropsType) => {
           icon="material-symbols:check-small-rounded"
           className="mr-1 text-2xl text-neutral-200"
         />
-        <p className="text-sm font-medium text-neutral-200 antialiased">Submit</p>
+        <p className="text-sm font-medium text-neutral-200 antialiased">Next</p>
       </Button>
     </div>
   );
