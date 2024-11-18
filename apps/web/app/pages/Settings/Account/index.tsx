@@ -57,8 +57,14 @@ const Account = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionData]);
 
-  const onSubmit = (values: AccountProfileValidationType) =>
-    submit({ ...values }, { method: "post" });
+  const onSubmit = (values: AccountProfileValidationType) => {
+    const submitValues = {
+      ...values,
+      phone_number: `${values.phone_number}`,
+    };
+
+    submit(submitValues, { method: "post", encType: "application/json" });
+  };
 
   return (
     <ProfileLayout resolve={user}>

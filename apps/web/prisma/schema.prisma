@@ -17,11 +17,13 @@ model Event {
   updated_at    DateTime       @updatedAt
   category_id   Int
   user_id       Int
+  type_id       Int
   city          String         @db.VarChar(255)
   image_url     String         @db.VarChar(255)
   ended_date    DateTime       @db.Timestamp(0)
   start_date    DateTime       @db.Timestamp(0)
   Plan          EventPlan[]
+  EventType     EventType      @relation(fields: [type_id], references: [id], onDelete: Cascade)
   EventCategory EventCategory  @relation(fields: [category_id], references: [id], onDelete: Cascade)
   User          User           @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
@@ -68,6 +70,7 @@ model EventType {
   icon       String   @db.VarChar(255)
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
+  Event      Event[]
 }
 
 model EventCategory {

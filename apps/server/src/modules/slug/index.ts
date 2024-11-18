@@ -1,3 +1,3 @@
-const generateSlug = (name: string) => name.split(" ").join("-").toLocaleLowerCase();
+const generateSlug = (name: string) => name.split(" ").join("-").toLowerCase();
 
 export default generateSlug;

@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
-import { MutableRefObject, useEffect } from "react";
+import { MutableRefObject } from "react";
 import CoreForm from "~/components/core/Form";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
@@ -8,8 +8,7 @@ import {
   CreateEventPriceValidationType,
 } from "~/data/form-validation/CreateEventValidation";
 import { Button } from "~/components/ui/Button";
-import { useActionData, useNavigation, useOutletContext, useSubmit } from "@remix-run/react";
-import { useToast } from "~/components/ui/Toaster/useToast";
+import { useNavigation, useOutletContext, useSubmit } from "@remix-run/react";
 import { CurrentDataRefType } from "../..";
 import CardPlan from "./CardPlan";
 
@@ -19,14 +18,7 @@ type TicketPropsType = {
 
 const Ticket = ({ currentData }: TicketPropsType) => {
   const { user } = useOutletContext<{ user: { name: string; id: string } }>();
-
-  const { toast } = useToast();
   const submit = useSubmit();
-  const actionData = useActionData<{
-    message: string;
-    type: string;
-    status: string;
-  }>();
   const { state } = useNavigation();
   const form = useForm<CreateEventPriceValidationType>({
     resolver: zodResolver(CreateEventPriceValidation),
@@ -45,17 +37,6 @@ const Ticket = ({ currentData }: TicketPropsType) => {
     name: "plans",
     control: form.control,
   });
-
-  useEffect(() => {
-    if (actionData) {
-      toast({
-        title: actionData.status,
-        description: actionData.message,
-        variant: actionData.type === "success" ? "default" : "destructive",
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [actionData]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (values: any) => {
@@ -95,6 +76,7 @@ const Ticket = ({ currentData }: TicketPropsType) => {
                 <CardPlan
                   index={idx}
                   control={form.control}
+                  // TODO:Collapse specific form
                   onCollapse={() => {}}
                   isCollapse={true}
                 />

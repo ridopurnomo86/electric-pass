@@ -15,7 +15,7 @@ export const CreateEventValidation = z
   .object({
     event_name: z.string().min(1, { message: "The field is required." }),
     topic_type: z.string().min(1, { message: "The field is required." }),
-    category_type: z.string().min(1, { message: "The field is required." }),
+    event_type: z.string().min(1, { message: "The field is required." }),
     country: z.string().min(1, { message: "The field is required." }),
     city: z.string().min(1, { message: "The field is required." }),
     start_date: z.coerce.date().refine((data) => data > new Date(), {
@@ -52,7 +52,7 @@ export const CreateEventAboutValidation = z
   .object({
     event_name: z.string().min(1, { message: "The field is required." }),
     topic_type: z.string().min(1, { message: "The field is required." }),
-    category_type: z.number(),
+    event_type: z.number(),
     country: z.string().min(1, { message: "The field is required." }),
     city: z.string().min(1, { message: "The field is required." }),
     start_date: z.coerce.date().refine((data) => data > new Date(), {

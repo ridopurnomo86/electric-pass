@@ -1,12 +1,15 @@
-import { LoaderFunction, redirect } from "@remix-run/node";
+import { defer, LoaderFunction, redirect } from "@remix-run/node";
 import { authenticator } from "services/auth.server";
+import EventModel from "services/models/event";
 
 const PROJECT_TYPE = ["ongoing", "finished"];
 
 const ProjectLoader: LoaderFunction = async ({ request }) => {
-  await authenticator.isAuthenticated(request, {
+  const user = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
+
+  const events = await EventModel.getEventByUser({ userId: user?.id });
 
   const url = new URL(request.url);
   const type = url.searchParams.get("type");
@@ -22,7 +25,7 @@ const ProjectLoader: LoaderFunction = async ({ request }) => {
       statusText: "Not Found",
     });
 
-  return { type: url.searchParams.get("type") };
+  return defer({ type: url.searchParams.get("type"), events });
 };
 
 export default ProjectLoader;

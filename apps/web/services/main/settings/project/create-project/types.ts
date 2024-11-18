@@ -1,7 +1,7 @@
 export type ValuesType = {
   event_name: string;
   topic_type: string;
-  category_type: number;
+  event_type: number;
   start_date: Date;
   ended_date: Date;
   duration: string;

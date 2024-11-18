@@ -31,7 +31,12 @@ const EventModel = {
         },
         EventCategory: {
           connect: {
-            id: Number(data.category_type),
+            id: 1,
+          },
+        },
+        EventType: {
+          connect: {
+            id: Number(data.event_type),
           },
         },
         Plan: {
@@ -49,6 +54,28 @@ const EventModel = {
     });
 
     return createEvent;
+  },
+  getEventByUser: async ({ userId }: { userId: number }) => {
+    const events = await db.event.findMany({
+      where: {
+        user_id: userId,
+      },
+      include: {
+        EventCategory: {
+          select: {
+            name: true,
+          },
+        },
+        EventType: {
+          select: {
+            name: true,
+          },
+        },
+        Plan: true,
+      },
+    });
+
+    return events;
   },
 };
 

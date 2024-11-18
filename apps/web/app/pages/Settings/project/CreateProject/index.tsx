@@ -1,6 +1,7 @@
-import { useLoaderData } from "@remix-run/react";
+import { useActionData, useLoaderData } from "@remix-run/react";
 import { SettingsCreateProjectLoader } from "services/main/settings/project/create-project";
-import { useRef, useState } from "react";
+import { useToast } from "~/components/ui/Toaster/useToast";
+import { useEffect, useRef, useState } from "react";
 import ProfileLayout from "../../components/Layout";
 import Header from "./Header";
 import Form from "./form";
@@ -10,7 +11,7 @@ export type StepType = "about" | "description" | "ticket";
 export type CurrentDataRefType = {
   event_name: string;
   topic_type: string;
-  category_type: number;
+  event_type: number;
   start_date: string;
   ended_date: string;
   duration: string;
@@ -27,22 +28,41 @@ export type CurrentDataRefType = {
 };
 
 const CreateProject = () => {
+  const { toast } = useToast();
+
   const currentDataRef = useRef<CurrentDataRefType>({} as CurrentDataRefType);
 
   const [step, setStep] = useState<StepType>("about");
 
   const loaderData = useLoaderData<typeof SettingsCreateProjectLoader>();
 
-  const category = loaderData.category.map((item: { name: string; id: number }) => ({
+  const actionData = useActionData<{
+    message: string;
+    type: string;
+    status: string;
+  }>();
+
+  const eventTypes = loaderData.eventType.map((item: { name: string; id: number }) => ({
     value: item.id,
     label: item.name,
   }));
 
+  useEffect(() => {
+    if (actionData) {
+      toast({
+        title: actionData.status,
+        description: actionData.message,
+        variant: actionData.type === "success" ? "default" : "destructive",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [actionData]);
+
   return (
-    <ProfileLayout>
+    <ProfileLayout resolve={eventTypes}>
       <section>
         <Header step={step} />
-        <Form category={category} currentData={currentDataRef} onStep={setStep} step={step} />
+        <Form eventTypes={eventTypes} currentData={currentDataRef} onStep={setStep} step={step} />
       </section>
     </ProfileLayout>
   );

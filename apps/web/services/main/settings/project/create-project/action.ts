@@ -3,7 +3,7 @@ import { CreateEventValidation } from "~/data/form-validation/CreateEventValidat
 import { authenticator } from "services/auth.server";
 import EventModel from "services/models/event";
 import axios from "axios";
-import { commitSession, getSession } from "services/session.server";
+import { getSession } from "services/session.server";
 import UserModel from "services/models/user";
 import { ValuesType } from "./types";
 
@@ -48,7 +48,12 @@ const SettingsCreateProjectAction = async ({ request }: ActionFunctionArgs) => {
 
   const uploadImage = await uploadImageProject({ formData });
 
-  if (!uploadImage) return redirect(`/settings/project/create?message=error-uploading-image`);
+  if (!uploadImage)
+    return json({
+      status: "Error",
+      type: "error",
+      message: "Something gone wrong while uploading image",
+    });
 
   const createEvent = await EventModel.addEvent({
     data: validation as unknown as ValuesType,
@@ -57,30 +62,19 @@ const SettingsCreateProjectAction = async ({ request }: ActionFunctionArgs) => {
     plans: validation.plans,
   });
 
-  if (!createEvent)
-    return json({
-      status: "Error",
-      type: "error",
-      message: "Something Gone Wrong While Create Event",
+  if (createEvent) {
+    session.flash("create-event", {
+      status: "Success",
+      type: "success",
+      message: "Event Has Created",
     });
 
-  session.flash("create-event", {
-    status: "Success",
-    type: "success",
-    message: "Event Has Created",
-  });
-
-  json({
-    status: "Success",
-    type: "success",
-    message: "Event Has Created",
-  });
-
-  return redirect("/settings/project/create", {
-    headers: {
-      "Set-Cookie": await commitSession(session),
-    },
-  });
+    json({
+      status: "Success",
+      type: "success",
+      message: "Event Has Created",
+    });
+  }
 };
 
 export default SettingsCreateProjectAction;

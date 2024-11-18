@@ -1,10 +1,5 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { ActionFunctionArgs, json } from "@remix-run/node";
-import { getValidatedFormData } from "remix-hook-form";
-import {
-  AccountProfileValidationType,
-  AccountProfileValidation,
-} from "~/data/form-validation/AccountProfileValidation";
+import { AccountProfileValidation } from "~/data/form-validation/AccountProfileValidation";
 import { authenticator } from "services/auth.server";
 import UserModel from "services/models/user";
 import { getSession } from "services/session.server";
@@ -12,17 +7,13 @@ import { getSession } from "services/session.server";
 const SettingsAccountAction = async ({ request }: ActionFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request);
   const session = await getSession(request.headers.get("Cookie"));
+  const data = await request.json();
 
-  const {
-    errors,
-    data,
-    receivedValues: defaultValues,
-  } = await getValidatedFormData<AccountProfileValidationType>(
-    request,
-    zodResolver(AccountProfileValidation)
-  );
+  const validation = AccountProfileValidation.parse({
+    ...data,
+  });
 
-  if (errors) return json({ errors, defaultValues });
+  if (!validation) return json({ validation });
 
   const updateUser = await UserModel.updateUser({
     id: Number(user?.id),

@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import { Link } from "@remix-run/react";
-import formatPrice from "~/modules/formatPrice";
+// import formatPrice from "~/modules/formatPrice";
 import dayjs from "dayjs";
 
 type EventCardPropsType = {
@@ -8,7 +8,7 @@ type EventCardPropsType = {
   type: string;
   title: string;
   location: string;
-  price: number;
+  // price: number;
   navigateTo?: string;
   datetime: string;
 };
@@ -20,7 +20,7 @@ const EventCard = ({
   location,
   navigateTo = "#",
   datetime,
-  price = 30,
+  // price = 30,
 }: EventCardPropsType) => (
   <Link to={navigateTo}>
     <article className="size-full overflow-hidden rounded border p-4">
@@ -48,11 +48,11 @@ const EventCard = ({
             <Icon icon="material-symbols:location-on-rounded" className="mr-1 text-neutral-600" />
             <p className="text-sm font-medium text-neutral-600 antialiased">{location}</p>
           </div>
-          <div className="rounded bg-indigo-100 px-2 py-1">
+          {/* <div className="rounded bg-indigo-100 px-2 py-1">
             <p className="text-sm font-semibold text-indigo-600 antialiased">
               {price > 0 ? formatPrice(price) : "Free"}
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </article>

@@ -1,6 +1,7 @@
 import fs from "fs";
 import { Request, Response } from "express";
 import ImageKit from "imagekit";
+import convertSlug from "../../modules/slug";
 
 const imageKit = new ImageKit({
   publicKey: process.env.IMAGEKIT_RESTRICTED_PUBLIC_KEY as string,
@@ -26,7 +27,7 @@ export class EventController {
         imageKit.upload(
           {
             file: data,
-            fileName: `${user_id}-${event_name}`,
+            fileName: `${user_id}-${convertSlug(event_name)}`,
             folder: "/events",
             overwriteFile: true,
             useUniqueFileName: false,

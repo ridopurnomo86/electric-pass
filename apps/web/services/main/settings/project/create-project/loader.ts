@@ -7,9 +7,9 @@ const CreateProjectLoader: LoaderFunction = async ({ request }) => {
     failureRedirect: "/login",
   });
 
-  const category = await db.eventType.findMany();
+  const eventType = await db.eventType.findMany();
 
-  return defer({ category });
+  return defer({ eventType });
 };
 
 export default CreateProjectLoader;

@@ -18,12 +18,12 @@ import { CurrentDataRefType, StepType } from "../..";
 import INPUT_DATA from "./input-data";
 
 type AboutPropsType = {
-  category: { value: string; label: string }[];
+  eventTypes: { value: string; label: string }[];
   onStep: (value: StepType) => void;
   currentData: MutableRefObject<CurrentDataRefType>;
 };
 
-const About = ({ category, onStep, currentData }: AboutPropsType) => {
+const About = ({ eventTypes, onStep, currentData }: AboutPropsType) => {
   const { state } = useNavigation();
   const { country } = useGetCountries();
 
@@ -32,7 +32,7 @@ const About = ({ category, onStep, currentData }: AboutPropsType) => {
     defaultValues: {
       event_name: "",
       topic_type: "",
-      category_type: 0,
+      event_type: 0,
       start_date: new Date(),
       ended_date: new Date(),
       time: "08:00",
@@ -49,7 +49,7 @@ const About = ({ category, onStep, currentData }: AboutPropsType) => {
     const submitValues = {
       event_name: values.event_name,
       topic_type: values.topic_type,
-      category_type: values.category_type,
+      event_type: values.event_type,
       start_date: dayjs(formatStartDate).format(),
       ended_date: dayjs(values.ended_date).format(),
       duration: values.duration,
@@ -80,7 +80,7 @@ const About = ({ category, onStep, currentData }: AboutPropsType) => {
       className="mb-8"
       form={form}
       onSubmit={onSubmit}
-      forms={INPUT_DATA({ categoryData: category })}
+      forms={INPUT_DATA({ eventTypeData: eventTypes })}
     >
       <div className="grid grid-cols-3 items-start gap-4">
         <CoreDate

@@ -9,15 +9,15 @@ import CreateProjectLoading from "./loading";
 type CreateProjectForm = {
   currentData: MutableRefObject<CurrentDataRefType>;
   onStep: (step: StepType) => void;
-  category: { value: string; label: string }[];
+  eventTypes: { value: string; label: string }[];
   step: StepType;
 };
 
-const Form = ({ currentData, onStep, category, step }: CreateProjectForm) => {
+const Form = ({ currentData, onStep, eventTypes, step }: CreateProjectForm) => {
   const renderComponent = () => {
     switch (step) {
       case "about":
-        return <AboutForm currentData={currentData} onStep={onStep} category={category} />;
+        return <AboutForm currentData={currentData} onStep={onStep} eventTypes={eventTypes} />;
       case "description":
         return <DescriptionForm currentData={currentData} onStep={onStep} />;
       case "ticket":
