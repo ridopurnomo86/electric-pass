@@ -69,6 +69,7 @@
     "dayjs": "^1.11.11",
     "eslint-config-react-app": "^7.0.1",
     "imagekitio-react": "^4.1.0",
+    "ioredis": "^5.4.1",
     "isbot": "^4",
     "lexical": "^0.17.0",
     "react": "^18.2.0",

@@ -42,7 +42,7 @@ const CreateProject = () => {
     status: string;
   }>();
 
-  const eventTypes = loaderData.eventType.map((item: { name: string; id: number }) => ({
+  const category = loaderData.category.map((item: { name: string; id: number }) => ({
     value: item.id,
     label: item.name,
   }));
@@ -59,10 +59,10 @@ const CreateProject = () => {
   }, [actionData]);
 
   return (
-    <ProfileLayout resolve={eventTypes}>
+    <ProfileLayout resolve={category}>
       <section>
         <Header step={step} />
-        <Form eventTypes={eventTypes} currentData={currentDataRef} onStep={setStep} step={step} />
+        <Form eventTypes={category} currentData={currentDataRef} onStep={setStep} step={step} />
       </section>
     </ProfileLayout>
   );
