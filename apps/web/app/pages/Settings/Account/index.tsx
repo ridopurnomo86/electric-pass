@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "~/components/ui/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useActionData, useLoaderData, useNavigation, useSubmit } from "@remix-run/react";
+import { useCachedLoaderData } from "remix-client-cache";
+import { useActionData, useNavigation, useSubmit } from "@remix-run/react";
 import Form from "~/components/core/Form";
 import { useToast } from "~/components/ui/Toaster/useToast";
 import {
@@ -26,7 +27,7 @@ const Account = () => {
     type: string;
     status: string;
   }>();
-  const { user } = useLoaderData<typeof SettingsAccountLoader>();
+  const { user } = useCachedLoaderData<typeof SettingsAccountLoader>();
   const { state } = useNavigation();
   const form = useForm<AccountProfileValidationType>({
     resolver: zodResolver(AccountProfileValidation),
@@ -90,6 +91,7 @@ const Account = () => {
               name="dialing_code"
               placeholder="+1"
               data={dialCode}
+              defaultValue={form.getValues("dialing_code")}
               control={form.control}
               hasIcon
             />

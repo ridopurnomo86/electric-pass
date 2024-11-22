@@ -8,9 +8,6 @@ import {
 import { authenticator } from "services/auth.server";
 import UserModel from "services/models/user";
 import { getSession } from "services/session.server";
-import Redis from "services/modules/redis";
-
-const USER_CATEGORY_CACHE = (userId: number) => `user-info-${userId}`;
 
 const SettingsBasicInfoAction = async ({ request }: ActionFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request);
@@ -37,7 +34,6 @@ const SettingsBasicInfoAction = async ({ request }: ActionFunctionArgs) => {
   });
 
   if (updateUser) {
-    await Redis.setItem(USER_CATEGORY_CACHE(Number(user?.id)), JSON.stringify(updateUser));
     session.flash("update-basic-info", {
       status: "Success",
       type: "success",

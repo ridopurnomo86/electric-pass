@@ -9,7 +9,8 @@ import {
   SettingsBasicInfoValidationType,
 } from "~/data/form-validation/ProfileValidation";
 import { Icon } from "@iconify/react";
-import { useActionData, useLoaderData, useNavigation, useSubmit } from "@remix-run/react";
+import { useCachedLoaderData } from "remix-client-cache";
+import { useActionData, useNavigation, useSubmit } from "@remix-run/react";
 import { SettingsBasicInfoLoader } from "services/main/settings";
 import { useToast } from "~/components/ui/Toaster/useToast";
 import { useEffect } from "react";
@@ -19,7 +20,7 @@ import ProfileLayout from "./components/Layout";
 const Profile = () => {
   const submit = useSubmit();
   const { state } = useNavigation();
-  const { user } = useLoaderData<typeof SettingsBasicInfoLoader>();
+  const { user } = useCachedLoaderData<typeof SettingsBasicInfoLoader>();
 
   const { toast } = useToast();
   const actionData = useActionData<{

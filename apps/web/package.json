@@ -68,6 +68,7 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
     "eslint-config-react-app": "^7.0.1",
+    "html-react-parser": "^5.1.18",
     "imagekitio-react": "^4.1.0",
     "ioredis": "^5.4.1",
     "isbot": "^4",

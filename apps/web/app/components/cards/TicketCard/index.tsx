@@ -20,12 +20,13 @@ const renderTag = ({
   soldOut: boolean;
   eventDate: string;
 }) => {
-  const isEventEnded = dayjs(date).isAfter(dayjs(eventDate).format());
+  const isEventEnded = dayjs().isAfter(dayjs(eventDate).format());
 
   if (isEventEnded) return <p className="font-bold text-red-600">EVENT ENDED</p>;
   if (dayjs(date).isBefore(dayjs().format()))
     return <p className="font-bold text-red-600">SALE ENDED</p>;
   if (soldOut) return <p className="font-bold text-red-600">SOLD OUT</p>;
+
   return null;
 };
 
