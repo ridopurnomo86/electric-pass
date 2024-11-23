@@ -6,6 +6,7 @@ import Description from "./content/Description";
 import Ticket from "./content/Ticket";
 import Header from "./Header";
 import Information from "./Information";
+import OrganizerInfo from "./OrganizerInfo";
 
 const Event = () => {
   const { eventDetail } = useCachedLoaderData<typeof EventDetailLoader>();
@@ -13,7 +14,7 @@ const Event = () => {
 
   return (
     <main className="min-h-screen bg-[#F8FAFC]">
-      <section className="container mx-auto grid size-full gap-8 py-4 md:grid-cols-[70%_30%] md:py-10">
+      <section className="container mx-auto grid size-full gap-8 py-4 md:py-10 min-[1024px]:grid-cols-[70%_30%]">
         <div>
           <Header
             imageUrl={eventDetail.image_url}
@@ -21,6 +22,13 @@ const Event = () => {
             slug={eventDetail.slug}
             title={eventDetail.name}
             topic={eventDetail.EventType?.name}
+          />
+          <OrganizerInfo
+            organizerImageUrl={eventDetail.User?.image_profile?.image_url}
+            organizerName={eventDetail.User?.name}
+            eventDate={eventDetail.start_date}
+            city={eventDetail.city}
+            country={eventDetail.country}
           />
           <TabsNavigation
             tabs={[

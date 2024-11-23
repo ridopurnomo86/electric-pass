@@ -1,4 +1,5 @@
 import { Control, FieldValues } from "react-hook-form";
+import { AuthenticityTokenInput } from "remix-utils/csrf/react";
 import { Form as FormCore } from "~/components/ui/Form";
 import TextArea from "./components/TextArea";
 import Input from "./components/Input";
@@ -34,6 +35,7 @@ const Form = <T extends FieldValues>({
 }: FormPropstype<T>) => (
   <FormCore {...form}>
     <form onSubmit={form.handleSubmit(onSubmit)} className={`space-y-4 ${className}`}>
+      <AuthenticityTokenInput name="csrf" />
       {forms.map((item) => {
         const Comp = getComponent(item.type);
 

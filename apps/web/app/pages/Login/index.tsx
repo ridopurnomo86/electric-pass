@@ -3,11 +3,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginValidation, LoginValidationType } from "~/data/form-validation/LoginValidation";
 import { useActionData, useLoaderData, useNavigation, useSubmit } from "@remix-run/react";
 import { useToast } from "~/components/ui/Toaster/useToast";
+import { useAuthenticityToken } from "remix-utils/csrf/react";
 import { useEffect } from "react";
 import FormInput from "./FormInput";
 import Thumbnail from "./Thumbnail";
 
 const Login = () => {
+  const csrf = useAuthenticityToken();
   const actionData = useActionData<{
     message: string;
     type: string;
@@ -41,7 +43,7 @@ const Login = () => {
   }, [loader]);
 
   const onSubmit = (values: LoginValidationType) => {
-    submit({ ...values }, { method: "post" });
+    submit({ ...values, csrf }, { method: "post" });
   };
 
   return (
