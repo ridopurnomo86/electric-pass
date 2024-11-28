@@ -1,5 +1,4 @@
 import EventCard from "~/components/cards/EventCard";
-import { EventDataType } from "~/data/test-data/event";
 import TabsNavigation from "~/components/core/TabsNavigation";
 import { useNavigate } from "@remix-run/react";
 import EventProjectListEmpty from "./empty";
