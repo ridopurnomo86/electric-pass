@@ -47,7 +47,7 @@ const EntryNavigation = ({ isAuthenticated, name }: EntryNavigationPropsType) =>
     </div>
   ) : (
     <div className="flex items-center gap-4 max-[894px]:hidden">
-      <Link to="/create-event">
+      <Link to="/settings/project/create">
         <div className="flex items-center">
           <Icon icon="mdi:event-add" className="mr-1 text-neutral-600" />
           <p className="text-sm font-medium text-neutral-600 antialiased">Create Event</p>
