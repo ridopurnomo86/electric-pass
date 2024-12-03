@@ -7,6 +7,7 @@ import Ticket from "./content/Ticket";
 import Header from "./Header";
 import Information from "./Information";
 import OrganizerInfo from "./OrganizerInfo";
+import BottomNavigation from "./BottomNavigation";
 
 const Event = () => {
   const { eventDetail } = useCachedLoaderData<typeof EventDetailLoader>();
@@ -60,6 +61,7 @@ const Event = () => {
           country={eventDetail.country}
         />
       </section>
+      <BottomNavigation onBuyTicket={() => {}} startedPrice={eventDetail.Plan[0]?.price} />
     </main>
   );
 };
