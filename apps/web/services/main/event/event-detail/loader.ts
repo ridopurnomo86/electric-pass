@@ -1,31 +1,8 @@
 import { defer, LoaderFunction } from "@remix-run/node";
-import { db } from "services/prisma.server";
+import EventModel from "services/models/event";
 
 const EventDetailLoader: LoaderFunction = async ({ params }) => {
-  const eventDetail = await db.event.findFirst({
-    where: {
-      slug: params.slug,
-    },
-    include: {
-      EventCategory: {
-        select: {
-          name: true,
-        },
-      },
-      EventType: {
-        select: {
-          name: true,
-        },
-      },
-      Plan: true,
-      User: {
-        select: {
-          name: true,
-          image_profile: true,
-        },
-      },
-    },
-  });
+  const eventDetail = await EventModel.getEventDetail({ slug: String(params.slug) });
 
   if (!eventDetail)
     throw new Response(null, {

@@ -66,7 +66,7 @@ const Profile = () => {
           <Button
             type="submit"
             className="mt-6 flex items-center"
-            disabled={state === "submitting"}
+            disabled={state === "submitting" || !form.formState.isDirty}
           >
             <Icon
               icon="material-symbols:check-small-rounded"

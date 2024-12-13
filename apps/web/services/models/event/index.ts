@@ -55,7 +55,7 @@ const EventModel = {
 
     return createEvent;
   },
-  getEventByUser: async ({ userId }: { userId: number }) => {
+  getEventsByUser: async ({ userId }: { userId: number }) => {
     const events = await db.event.findMany({
       where: {
         user_id: userId,
@@ -76,6 +76,34 @@ const EventModel = {
     });
 
     return events;
+  },
+  getEventDetail: async ({ slug }: { slug: string }) => {
+    const eventDetail = await db.event.findFirst({
+      where: {
+        slug,
+      },
+      include: {
+        EventCategory: {
+          select: {
+            name: true,
+          },
+        },
+        EventType: {
+          select: {
+            name: true,
+          },
+        },
+        Plan: true,
+        User: {
+          select: {
+            name: true,
+            image_profile: true,
+          },
+        },
+      },
+    });
+
+    return eventDetail;
   },
 };
 

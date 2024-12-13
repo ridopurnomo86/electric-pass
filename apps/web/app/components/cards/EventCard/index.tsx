@@ -22,7 +22,7 @@ const EventCard = ({
   datetime,
   // price = 30,
 }: EventCardPropsType) => (
-  <Link to={navigateTo}>
+  <Link to={navigateTo} preventScrollReset>
     <article className="size-full overflow-hidden rounded border p-4">
       <div>
         <img

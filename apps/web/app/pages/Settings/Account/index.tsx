@@ -125,7 +125,7 @@ const Account = () => {
           <Button
             type="submit"
             className="text-neutral-200"
-            disabled={state === "submitting" || isLoading}
+            disabled={state === "submitting" || isLoading || !form.formState.isDirty}
           >
             Update Account
           </Button>

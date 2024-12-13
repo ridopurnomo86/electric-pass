@@ -9,7 +9,7 @@ const ProjectLoader: LoaderFunction = async ({ request }) => {
     failureRedirect: "/login",
   });
 
-  const events = await EventModel.getEventByUser({ userId: user?.id });
+  const events = await EventModel.getEventsByUser({ userId: user?.id });
 
   const url = new URL(request.url);
   const type = url.searchParams.get("type");

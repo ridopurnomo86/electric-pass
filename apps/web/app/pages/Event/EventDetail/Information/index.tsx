@@ -19,6 +19,7 @@ const Information = ({
   organizerName,
 }: InformationPropsType) => {
   const isEventEnded = dayjs().isAfter(dayjs(eventDate).format());
+
   return (
     <div className="mr-4 max-h-min rounded-md border bg-white px-6 py-4 max-[1024px]:hidden">
       <div className="mb-4 flex border-b pb-4">

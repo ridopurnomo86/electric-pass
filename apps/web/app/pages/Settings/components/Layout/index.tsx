@@ -1,7 +1,8 @@
 import React, { Suspense } from "react";
-import { Await, useLocation, useOutletContext } from "@remix-run/react";
+import { Await, useLocation, useNavigation, useOutletContext } from "@remix-run/react";
 import ProfileLoading from "../../loading";
 import Navigation from "./Navigation";
+import ProfileLayoutLoading from "./loading";
 
 type ContextPropsType = {
   user: { name: string; role: "organizer" | "user"; email: string };
@@ -14,6 +15,7 @@ type ProfileLayoutPropsType = {
 };
 
 const ProfileLayout = ({ children, resolve }: ProfileLayoutPropsType) => {
+  const { state } = useNavigation();
   const location = useLocation();
   const { user } = useOutletContext<ContextPropsType>();
 
@@ -27,9 +29,13 @@ const ProfileLayout = ({ children, resolve }: ProfileLayoutPropsType) => {
       </div>
       <div className="grid grid-cols-1 gap-4 pt-8 md:grid-cols-[15%,85%]">
         <Navigation role={user.role} />
-        <Suspense key={location.key} fallback={<ProfileLoading />}>
-          <Await resolve={resolve}>{children}</Await>
-        </Suspense>
+        {state === "loading" ? (
+          <ProfileLayoutLoading />
+        ) : (
+          <Suspense key={location.key} fallback={<ProfileLoading />}>
+            <Await resolve={resolve}>{children}</Await>
+          </Suspense>
+        )}
       </div>
     </main>
   );
