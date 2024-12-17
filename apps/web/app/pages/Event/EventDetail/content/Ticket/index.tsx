@@ -6,9 +6,9 @@ type TicketPropsType = {
   plans: EventPlanDataType[];
 };
 
-const Ticket = ({ eventDate, plans }: TicketPropsType) => (
+const Ticket = ({ plans }: TicketPropsType) => (
   <div className="relative mt-8 gap-4">
-    <TicketCardList data={plans} eventDate={eventDate} />
+    <TicketCardList data={plans} />
   </div>
 );
 

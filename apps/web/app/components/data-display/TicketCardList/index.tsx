@@ -4,21 +4,22 @@ import { EventPlanDataType } from "~/data/test-data/types";
 type TicketCardListPropsType = {
   className?: string;
   data: Array<EventPlanDataType>;
-  eventDate: string;
+  onClick: (item: EventPlanDataType) => void;
 };
 
-const TicketCardList = ({ data = [], className, eventDate }: TicketCardListPropsType) => (
+const TicketCardList = ({ data = [], className, onClick }: TicketCardListPropsType) => (
   <div className={className}>
     <div className="gap-4 py-4">
       {data.map((item, idx) => (
         <div key={item.id}>
           <TicketCard
+            onClick={() => onClick(item)}
             description={item.description}
             expiredDate={item.ended_date}
             isSoldOut={item.amount <= 0}
             price={Number(item.price)}
             title={item.name}
-            eventDate={eventDate}
+            endedDate={item.ended_date}
           />
           {idx + 1 !== data.length && <div className="mb-4" />}
         </div>

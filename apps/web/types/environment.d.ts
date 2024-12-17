@@ -4,6 +4,7 @@ declare global {
       NODE_ENV: "development" | "production";
       DATABASE_URL: string;
       SESSION_SECRET: string;
+      BOOKING_SESSION_SECRET: string;
     }
   }
 }

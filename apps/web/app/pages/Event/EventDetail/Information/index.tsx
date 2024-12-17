@@ -9,6 +9,7 @@ type InformationPropsType = {
   country: string;
   organizerImageUrl: string;
   organizerName: string;
+  onSubmit: () => void;
 };
 
 const Information = ({
@@ -17,6 +18,7 @@ const Information = ({
   country,
   organizerImageUrl,
   organizerName,
+  onSubmit,
 }: InformationPropsType) => {
   const isEventEnded = dayjs().isAfter(dayjs(eventDate).format());
 
@@ -79,9 +81,11 @@ const Information = ({
           <p className="mb-4 text-sm font-medium antialiased">
             This event not started yet, booked some tickets.
           </p>
-          <Link to="/events">
-            <Button className="w-full">Buy Ticket</Button>
-          </Link>
+          <form method="POST" onSubmit={onSubmit}>
+            <Button type="submit" className="w-full">
+              Buy Ticket
+            </Button>
+          </form>
         </div>
       )}
     </div>

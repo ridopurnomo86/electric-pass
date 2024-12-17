@@ -1,7 +1,7 @@
 import TabsNavigation from "~/components/core/TabsNavigation";
 import { Suspense, useState } from "react";
 import { EventDetailLoader } from "services/main/event/event-detail";
-import { Await, useLocation } from "@remix-run/react";
+import { Await, useLocation, useSubmit } from "@remix-run/react";
 import { useCachedLoaderData } from "remix-client-cache";
 import Description from "./content/Description";
 import Ticket from "./content/Ticket";
@@ -12,9 +12,18 @@ import BottomNavigation from "./BottomNavigation";
 import EventLoading from "./loading";
 
 const Event = () => {
-  const location = useLocation();
-  const { eventDetail } = useCachedLoaderData<typeof EventDetailLoader>();
   const [type, setType] = useState<"description" | "ticket">("description");
+  const submit = useSubmit();
+  const location = useLocation();
+
+  const { eventDetail } = useCachedLoaderData<typeof EventDetailLoader>();
+
+  const onSubmit = () => {
+    const formData = new FormData();
+    formData.append("data", JSON.stringify({ event_id: eventDetail.id }));
+
+    submit(formData, { method: "post", encType: "multipart/form-data" });
+  };
 
   return (
     <Suspense key={location.key} fallback={<EventLoading />}>
@@ -65,9 +74,10 @@ const Event = () => {
                 eventDate={resolve.start_date}
                 city={resolve.city}
                 country={resolve.country}
+                onSubmit={onSubmit}
               />
             </section>
-            <BottomNavigation onBuyTicket={() => {}} startedPrice={resolve.Plan[0]?.price} />
+            <BottomNavigation onBuyTicket={onSubmit} startedPrice={resolve.Plan[0]?.price} />
           </main>
         )}
       </Await>
