@@ -21,7 +21,12 @@ const Event = () => {
     const formData = new FormData();
     formData.append("data", JSON.stringify({ event_id: eventDetail.id }));
 
-    submit(formData, { method: "post", encType: "multipart/form-data" });
+    submit(formData, {
+      method: "post",
+      encType: "multipart/form-data",
+      replace: true,
+      preventScrollReset: true,
+    });
   };
 
   return (

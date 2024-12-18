@@ -25,8 +25,10 @@ const EventBooking = () => {
   );
 
   const handleContinueBlocking = () => {
-    submit({}, { method: "POST" });
-    // blocker.proceed?.();
+    const formData = new FormData();
+    formData.append("dialog", "reset");
+
+    submit(formData, { method: "POST" });
   };
 
   return (

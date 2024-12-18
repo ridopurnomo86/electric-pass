@@ -1,23 +1,23 @@
-import { ActionFunction, ActionFunctionArgs, redirect } from "@remix-run/node";
+import { ActionFunction, ActionFunctionArgs, redirect, redirectDocument } from "@remix-run/node";
 import { authenticator } from "services/auth.server";
-import { cookie as userEventBook } from "services/event-booking.server";
+import { commitSession, getSession } from "services/booking-session.server";
 
 const EventDetailAction: ActionFunction = async ({ request, params }: ActionFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request);
 
   if (!user) return redirect("/login");
 
+  const bookingSession = await getSession(request.headers.get("Cookie"));
+
   const formData = await request.formData();
 
-  const values = Object.fromEntries(formData);
+  const event = formData.get("data") ? JSON.parse(formData.get("data") as string) : {};
 
-  const event = values.data ? JSON.parse(values?.data as string) : {};
+  bookingSession.set("event", { event_id: event?.event_id, has_access: true });
 
-  return redirect(`/event/${params.slug}/book`, {
+  return redirectDocument(`/event/${params.slug}/book`, {
     headers: {
-      "Set-Cookie": await userEventBook.serialize({
-        event_id: event?.event_id,
-      }),
+      "Set-Cookie": await commitSession(bookingSession),
     },
   });
 };

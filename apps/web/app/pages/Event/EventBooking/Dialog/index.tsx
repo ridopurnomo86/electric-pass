@@ -30,12 +30,8 @@ const EventBookingDialog = ({
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel name="dialog" onClick={onCancel}>
-          Cancel
-        </AlertDialogCancel>
-        <AlertDialogAction name="dialog" onClick={onContinue} value="reset">
-          Continue
-        </AlertDialogAction>
+        <AlertDialogCancel onClick={onCancel}>Cancel</AlertDialogCancel>
+        <AlertDialogAction onClick={onContinue}>Continue</AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
