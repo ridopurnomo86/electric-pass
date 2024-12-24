@@ -15,7 +15,7 @@ import CategoryCardListLoading from "~/components/data-display/CategoryCardList/
 import Hero from "./Hero";
 
 const MainHome = () => {
-  const { category, events } = useLoaderData<typeof MainHomeLoader>();
+  const { type, events } = useLoaderData<typeof MainHomeLoader>();
 
   const form = useForm<z.infer<typeof HomeSearchValidation>>({
     resolver: zodResolver(HomeSearchValidation),
@@ -42,13 +42,13 @@ const MainHome = () => {
         </Await>
       </Suspense>
       <Suspense fallback={<CategoryCardListLoading className="container mx-auto mt-12" />}>
-        <Await resolve={category}>
-          {(category) => (
+        <Await resolve={type}>
+          {(type) => (
             <CategoryCardList
               className="container mx-auto mt-12"
-              title="Category Events"
-              subtitle="Top picks for all categories"
-              data={category}
+              title="Type Events"
+              subtitle="Top picks for all type of events."
+              data={type}
             />
           )}
         </Await>

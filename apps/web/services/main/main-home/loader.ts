@@ -1,39 +1,30 @@
 import { LoaderFunction } from "@remix-run/node";
 import Redis from "services/modules/redis";
-import { db } from "services/prisma.server";
+import { jsonHash } from "remix-utils/json-hash";
+import EventModel from "services/models/event";
+import EventTypeModel from "services/models/event/event-type";
 
-const EVENT_CATEGORY_CACHE = "event-category";
+const EVENT_TYPE_CACHE = "event-type";
 const EVENTS_CACHE = "events";
 
 const MainHomeLoader: LoaderFunction = async () => {
-  const cacheCategory = await Redis.getItem(EVENT_CATEGORY_CACHE);
+  const cacheCategory = await Redis.getItem(EVENT_TYPE_CACHE);
   const cacheEvents = await Redis.getItem(EVENTS_CACHE);
 
   if (!cacheCategory || !cacheEvents) {
-    const category = await db.eventType.findMany();
-    const events = await db.event.findMany({
-      include: {
-        EventCategory: {
-          select: {
-            name: true,
-          },
-        },
-        EventType: {
-          select: {
-            name: true,
-          },
-        },
-        Plan: true,
-      },
-    });
+    const type = await EventTypeModel.getAllEventType();
+    const events = await EventModel.getAllEvent();
 
-    Redis.setItem(EVENT_CATEGORY_CACHE, JSON.stringify(category));
+    Redis.setItem(EVENT_TYPE_CACHE, JSON.stringify(type));
     Redis.setItem(EVENTS_CACHE, JSON.stringify(events));
 
-    return { category, events };
+    return jsonHash({
+      type,
+      events,
+    });
   }
 
-  return { category: JSON.parse(cacheCategory!), events: JSON.parse(cacheEvents!) };
+  return jsonHash({ type: JSON.parse(cacheCategory!), events: JSON.parse(cacheEvents!) });
 };
 
 export default MainHomeLoader;

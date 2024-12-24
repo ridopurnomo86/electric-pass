@@ -105,6 +105,25 @@ const EventModel = {
 
     return eventDetail;
   },
+  getAllEvent: async () => {
+    const events = await db.event.findMany({
+      include: {
+        EventCategory: {
+          select: {
+            name: true,
+          },
+        },
+        EventType: {
+          select: {
+            name: true,
+          },
+        },
+        Plan: true,
+      },
+    });
+
+    return events;
+  },
 };
 
 export default EventModel;

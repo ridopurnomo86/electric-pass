@@ -1,25 +1,25 @@
 import { LoaderFunction } from "@remix-run/node";
 import { authenticator } from "services/auth.server";
+import EventTypeModel from "services/models/event/event-type";
 import Redis from "services/modules/redis";
-import { db } from "services/prisma.server";
 
-const EVENT_CATEGORY_CACHE = "event-category";
+const EVENT_TYPE_CACHE = "event-type";
 
 const CreateProjectLoader: LoaderFunction = async ({ request }) => {
   await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
 
-  const cacheCategory = await Redis.getItem(EVENT_CATEGORY_CACHE);
+  const cacheType = await Redis.getItem(EVENT_TYPE_CACHE);
 
-  if (!cacheCategory) {
-    const category = await db.eventType.findMany();
-    Redis.setItem(EVENT_CATEGORY_CACHE, JSON.stringify(category));
+  if (!cacheType) {
+    const type = await EventTypeModel.getAllEventType();
+    Redis.setItem(EVENT_TYPE_CACHE, JSON.stringify(type));
 
-    return { category };
+    return { type };
   }
 
-  return { category: JSON.parse(cacheCategory!) };
+  return { type: JSON.parse(cacheType!) };
 };
 
 export default CreateProjectLoader;
