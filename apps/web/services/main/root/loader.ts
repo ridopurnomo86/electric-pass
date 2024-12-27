@@ -19,7 +19,11 @@ const RootLoader: LoaderFunction = async ({ request }: LoaderFunctionArgs) => {
   return json(
     {
       user,
-      ENV: { BACKEND_URL: process.env.BACKEND_URL, API_KEY: process.env.API_KEY },
+      ENV: {
+        BACKEND_URL: process.env.BACKEND_URL,
+        API_KEY: process.env.API_KEY,
+        HOSTNAME: process.env.HOSTNAME,
+      },
       csrf: token,
     },
     { headers }

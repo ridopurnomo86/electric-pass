@@ -9,10 +9,10 @@ const renderDescriptionContent = (title: string) =>
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const meta: MetaFunction = ({ data, location }: any) => [
   { title: data.eventDetail.name },
-  { name: "keywords", content: "ElasticPass" },
+  { name: "keywords", content: "organize event, sell event" },
   { name: "author", content: process.env.HOSTNAME },
   { name: "type", content: "article" },
-  { name: "og:site_name", content: "ElasticPass" },
+  { name: "og:site_name", content: "Elastic Pass" },
   {
     property: "og:title",
     content: data.eventDetail.name,
