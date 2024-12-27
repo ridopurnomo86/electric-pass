@@ -4,7 +4,7 @@ import MainHome from "~/pages/MainHome";
 import { MainHomeLoader } from "services/main/main-home";
 
 export const meta: MetaFunction = () => [
-  { title: "ElasticPass: Create Free Events, Organize Events & Sell Your Own Events" },
+  { title: "Elastic Pass: Create Free Events, Organize Events & Sell Your Own Events" },
   {
     name: "description",
     content:
@@ -15,7 +15,7 @@ export const meta: MetaFunction = () => [
   { name: "type", content: "website" },
   {
     property: "og:title",
-    content: "ElasticPass: Create Free Events, Organize Events & Sell Your Own Events",
+    content: "Elastic Pass: Create Free Events, Organize Events & Sell Your Own Events",
   },
   { name: "og:type", content: "website" },
   { name: "og:url", content: process.env.HOSTNAME },
