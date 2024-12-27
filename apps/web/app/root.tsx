@@ -1,19 +1,13 @@
-import { json, LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
+import { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
 import stylesheet from "~/styles/globals.css";
+import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
+import { RootLoader } from "services/main/root";
 import { Toaster } from "./components/ui/Toaster/toaster";
-import { authenticator } from "./services/auth.server";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: stylesheet }];
 
-export const loader = async (args: LoaderFunctionArgs) => {
-  const user = await authenticator.isAuthenticated(args.request);
-
-  return json({
-    user,
-    ENV: { BACKEND_URL: process.env.BACKEND_URL, API_KEY: process.env.API_KEY },
-  });
-};
+export const loader = async (params: LoaderFunctionArgs) => await RootLoader(params);
 
 export default function App() {
   const loaderData = useLoaderData<typeof loader>();
@@ -27,7 +21,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet context={loaderData} />
+        <AuthenticityTokenProvider token={loaderData.csrf}>
+          <Outlet context={loaderData} />
+        </AuthenticityTokenProvider>
         <script
           dangerouslySetInnerHTML={{
             __html: `window.process = ${JSON.stringify({

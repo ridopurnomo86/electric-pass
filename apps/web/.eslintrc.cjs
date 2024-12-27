@@ -111,6 +111,10 @@ module.exports = {
                 pattern: "~/**",
                 group: "external",
               },
+              {
+                pattern: "services/**",
+                group: "external",
+              },
             ],
           },
         ],

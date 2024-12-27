@@ -7,19 +7,24 @@ import Drawer from "./Drawer";
 type NavbarPropsType = {
   isAuthenticated: boolean;
   name: string;
+  hasHideNavigation: boolean;
 };
 
-const Navbar = ({ isAuthenticated, name }: NavbarPropsType) => {
+const Navbar = ({ isAuthenticated, name, hasHideNavigation = false }: NavbarPropsType) => {
   const location = useLocation();
 
   return (
     <header className="relative border-b">
       <div className="flex w-full items-center justify-between bg-transparent px-10 py-4 max-[894px]:px-8">
-        <MainNavigation />
-        <EntryNavigation isAuthenticated={isAuthenticated} name={name} />
-        <ClientOnly fallback={null} key={location.pathname}>
-          {() => <Drawer isAuthenticated={isAuthenticated} name={name} />}
-        </ClientOnly>
+        <MainNavigation hasHideNavigation={hasHideNavigation} />
+        {!hasHideNavigation && (
+          <>
+            <EntryNavigation isAuthenticated={isAuthenticated} name={name} />
+            <ClientOnly fallback={null} key={location.pathname}>
+              {() => <Drawer isAuthenticated={isAuthenticated} name={name} />}
+            </ClientOnly>
+          </>
+        )}
       </div>
     </header>
   );

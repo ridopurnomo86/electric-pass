@@ -5,16 +5,17 @@ import { HomeSearchValidation } from "~/data/form-validation/HomeSearchValidatio
 import EventCardList from "~/components/data-display/EventCardList";
 import CreatorCardList from "~/components/data-display/CreatorCardList";
 import CategoryCardList from "~/components/data-display/CategoryCardList";
-import EVENT_DATA from "~/data/test-data/event";
 import ORGANIZER_DATA from "~/data/test-data/organizer";
 import { Await, useLoaderData } from "@remix-run/react";
-import { MainHomeLoader } from "~/services/main/main-home";
+import { MainHomeLoader } from "services/main/main-home";
 import { Suspense } from "react";
+import EventCardListLoading from "~/components/data-display/EventCardList/loading";
+import { EVENT_DATA } from "~/data/test-data/data";
 import CategoryCardListLoading from "~/components/data-display/CategoryCardList/loading";
 import Hero from "./Hero";
 
 const MainHome = () => {
-  const { category } = useLoaderData<typeof MainHomeLoader>();
+  const { type, events } = useLoaderData<typeof MainHomeLoader>();
 
   const form = useForm<z.infer<typeof HomeSearchValidation>>({
     resolver: zodResolver(HomeSearchValidation),
@@ -28,20 +29,26 @@ const MainHome = () => {
   return (
     <main className="min-h-screen bg-[#F8FAFC]">
       <Hero form={form} onSubmit={onSubmit} />
-      <EventCardList
-        data={EVENT_DATA}
-        className="container mx-auto mt-12"
-        subtitle="Top picks for you. Updated Daily"
-        title="Selected Events"
-      />
+      <Suspense fallback={<EventCardListLoading className="container mx-auto mt-12" />}>
+        <Await resolve={events}>
+          {(events) => (
+            <EventCardList
+              data={events}
+              className="container mx-auto mt-12"
+              subtitle="Top picks for you. Updated Daily"
+              title="Selected Events"
+            />
+          )}
+        </Await>
+      </Suspense>
       <Suspense fallback={<CategoryCardListLoading className="container mx-auto mt-12" />}>
-        <Await resolve={category}>
-          {(category) => (
+        <Await resolve={type}>
+          {(type) => (
             <CategoryCardList
               className="container mx-auto mt-12"
-              title="Category Events"
-              subtitle="Top picks for all categories"
-              data={category}
+              title="Type Events"
+              subtitle="Top picks for all type of events."
+              data={type}
             />
           )}
         </Await>

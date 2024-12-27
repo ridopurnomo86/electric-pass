@@ -11,9 +11,9 @@ router.get("/", (req, res) => {
 });
 
 router.post(
-  "/event",
-  [validateToken, upload.single("event_image")],
-  new EventController().createEvent
+  "/events/image/upload",
+  [validateToken, upload.single("image")],
+  new EventController().uploadImage
 );
 
 router.post(

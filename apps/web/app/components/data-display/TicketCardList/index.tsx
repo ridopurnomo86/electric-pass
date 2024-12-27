@@ -1,24 +1,25 @@
 import TicketCard from "~/components/cards/TicketCard";
-import { TicketDataType } from "~/data/test-data/ticket";
+import { EventPlanDataType } from "~/data/test-data/types";
 
 type TicketCardListPropsType = {
   className?: string;
-  data: Array<TicketDataType>;
-  eventDate: string;
+  data: Array<EventPlanDataType>;
+  onClick?: (item: EventPlanDataType) => void;
 };
 
-const TicketCardList = ({ data = [], className, eventDate }: TicketCardListPropsType) => (
+const TicketCardList = ({ data = [], className, onClick = () => {} }: TicketCardListPropsType) => (
   <div className={className}>
     <div className="gap-4 py-4">
       {data.map((item, idx) => (
         <div key={item.id}>
           <TicketCard
+            onClick={() => onClick(item)}
             description={item.description}
-            expiredDate={item.expiredDate}
-            isSoldOut={item.stock <= 0}
-            price={item.price}
-            title={item.title}
-            eventDate={eventDate}
+            expiredDate={item.ended_date}
+            isSoldOut={item.amount <= 0}
+            price={Number(item.price)}
+            title={item.name}
+            endedDate={item.ended_date}
           />
           {idx + 1 !== data.length && <div className="mb-4" />}
         </div>

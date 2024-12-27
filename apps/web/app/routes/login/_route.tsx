@@ -1,6 +1,6 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import LoginPage from "~/pages/Login";
-import { LoginAction, LoginLoader } from "~/services/main/login";
+import { LoginAction, LoginLoader } from "services/main/login";
 
 export const meta: MetaFunction = () => [{ title: "Login" }];
 

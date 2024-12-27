@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 type InputDataType = {
-  categoryData: any[];
+  eventTypeData: any[];
 };
 
-const INPUT_DATA = ({ categoryData }: InputDataType) => [
+const INPUT_DATA = ({ eventTypeData }: InputDataType) => [
   {
     id: "event_name",
     label: "Event Name",
@@ -22,22 +22,13 @@ const INPUT_DATA = ({ categoryData }: InputDataType) => [
     description: "Is a classification derived from the Topic of events presented.",
   },
   {
-    id: "category_type",
-    label: "Category",
-    name: "category_type",
+    id: "event_type",
+    label: "Event Type",
+    name: "event_type",
     type: "select",
     placeholder: "Workshop",
     icon: "bxs:category",
-    data: categoryData,
-  },
-  {
-    id: "price",
-    label: "Price",
-    name: "price",
-    placeholder: "100",
-    icon: "f7:money-dollar-circle",
-    type: "text",
-    description: "Order amount to access this event, we use dollar as a international currency.",
+    data: eventTypeData,
   },
 ];
 

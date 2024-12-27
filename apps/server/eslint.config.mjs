@@ -30,5 +30,5 @@ export default tseslint.config(eslint.configs.recommended, ...tseslint.configs.r
       },
     ],
   },
-  ignores: ["dist/**/*", "build/**/*", "public/build/**/*"],
+  ignores: ["node_modules/*", "build/**/*", "dist/**/*", "**/.dist/", ".dist/"],
 });

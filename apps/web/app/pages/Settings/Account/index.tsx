@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "~/components/ui/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useActionData, useLoaderData, useNavigation, useSubmit } from "@remix-run/react";
+import { useCachedLoaderData } from "remix-client-cache";
+import { useActionData, useNavigation, useSubmit } from "@remix-run/react";
 import Form from "~/components/core/Form";
 import { useToast } from "~/components/ui/Toaster/useToast";
 import {
@@ -11,7 +12,7 @@ import {
 } from "~/data/form-validation/AccountProfileValidation";
 import Select from "~/components/core/Form/components/Select";
 import useGetCountries from "~/hooks/useGetCountries";
-import { SettingsAccountLoader } from "~/services/main/settings/account";
+import { SettingsAccountLoader } from "services/main/settings/account";
 import Input from "~/components/core/Form/components/Input";
 import useUploadImage from "../hooks/useUploadImage";
 import ProfileLayout from "../components/Layout";
@@ -26,7 +27,7 @@ const Account = () => {
     type: string;
     status: string;
   }>();
-  const { user } = useLoaderData<typeof SettingsAccountLoader>();
+  const { user } = useCachedLoaderData<typeof SettingsAccountLoader>();
   const { state } = useNavigation();
   const form = useForm<AccountProfileValidationType>({
     resolver: zodResolver(AccountProfileValidation),
@@ -54,12 +55,17 @@ const Account = () => {
         variant: actionData.type === "success" ? "default" : "destructive",
       });
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionData]);
 
-  const onSubmit = (values: AccountProfileValidationType) =>
-    submit({ ...values }, { method: "post" });
+  const onSubmit = (values: AccountProfileValidationType) => {
+    const submitValues = {
+      ...values,
+      phone_number: `${values.phone_number}`,
+    };
+
+    submit(submitValues, { method: "post", encType: "application/json" });
+  };
 
   return (
     <ProfileLayout resolve={user}>
@@ -85,6 +91,7 @@ const Account = () => {
               name="dialing_code"
               placeholder="+1"
               data={dialCode}
+              defaultValue={form.getValues("dialing_code")}
               control={form.control}
               hasIcon
             />
@@ -118,7 +125,7 @@ const Account = () => {
           <Button
             type="submit"
             className="text-neutral-200"
-            disabled={state === "submitting" || isLoading}
+            disabled={state === "submitting" || isLoading || !form.formState.isDirty}
           >
             Update Account
           </Button>

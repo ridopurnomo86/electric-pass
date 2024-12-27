@@ -3,7 +3,7 @@ import { ClientLoaderFunctionArgs } from "@remix-run/react";
 import { cacheClientLoader } from "remix-client-cache";
 import Mainlayout from "~/components/layout/MainLayout";
 import ProfilePage from "~/pages/Settings";
-import { SettingsBasicInfoAction, SettingsBasicInfoLoader } from "~/services/main/settings";
+import { SettingsBasicInfoAction, SettingsBasicInfoLoader } from "services/main/settings";
 
 export const meta: MetaFunction = () => [{ title: "Profile" }];
 

@@ -8,32 +8,31 @@ import { Icon } from "@iconify/react";
 import { useNavigation } from "@remix-run/react";
 import { useForm } from "react-hook-form";
 import {
-  CreateEventValidation,
-  CreateEventValidationType,
+  CreateEventAboutValidation,
+  CreateEventAboutValidationType,
 } from "~/data/form-validation/CreateEventValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { MutableRefObject } from "react";
 import dayjs from "dayjs";
-import { StepType } from "../..";
+import { CurrentDataRefType, StepType } from "../..";
 import INPUT_DATA from "./input-data";
 
 type AboutPropsType = {
-  category: { value: string; label: string }[];
+  eventTypes: { value: string; label: string }[];
   onStep: (value: StepType) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  currentData: any;
+  currentData: MutableRefObject<CurrentDataRefType>;
 };
 
-const About = ({ category, onStep, currentData }: AboutPropsType) => {
+const About = ({ eventTypes, onStep, currentData }: AboutPropsType) => {
   const { state } = useNavigation();
   const { country } = useGetCountries();
 
-  const form = useForm<CreateEventValidationType>({
-    resolver: zodResolver(CreateEventValidation),
+  const form = useForm<CreateEventAboutValidationType>({
+    resolver: zodResolver(CreateEventAboutValidation),
     defaultValues: {
       event_name: "",
       topic_type: "",
-      category_type: "",
-      price: "0",
+      event_type: 0,
       start_date: new Date(),
       ended_date: new Date(),
       time: "08:00",
@@ -43,26 +42,34 @@ const About = ({ category, onStep, currentData }: AboutPropsType) => {
     },
   });
 
-  const onSubmit = (values: CreateEventValidationType) => {
+  const onSubmit = (values: CreateEventAboutValidationType) => {
     const [hours, minutes] = values.time.split(":");
     const formatStartDate = values.start_date.setHours(Number(hours), Number(minutes));
 
     const submitValues = {
       event_name: values.event_name,
       topic_type: values.topic_type,
-      category_type: values.category_type,
-      price: values.price,
+      event_type: values.event_type,
       start_date: dayjs(formatStartDate).format(),
       ended_date: dayjs(values.ended_date).format(),
       duration: values.duration,
       country: values.country,
       city: values.city,
       time: values.time,
+      description: "",
+      image: {} as File,
+      plans: [
+        {
+          description: "",
+          price: "0",
+          pricing_name: "",
+        },
+      ],
     };
 
     if (submitValues) {
-      onStep("description");
       currentData.current = submitValues;
+      onStep("description");
     }
 
     return submitValues;
@@ -73,7 +80,7 @@ const About = ({ category, onStep, currentData }: AboutPropsType) => {
       className="mb-8"
       form={form}
       onSubmit={onSubmit}
-      forms={INPUT_DATA({ categoryData: category })}
+      forms={INPUT_DATA({ eventTypeData: eventTypes })}
     >
       <div className="grid grid-cols-3 items-start gap-4">
         <CoreDate
@@ -108,10 +115,10 @@ const About = ({ category, onStep, currentData }: AboutPropsType) => {
           name="duration"
           placeholder="Duration"
           data={[
-            { value: "1800", label: "30 Minutes" },
-            { value: "3600", label: "1 hour" },
-            { value: "7200", label: "2 hour" },
-            { value: "10800", label: "More or Less 3 hour" },
+            { value: 1800, label: "30 Minutes" },
+            { value: 3600, label: "1 hour" },
+            { value: 7200, label: "2 hour" },
+            { value: 10800, label: "More or Less 3 hour" },
           ]}
           control={form.control}
         />

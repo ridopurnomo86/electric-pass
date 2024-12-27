@@ -9,15 +9,25 @@ import {
   SettingsBasicInfoValidationType,
 } from "~/data/form-validation/ProfileValidation";
 import { Icon } from "@iconify/react";
-import { useLoaderData, useNavigation, useSubmit } from "@remix-run/react";
-import { SettingsBasicInfoLoader } from "~/services/main/settings";
+import { useCachedLoaderData } from "remix-client-cache";
+import { useActionData, useNavigation, useSubmit } from "@remix-run/react";
+import { SettingsBasicInfoLoader } from "services/main/settings";
+import { useToast } from "~/components/ui/Toaster/useToast";
+import { useEffect } from "react";
 import INPUT_DATA from "./input-data";
 import ProfileLayout from "./components/Layout";
 
 const Profile = () => {
   const submit = useSubmit();
   const { state } = useNavigation();
-  const { user } = useLoaderData<typeof SettingsBasicInfoLoader>();
+  const { user } = useCachedLoaderData<typeof SettingsBasicInfoLoader>();
+
+  const { toast } = useToast();
+  const actionData = useActionData<{
+    message: string;
+    type: string;
+    status: string;
+  }>();
 
   const form = useForm({
     resolver: zodResolver(SettingsBasicInfoValidation),
@@ -28,8 +38,20 @@ const Profile = () => {
     },
   });
 
+  useEffect(() => {
+    if (actionData) {
+      toast({
+        title: actionData.status,
+        description: actionData.message,
+        variant: actionData.type === "success" ? "default" : "destructive",
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [actionData]);
+
   const onSubmit = (values: SettingsBasicInfoValidationType) =>
-    submit({ ...values }, { method: "post" });
+    submit({ ...values }, { method: "post", action: "/settings" });
 
   return (
     <ProfileLayout resolve={user}>
@@ -44,7 +66,7 @@ const Profile = () => {
           <Button
             type="submit"
             className="mt-6 flex items-center"
-            disabled={state === "submitting"}
+            disabled={state === "submitting" || !form.formState.isDirty}
           >
             <Icon
               icon="material-symbols:check-small-rounded"
