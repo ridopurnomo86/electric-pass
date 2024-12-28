@@ -3,7 +3,7 @@ import formatPrice from "~/modules/formatPrice";
 
 type BottomNavigationPropsType = {
   startedPrice: number;
-  onBuyTicket: () => void;
+  onBuyTicket: (e: React.FormEvent) => void;
 };
 
 const BottomNavigation = ({ startedPrice, onBuyTicket }: BottomNavigationPropsType) => (

@@ -9,7 +9,7 @@ type InformationPropsType = {
   country: string;
   organizerImageUrl: string;
   organizerName: string;
-  onSubmit: () => void;
+  onSubmit: (e: React.FormEvent) => void;
 };
 
 const Information = ({
@@ -81,7 +81,7 @@ const Information = ({
           <p className="mb-4 text-sm font-medium antialiased">
             This event not started yet, booked some tickets.
           </p>
-          <form method="POST" onSubmit={onSubmit}>
+          <form method="POST" onSubmit={(e: React.FormEvent) => onSubmit(e)}>
             <Button type="submit" className="w-full">
               Buy Ticket
             </Button>

@@ -34,12 +34,20 @@ const remixPlugin = remix({
   serverBuildFile: "index.js",
 }) as unknown as Plugin;
 
-const baseVitePlugin = [
-  remixPlugin,
-  tsconfigPaths(),
-  legacyPlugin(),
-  gzipCompressionPlugin(),
-  brotliCompressionPlugin(),
-];
+const baseVitePlugins = [remixPlugin, tsconfigPaths()];
 
-export default baseVitePlugin;
+const getVitePlugin = (mode: string) => {
+  if (mode === "development") return baseVitePlugins;
+
+  const productionPlugins = [...baseVitePlugins];
+
+  productionPlugins.push(
+    legacyPlugin() as unknown as Plugin,
+    gzipCompressionPlugin(),
+    brotliCompressionPlugin()
+  );
+
+  return productionPlugins;
+};
+
+export default getVitePlugin;
