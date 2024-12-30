@@ -1,6 +1,7 @@
 import fs from "fs";
 import { Request, Response } from "express";
 import ImageKit from "imagekit";
+import EventsUploadSchema from "../../validation/events/upload";
 import convertSlug from "../../modules/slug";
 
 const imageKit = new ImageKit({
@@ -15,10 +16,12 @@ export class EventController {
   public async uploadImage(req: Request, res: Response) {
     const { user_id, event_name } = req.body;
 
-    if (!req.file?.path)
+    const { error } = EventsUploadSchema.validate({ user_id, event_name });
+
+    if (error || !req.file?.path)
       return res.status(422).json({
         type: "error",
-        message: "Cannot find file path",
+        message: error ? error.details : "Cannot find file path",
       });
 
     return fs.readFile(req.file?.path as string, (err, data) => {

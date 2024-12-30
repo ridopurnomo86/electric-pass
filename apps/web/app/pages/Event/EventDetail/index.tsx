@@ -1,7 +1,8 @@
 import TabsNavigation from "~/components/core/TabsNavigation";
-import { Suspense, useState } from "react";
-import { EventDetailLoader } from "services/main/event/event-detail";
-import { Await, useLoaderData, useLocation, useSubmit } from "@remix-run/react";
+import { Suspense, useEffect, useState } from "react";
+import { EventDetailAction, EventDetailLoader } from "services/main/event/event-detail";
+import { Await, useActionData, useLoaderData, useLocation, useSubmit } from "@remix-run/react";
+import { useToast } from "~/components/ui/Toaster/useToast";
 import Description from "./content/Description";
 import Ticket from "./content/Ticket";
 import Header from "./Header";
@@ -11,13 +12,31 @@ import BottomNavigation from "./BottomNavigation";
 import EventLoading from "./loading";
 
 const Event = () => {
+  const { toast } = useToast();
+
   const [type, setType] = useState<"description" | "ticket">("description");
   const submit = useSubmit();
   const location = useLocation();
 
   const { eventDetail } = useLoaderData<typeof EventDetailLoader>();
 
-  const onSubmit = () => {
+  const actionData = useActionData<typeof EventDetailAction>();
+
+  useEffect(() => {
+    if (actionData?.message) {
+      toast({
+        title: actionData?.status,
+        description: actionData?.message,
+        variant: actionData?.type === "success" ? "default" : "destructive",
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [actionData]);
+
+  const onSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
     const formData = new FormData();
     formData.append("data", JSON.stringify({ event_id: eventDetail.id }));
 

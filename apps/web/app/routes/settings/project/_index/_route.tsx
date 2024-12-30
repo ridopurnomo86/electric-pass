@@ -11,6 +11,8 @@ export const loader = async (params: LoaderFunctionArgs) => await ProjectLoader(
 
 export const clientLoader = async (params: ClientLoaderFunctionArgs) => cacheClientLoader(params);
 
+clientLoader.hydrate = true;
+
 const Projects = () => (
   <Mainlayout>
     <ProjectsPage />

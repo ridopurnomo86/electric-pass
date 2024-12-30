@@ -9,7 +9,7 @@ type InformationPropsType = {
   country: string;
   organizerImageUrl: string;
   organizerName: string;
-  onSubmit: () => void;
+  onSubmit: (event: React.FormEvent) => void;
 };
 
 const Information = ({

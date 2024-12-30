@@ -4,18 +4,18 @@ import Mainlayout from "~/components/layout/MainLayout";
 import EventDetailPage from "~/pages/Event/EventDetail";
 
 const renderDescriptionContent = (title: string) =>
-  `See available schedules, locations and ticket prices for ${title.toUpperCase()}. Buy tickets or order online only at ElasticPass`;
+  `See available schedules, locations and ticket prices for ${title.toUpperCase()}. Buy tickets or order online only at Elastic Pass`;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const meta: MetaFunction = ({ data, location }: any) => [
-  { title: data.eventDetail.name },
-  { name: "keywords", content: "ElasticPass" },
+  { title: `${data.eventDetail.name} | Elastic Pass` },
+  { name: "keywords", content: "organize event, sell event" },
   { name: "author", content: process.env.HOSTNAME },
   { name: "type", content: "article" },
-  { name: "og:site_name", content: "ElasticPass" },
+  { name: "og:site_name", content: "Elastic Pass" },
   {
     property: "og:title",
-    content: data.eventDetail.name,
+    content: `${data.eventDetail.name} | Elastic Pass`,
   },
   {
     name: "description",
