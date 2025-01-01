@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  redis:
+    restart: always
+    image: 'redis:7.0'
+    container_name: redis
+    volumes:
+      - ./redis:/data
+    ports:
+      - '6371:6379'

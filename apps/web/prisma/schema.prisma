@@ -83,16 +83,16 @@ model EventCategory {
 }
 
 model EventPlan {
-  id          Int       @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   event_id    Int
-  name        String    @db.VarChar(255)
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
-  amount      Int       @default(0)
-  description String    @db.Text
-  ended_date  DateTime? @db.Timestamp(0)
-  price       Decimal   @db.Decimal(10, 0)
-  Event       Event     @relation(fields: [event_id], references: [id])
+  name        String   @db.VarChar(255)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  amount      Int      @default(0)
+  description String   @db.Text
+  ended_date  DateTime @default(now()) @db.Timestamp(0)
+  price       Decimal  @db.Decimal(10, 0)
+  Event       Event    @relation(fields: [event_id], references: [id])
 
   @@index([event_id], map: "EventPlan_event_id_fkey")
 }
