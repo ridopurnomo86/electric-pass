@@ -1,17 +1,15 @@
 import EventCard from "~/components/cards/EventCard";
 import TabsNavigation from "~/components/core/TabsNavigation";
-import { useNavigate } from "@remix-run/react";
 import { EventDataType } from "~/data/test-data/types";
 import EventProjectListEmpty from "./empty";
 
 type EventProjectListPropsType = {
   data: Array<EventDataType>;
-  type: "ongoing" | "finished";
+  typeProject: "ongoing" | "finished";
+  onTypeProject: (value: "ongoing" | "finished") => void;
 };
 
-const EventProjectList = ({ data, type }: EventProjectListPropsType) => {
-  const navigate = useNavigate();
-
+const EventProjectList = ({ data, typeProject, onTypeProject }: EventProjectListPropsType) => {
   const renderContent = () => {
     if (!data.length || data.length < 0) return <EventProjectListEmpty />;
 
@@ -39,15 +37,15 @@ const EventProjectList = ({ data, type }: EventProjectListPropsType) => {
         tabs={[
           {
             id: "ongoing",
-            isActive: type === "ongoing",
+            isActive: typeProject === "ongoing",
             label: "Ongoing",
-            onClick: () => navigate("/settings/project?type=ongoing"),
+            onClick: () => onTypeProject("ongoing"),
           },
           {
             id: "finished",
-            isActive: type === "finished",
+            isActive: typeProject === "finished",
             label: "Finished",
-            onClick: () => navigate("/settings/project?type=finished"),
+            onClick: () => onTypeProject("finished"),
           },
         ]}
       />

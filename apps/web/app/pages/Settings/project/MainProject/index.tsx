@@ -1,17 +1,22 @@
 import { useLoaderData } from "@remix-run/react";
+import { useState } from "react";
 import { ProjectLoader } from "services/main/settings/project";
 import ProfileLayout from "../../components/Layout";
 import EventProjectList from "./EventProjectList";
 import Header from "./Header";
 
 const Projects = () => {
-  const { type, events } = useLoaderData<typeof ProjectLoader>();
+  const { onGoingEvents, onFinishedEvents } = useLoaderData<typeof ProjectLoader>();
+
+  const [typeProject, setTypeProject] = useState<"ongoing" | "finished">("ongoing");
+
+  const data = typeProject === "ongoing" ? onGoingEvents : onFinishedEvents;
 
   return (
-    <ProfileLayout resolve={events}>
+    <ProfileLayout resolve={onGoingEvents}>
       <section>
         <Header />
-        <EventProjectList type={type} data={events} />
+        <EventProjectList onTypeProject={setTypeProject} typeProject={typeProject} data={data} />
       </section>
     </ProfileLayout>
   );
