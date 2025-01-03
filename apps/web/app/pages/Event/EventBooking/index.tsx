@@ -1,28 +1,22 @@
-import { EventPlanDataType } from "~/data/test-data/types";
+import { useCachedLoaderData } from "remix-client-cache";
+import { EventBookingLoader } from "services/main/event/event-booking";
 import { useBlocker, useSubmit } from "@remix-run/react";
 import Overview from "./Overview";
 import EventBookingDialog from "./Dialog";
-
-const PLANS: EventPlanDataType[] = [
-  {
-    id: 1,
-    event_id: 1,
-    name: "Regular",
-    created_at: "2024-11-14T08:19:56.253Z",
-    updated_at: "2024-11-14T08:19:56.253Z",
-    amount: 100,
-    description: "Access for 2 days.",
-    ended_date: "2025-11-08T17:00:00.000Z",
-    price: "20",
-  },
-];
+import Items from "./Items";
+import Tickets from "./Tickets";
+import useEventBooking from "./useEventBooking";
 
 const EventBooking = () => {
+  const { selectedPlans, onSelectedPlans, subTotalPrice, totalFees } = useEventBooking();
+
   const submit = useSubmit();
 
   const blocker = useBlocker(
     ({ currentLocation, nextLocation }) => currentLocation.pathname !== nextLocation.pathname
   );
+
+  const { event } = useCachedLoaderData<typeof EventBookingLoader>();
 
   const handleContinueBlocking = () => {
     const formData = new FormData();
@@ -34,11 +28,28 @@ const EventBooking = () => {
   return (
     <main>
       <section className="grid size-full min-h-screen min-[1024px]:grid-cols-[70%_30%]">
-        <Overview plans={PLANS} />
-        <div className="h-full border-x bg-[#F8FAFC]">
-          <div className="border-b px-10 py-4">
-            <p className="text-lg font-semibold tracking-tight text-neutral-900">Your Items</p>
-          </div>
+        <div>
+          <Overview datetime={event.start_date} location={event.country} title={event.name} />
+          <Tickets
+            plans={event.Plan}
+            onSelectedTicket={(item) =>
+              onSelectedPlans((prev) => ({ ...prev, [item.id]: { ...item, total_order: 1 } }))
+            }
+          />
+        </div>
+        <div>
+          <Items
+            event={event}
+            selectedPlans={selectedPlans}
+            onDeleteItem={(value) => {
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              const { [value.id]: tmp, ...rest } = selectedPlans;
+              onSelectedPlans(rest);
+            }}
+            totalFees={totalFees}
+            totalPrice={subTotalPrice + totalFees}
+            subTotalPrice={subTotalPrice}
+          />
         </div>
       </section>
       {blocker.state === "blocked" && (

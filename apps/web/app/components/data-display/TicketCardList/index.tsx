@@ -5,14 +5,21 @@ type TicketCardListPropsType = {
   className?: string;
   data: Array<EventPlanDataType>;
   onClick?: (item: EventPlanDataType) => void;
+  isActive?: boolean;
 };
 
-const TicketCardList = ({ data = [], className, onClick = () => {} }: TicketCardListPropsType) => (
+const TicketCardList = ({
+  data = [],
+  className,
+  onClick = () => {},
+  isActive,
+}: TicketCardListPropsType) => (
   <div className={className}>
     <div className="gap-4 py-4">
       {data.map((item, idx) => (
         <div key={item.id}>
           <TicketCard
+            isActive={isActive}
             onClick={() => onClick(item)}
             description={item.description}
             expiredDate={item.ended_date}
