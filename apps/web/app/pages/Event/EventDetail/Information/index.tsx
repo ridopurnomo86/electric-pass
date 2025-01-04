@@ -9,6 +9,7 @@ type InformationPropsType = {
   country: string;
   organizerImageUrl: string;
   organizerName: string;
+  isLoading: boolean;
   onSubmit: (event: React.FormEvent) => void;
 };
 
@@ -18,6 +19,7 @@ const Information = ({
   country,
   organizerImageUrl,
   organizerName,
+  isLoading = false,
   onSubmit,
 }: InformationPropsType) => {
   const isEventEnded = dayjs().isAfter(dayjs(eventDate).format());
@@ -82,7 +84,7 @@ const Information = ({
             This event not started yet, booked some tickets.
           </p>
           <form method="POST" onSubmit={onSubmit}>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={isLoading}>
               Buy Ticket
             </Button>
           </form>

@@ -1,7 +1,14 @@
 import TabsNavigation from "~/components/core/TabsNavigation";
 import { Suspense, useEffect, useState } from "react";
 import { EventDetailAction, EventDetailLoader } from "services/main/event/event-detail";
-import { Await, useActionData, useLoaderData, useLocation, useSubmit } from "@remix-run/react";
+import {
+  Await,
+  useActionData,
+  useLoaderData,
+  useLocation,
+  useNavigation,
+  useSubmit,
+} from "@remix-run/react";
 import { useToast } from "~/components/ui/Toaster/useToast";
 import Description from "./content/Description";
 import Ticket from "./content/Ticket";
@@ -13,7 +20,7 @@ import EventLoading from "./loading";
 
 const Event = () => {
   const { toast } = useToast();
-
+  const { state } = useNavigation();
   const [type, setType] = useState<"description" | "ticket">("description");
   const submit = useSubmit();
   const location = useLocation();
@@ -98,9 +105,14 @@ const Event = () => {
                 city={resolve.city}
                 country={resolve.country}
                 onSubmit={onSubmit}
+                isLoading={state === "submitting"}
               />
             </section>
-            <BottomNavigation onBuyTicket={onSubmit} startedPrice={resolve.Plan[0]?.price} />
+            <BottomNavigation
+              isLoading={state === "submitting"}
+              onBuyTicket={onSubmit}
+              startedPrice={resolve.Plan[0]?.price}
+            />
           </main>
         )}
       </Await>

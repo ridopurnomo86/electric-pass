@@ -1,7 +1,7 @@
 "use client";
 
 import { Icon } from "@iconify/react";
-import Logo from "~/assets/elastic-pass-logo.svg";
+import Logo from "~/assets/electric-pass-logo.svg";
 import {
   Drawer as CoreDrawer,
   DrawerContent,
@@ -31,7 +31,7 @@ const Drawer = ({ name, isAuthenticated }: DrawerPropsType) => (
         <DrawerTitle className="mb-4 flex w-full items-center justify-between border-b p-6">
           <Link to="/">
             <div className="">
-              <img src={Logo} alt="elastic-pass-logo" className="w-[200px]" />
+              <img src={Logo} alt="electric-pass-logo" className="w-[200px]" />
             </div>
           </Link>
           <DrawerTrigger className="hidden max-[894px]:block" asChild>

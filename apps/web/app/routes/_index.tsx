@@ -4,25 +4,25 @@ import MainHome from "~/pages/MainHome";
 import { MainHomeLoader } from "services/main/main-home";
 
 export const meta: MetaFunction = () => [
-  { title: "Elastic Pass: Create Free Events, Organize Events & Sell Your Own Events" },
+  { title: "Electric Pass: Create Free Events, Organize Events & Sell Your Own Events" },
   {
     name: "description",
     content:
-      "Now you can create events, organize events, sell event tickets yourself, create event invitations online and have the opportunity to be promoted by Elastic Pass affiliates.",
+      "Now you can create events, organize events, sell event tickets yourself, create event invitations online and have the opportunity to be promoted by Electric Pass affiliates.",
   },
   { name: "keywords", content: "create event, organize event, sell event" },
   { name: "author", content: process.env.HOSTNAME },
   { name: "type", content: "website" },
   {
     property: "og:title",
-    content: "Elastic Pass: Create Free Events, Organize Events & Sell Your Own Events",
+    content: "Electric Pass: Create Free Events, Organize Events & Sell Your Own Events",
   },
   { name: "og:type", content: "website" },
   { name: "og:url", content: process.env.HOSTNAME },
   {
     name: "og:description",
     content:
-      "Now you can create events, organize events, sell event tickets yourself, create event invitations online and have the opportunity to be promoted by Elastic Pass affiliates.",
+      "Now you can create events, organize events, sell event tickets yourself, create event invitations online and have the opportunity to be promoted by Electric Pass affiliates.",
   },
 ];
 
