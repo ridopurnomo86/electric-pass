@@ -1,7 +1,7 @@
 {
   "name": "electric-pass-monorepo",
   "version": "1.0.0",
-  "repository": "https://github.com/ridopurnomo86/elastic-pass.git",
+  "repository": "https://github.com/ridopurnomo86/electric-pass.git",
   "author": "ridopurnomo <ridopurnomo86@gmail.com>",
   "license": "MIT",
   "private": true,
