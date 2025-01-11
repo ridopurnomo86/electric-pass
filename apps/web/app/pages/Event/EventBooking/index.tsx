@@ -8,11 +8,13 @@ import Items from "./Items";
 import Tickets from "./Tickets";
 import useEventBooking from "./useEventBooking";
 import Stepper from "./Stepper";
+import BillingForm from "./BillingForm";
 
 const EventBooking = () => {
   const [step, setStep] = useState<"ticket" | "billing" | "summary">("ticket");
 
-  const { selectedPlans, onSelectedPlans, subTotalPrice, totalFees } = useEventBooking();
+  const { selectedPlans, onSelectedPlans, subTotalPrice, totalFees, onRemovePlans, totalOrder } =
+    useEventBooking();
 
   const submit = useSubmit();
 
@@ -29,31 +31,35 @@ const EventBooking = () => {
     submit(formData, { method: "POST" });
   };
 
+  const handleContinueStep = () => {
+    if (step === "ticket") return setStep("billing");
+  };
+
   return (
     <main>
       <section className="grid size-full min-h-screen border-b min-[1024px]:grid-cols-[70%_30%]">
         <div>
           <Overview datetime={event.start_date} location={event.country} title={event.name} />
           <Stepper step={step} onStep={setStep} />
-          <Tickets
-            plans={event.Plan}
-            onSelectedTicket={(item) =>
-              onSelectedPlans((prev) => ({ ...prev, [item.id]: { ...item, total_order: 1 } }))
-            }
-          />
+          {step === "ticket" && (
+            <Tickets
+              isDisabled={totalOrder <= 0}
+              onContinue={handleContinueStep}
+              plans={event.Plan}
+              onSelectedTicket={(item) => onSelectedPlans(item)}
+            />
+          )}
+          {step === "billing" && <BillingForm />}
         </div>
         <div>
           <Items
             event={event}
             selectedPlans={selectedPlans}
-            onDeleteItem={(value) => {
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              const { [value.id]: tmp, ...rest } = selectedPlans;
-              onSelectedPlans(rest);
-            }}
+            onDeleteItem={(item) => onRemovePlans(item)}
             totalFees={totalFees}
             totalPrice={subTotalPrice + totalFees}
             subTotalPrice={subTotalPrice}
+            totalOrder={totalOrder}
           />
         </div>
       </section>

@@ -47,7 +47,7 @@ const Plans = ({ selectedPlans, event, onDeleteItem }: PlansPropsType) => {
                       {selectedPlans[plan].name}&nbsp;
                     </p>
                     <p className="ml-1 text-sm font-medium text-neutral-500">
-                      {selectedPlans[plan].total_order}x
+                      {selectedPlans[plan].order?.total_order}x
                     </p>
                   </div>
                   <p className="text-sm font-medium tracking-tight text-neutral-900">

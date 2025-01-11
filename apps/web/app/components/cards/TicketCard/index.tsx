@@ -11,6 +11,7 @@ type TicketCardPropsType = {
   endedDate: string;
   onClick?: () => void;
   isActive?: boolean;
+  isShowAdd?: boolean;
 };
 
 const renderTag = ({
@@ -40,15 +41,24 @@ const TicketCard = ({
   price,
   isSoldOut = false,
   onClick,
+  isShowAdd = false,
   isActive = false,
 }: TicketCardPropsType) => (
   <button onClick={onClick} className="block w-full text-left">
     <article
       className={`relative rounded-md border ${isActive ? "bg-blue-50" : "bg-white"} px-8 py-4 ${isActive ? "border-blue-600" : "border-inherit"}`}
     >
-      <h2 className="mt-10 scroll-m-20 border-b pb-2 text-xl font-semibold tracking-tight transition-colors first:mt-0">
-        {title}
-      </h2>
+      <div className="mt-10 flex scroll-m-20 items-center justify-between border-b pb-2 first:mt-0">
+        <h2 className="text-xl font-semibold tracking-tight transition-colors">{title}</h2>
+        {isShowAdd && (
+          <Icon
+            icon="material-symbols:add-circle-outline-rounded"
+            width="24"
+            height="24"
+            className={`${isActive ? "text-blue-600" : "text-inherit"}`}
+          />
+        )}
+      </div>
       <p className="text-sm leading-normal [&:not(:first-child)]:mt-2">{description}</p>
       <div className="mt-3">
         <div className="flex items-center">
