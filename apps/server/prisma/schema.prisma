@@ -92,7 +92,7 @@ model EventPlan {
   description String    @db.Text
   ended_date  DateTime? @db.Timestamp(0)
   price       Decimal   @db.Decimal(10, 0)
-  Event       Event     @relation(fields: [event_id], references: [id])
+  Event       Event     @relation(fields: [event_id], references: [id],  onUpdate: Cascade, onDelete: Cascade)
 
   @@index([event_id], map: "EventPlan_event_id_fkey")
 }

@@ -1,4 +1,4 @@
-import Logo from "~/assets/elastic-pass-logo.svg";
+import Logo from "~/assets/electric-pass-logo.svg";
 import { Button } from "~/components/ui/Button";
 import Form from "~/components/core/Form";
 import { UseFormReturn } from "react-hook-form";
@@ -22,7 +22,7 @@ type FormInputPropsType = {
 const FormInput = ({ onSubmit, form, isSubmit, actionData, state }: FormInputPropsType) => (
   <div className="relative flex min-h-screen w-[500px] flex-col justify-center px-8 lg:px-16">
     <Link to="/" className="absolute top-8 mb-4 w-full">
-      <img src={Logo} alt="elastic-pass-logo" className="w-[200px]" />
+      <img src={Logo} alt="electric-pass-logo" className="w-[200px]" />
     </Link>
     {actionData?.type === "error" && state !== "submitting" && (
       <Alert variant="destructive" className="mt-4">

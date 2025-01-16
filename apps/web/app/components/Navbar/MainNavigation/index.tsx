@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import Logo from "~/assets/elastic-pass-logo.svg";
+import Logo from "~/assets/electric-pass-logo.svg";
 
 type MainNavigationPropsType = {
   hasHideNavigation: boolean;
@@ -7,9 +7,9 @@ type MainNavigationPropsType = {
 
 const MainNavigation = ({ hasHideNavigation = false }: MainNavigationPropsType) => (
   <div className="flex h-9 items-center">
-    <Link to="/" className="mr-8">
+    <Link to="/" className="mr-8" replace>
       <div className="w-full">
-        <img src={Logo} alt="elastic-pass-logo" className="w-[200px]" />
+        <img src={Logo} alt="electric-pass-logo" className="w-[200px]" />
       </div>
     </Link>
     {!hasHideNavigation && (

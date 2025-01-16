@@ -3,10 +3,10 @@ import { Icon } from "@iconify/react";
 import { Link } from "@remix-run/react";
 
 const Header = () => (
-  <div className="flex items-center justify-between">
+  <div className="mb-4 flex items-center justify-between border-b pb-4">
     <div>
       <p className="text-xl font-semibold tracking-tight text-neutral-900">Projects</p>
-      <p className="text-sm font-medium text-neutral-500">Some of projects.</p>
+      <p className="text-sm font-medium text-neutral-500">List of your event projects.</p>
     </div>
     <div>
       <Link to="/settings/project/create">

@@ -77,10 +77,11 @@ const EventModel = {
 
     return events;
   },
-  getEventDetail: async ({ slug }: { slug: string }) => {
+  getEventDetail: async ({ slug, eventId }: { slug?: string; eventId?: number }) => {
     const eventDetail = await db.event.findFirst({
       where: {
-        slug,
+        ...(eventId && { id: eventId }),
+        ...(slug && { slug }),
       },
       include: {
         EventCategory: {

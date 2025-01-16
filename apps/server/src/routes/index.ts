@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { PaymentController } from "../controllers/payment";
 import { SettingsAccountController } from "../controllers/upload";
 import upload from "../middleware/upload";
 import { validateToken } from "../middleware/validate-token";
@@ -9,6 +10,8 @@ export const router = Router();
 router.get("/", (req, res) => {
   res.send("Hello World");
 });
+
+router.post("/payment", validateToken, new PaymentController().generatePayment);
 
 router.post(
   "/events/image/upload",

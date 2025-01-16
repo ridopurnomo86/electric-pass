@@ -1,21 +1,19 @@
-import TicketCardList from "~/components/data-display/TicketCardList";
-import { EventPlanDataType } from "~/data/test-data/types";
+import dayjs from "dayjs";
 
 type OverviewPropsType = {
-  plans: EventPlanDataType[];
+  title: string;
+  location: string;
+  datetime: string;
 };
 
-const Overview = ({ plans }: OverviewPropsType) => (
-  <div>
-    <div className="border-b px-10 py-4">
-      <p className="text-lg font-semibold tracking-tight text-neutral-900">
-        The Phantom of the Opera
+const Overview = ({ title, location, datetime }: OverviewPropsType) => (
+  <div className="border-b p-4 md:px-10">
+    <div>
+      <p className="text-lg font-semibold tracking-tight text-neutral-900">{title}</p>
+      <p className="text-sm font-medium text-neutral-500">
+        {dayjs(datetime).format("ddd")},&nbsp;{dayjs(datetime).format("MMM D, YYYY")}&nbsp;
+        {dayjs(datetime).format("HH:mmA")} - {location}
       </p>
-      <p className="text-sm font-medium text-neutral-500">Fri, Jan 20 7:00pm - Majestic Theatre</p>
-    </div>
-    <div className="size-full px-10 py-4">
-      <p className="mb-4 text-lg font-semibold tracking-tight text-neutral-900">Select a tickets</p>
-      <TicketCardList data={plans} onClick={() => {}} />
     </div>
   </div>
 );

@@ -1,14 +1,14 @@
 import { Link } from "@remix-run/react";
-import Logo from "~/assets/elastic-pass-logo.svg";
+import Logo from "~/assets/electric-pass-logo.svg";
 
 const Navigation = () => (
   <section className="container mx-auto flex items-start justify-between space-x-16 pb-4 max-[999px]:flex-col max-[999px]:items-start max-[999px]:space-x-0">
     <div>
       <div className="w-full">
-        <img src={Logo} alt="elastic-pass-logo" className="w-[200px]" />
+        <img src={Logo} alt="electric-pass-logo" className="w-[200px]" />
       </div>
       <p className="mt-4 text-sm font-medium text-neutral-600 antialiased">
-        &copy;2024 Elastic Pass, Inc. All rights reserved.
+        &copy;2024 Electric Pass, Inc. All rights reserved.
       </p>
     </div>
     <div className="flex flex-wrap gap-20 max-[999px]:mt-8">

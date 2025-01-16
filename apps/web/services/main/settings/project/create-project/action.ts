@@ -2,10 +2,13 @@ import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { CreateEventValidation } from "~/data/form-validation/CreateEventValidation";
 import { authenticator } from "services/auth.server";
 import EventModel from "services/models/event";
+import Redis from "services/modules/redis";
 import axios from "axios";
-import { getSession } from "services/session.server";
+import { commitSession, getSession } from "services/session.server";
 import UserModel from "services/models/user";
 import { ValuesType } from "./types";
+
+const EVENTS_CACHE = "events";
 
 const uploadImageProject = async ({ formData }: { formData: FormData }) => {
   try {
@@ -62,19 +65,32 @@ const SettingsCreateProjectAction = async ({ request }: ActionFunctionArgs) => {
     plans: validation.plans,
   });
 
-  if (createEvent) {
-    session.flash("create-event", {
-      status: "Success",
-      type: "success",
-      message: "Event Has Created",
+  if (!createEvent)
+    return json({
+      status: "Error",
+      type: "error",
+      message: "Something gone wrong when create project",
     });
 
-    json({
-      status: "Success",
-      type: "success",
-      message: "Event Has Created",
-    });
-  }
+  session.flash("create-event", {
+    status: "Success",
+    type: "success",
+    message: "Event Has Created",
+  });
+
+  json({
+    status: "Success",
+    type: "success",
+    message: "Event Has Created",
+  });
+
+  await Redis.deleteItem(EVENTS_CACHE);
+
+  return redirect("/settings/project", {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 };
 
 export default SettingsCreateProjectAction;

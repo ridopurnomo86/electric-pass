@@ -60,7 +60,7 @@ const Description = ({ currentData, onStep }: DescriptionPropsType) => {
             onChange={(e: ChangeEvent) => onSelectedImage(e)}
           />
           {errors.image && (
-            <p className="text-destructive mt-2 text-[0.8rem] font-medium">{errors.image}</p>
+            <p className="mt-2 text-[0.8rem] font-medium text-destructive">{errors.image}</p>
           )}
         </div>
       </div>
@@ -71,7 +71,7 @@ const Description = ({ currentData, onStep }: DescriptionPropsType) => {
           description="We need some more descriptions about the events being held, this is can help visitors / users."
         />
         {errors.description && (
-          <p className="text-destructive mt-2 text-[0.8rem] font-medium">{errors.description}</p>
+          <p className="mt-2 text-[0.8rem] font-medium text-destructive">{errors.description}</p>
         )}
       </div>
       <Button

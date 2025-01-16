@@ -86,6 +86,7 @@ export const CreateEventPriceValidation = z.object({
       price: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
         message: "Expected number, received a string",
       }),
+      ended_date: z.string().min(1, { message: "The field is required." }),
     })
   ),
 });

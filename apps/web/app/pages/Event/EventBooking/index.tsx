@@ -1,28 +1,28 @@
-import { EventPlanDataType } from "~/data/test-data/types";
+import { useCachedLoaderData } from "remix-client-cache";
+import { useState } from "react";
+import { EventBookingLoader } from "services/main/event/event-booking";
 import { useBlocker, useSubmit } from "@remix-run/react";
 import Overview from "./Overview";
 import EventBookingDialog from "./Dialog";
-
-const PLANS: EventPlanDataType[] = [
-  {
-    id: 1,
-    event_id: 1,
-    name: "Regular",
-    created_at: "2024-11-14T08:19:56.253Z",
-    updated_at: "2024-11-14T08:19:56.253Z",
-    amount: 100,
-    description: "Access for 2 days.",
-    ended_date: "2025-11-08T17:00:00.000Z",
-    price: "20",
-  },
-];
+import Items from "./Items";
+import Tickets from "./Tickets";
+import useEventBooking from "./useEventBooking";
+import Stepper from "./Stepper";
+import BillingForm from "./BillingForm";
 
 const EventBooking = () => {
+  const [step, setStep] = useState<"ticket" | "billing" | "summary">("ticket");
+
+  const { selectedPlans, onSelectedPlans, subTotalPrice, totalFees, onRemovePlans, totalOrder } =
+    useEventBooking();
+
   const submit = useSubmit();
 
   const blocker = useBlocker(
     ({ currentLocation, nextLocation }) => currentLocation.pathname !== nextLocation.pathname
   );
+
+  const { event } = useCachedLoaderData<typeof EventBookingLoader>();
 
   const handleContinueBlocking = () => {
     const formData = new FormData();
@@ -31,14 +31,37 @@ const EventBooking = () => {
     submit(formData, { method: "POST" });
   };
 
+  const handleContinueStep = () => {
+    if (step === "ticket") return setStep("billing");
+  };
+
   return (
     <main>
-      <section className="grid size-full min-h-screen min-[1024px]:grid-cols-[70%_30%]">
-        <Overview plans={PLANS} />
-        <div className="h-full border-x bg-[#F8FAFC]">
-          <div className="border-b px-10 py-4">
-            <p className="text-lg font-semibold tracking-tight text-neutral-900">Your Items</p>
-          </div>
+      <section className="grid size-full min-h-screen border-b min-[1024px]:grid-cols-[70%_30%]">
+        <div>
+          <Overview datetime={event.start_date} location={event.country} title={event.name} />
+          <Stepper step={step} onStep={setStep} />
+          {step === "ticket" && (
+            <Tickets
+              isDisabled={totalOrder <= 0}
+              onContinue={handleContinueStep}
+              plans={event.Plan}
+              onSelectedTicket={(item) => onSelectedPlans(item)}
+            />
+          )}
+          {step === "billing" && <BillingForm callback={() => setStep("summary")} />}
+        </div>
+        <div>
+          <Items
+            event={event}
+            selectedPlans={selectedPlans}
+            onDeleteItem={(item) => onRemovePlans(item)}
+            totalFees={totalFees}
+            totalPrice={subTotalPrice + totalFees}
+            subTotalPrice={subTotalPrice}
+            totalOrder={totalOrder}
+            isDisabledDeleteItem={step !== "ticket"}
+          />
         </div>
       </section>
       {blocker.state === "blocked" && (
