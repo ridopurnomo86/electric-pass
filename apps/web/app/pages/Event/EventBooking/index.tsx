@@ -49,7 +49,7 @@ const EventBooking = () => {
               onSelectedTicket={(item) => onSelectedPlans(item)}
             />
           )}
-          {step === "billing" && <BillingForm />}
+          {step === "billing" && <BillingForm callback={() => setStep("summary")} />}
         </div>
         <div>
           <Items
@@ -60,6 +60,7 @@ const EventBooking = () => {
             totalPrice={subTotalPrice + totalFees}
             subTotalPrice={subTotalPrice}
             totalOrder={totalOrder}
+            isDisabledDeleteItem={step !== "ticket"}
           />
         </div>
       </section>

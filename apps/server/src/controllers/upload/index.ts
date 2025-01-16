@@ -1,14 +1,8 @@
 import fs from "fs";
 import { Request, Response } from "express";
-import ImageKit from "imagekit";
 import settingsAccountUploadSchema from "../../validation/upload";
 import { db } from "../../config/prisma";
-
-const imageKit = new ImageKit({
-  publicKey: process.env.IMAGEKIT_RESTRICTED_PUBLIC_KEY as string,
-  privateKey: process.env.IMAGEKIT_RESTRICTED_PRIVATE_KEY as string,
-  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT as string,
-});
+import imageKit from "../../config/imagekit";
 
 const purgeCacheImage = ({ imageUrl }: { imageUrl: string }) => imageKit.purgeCache(imageUrl);
 

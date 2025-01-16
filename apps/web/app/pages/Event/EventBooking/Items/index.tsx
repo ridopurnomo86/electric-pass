@@ -12,6 +12,7 @@ type ItemsPropsType = {
   totalFees: number;
   totalPrice: number;
   totalOrder: number;
+  isDisabledDeleteItem?: boolean;
 };
 
 const Items = ({
@@ -22,12 +23,18 @@ const Items = ({
   totalPrice,
   totalFees,
   totalOrder = 0,
+  isDisabledDeleteItem,
 }: ItemsPropsType) => (
   <div className="h-full border-x bg-[#F8FAFC]">
     <div className="border-b px-10 py-4">
       <p className="text-lg font-semibold tracking-tight text-neutral-900">Your Items</p>
     </div>
-    <Plans event={event} onDeleteItem={onDeleteItem} selectedPlans={selectedPlans} />
+    <Plans
+      isDisabledDeleteItem={isDisabledDeleteItem}
+      event={event}
+      onDeleteItem={onDeleteItem}
+      selectedPlans={selectedPlans}
+    />
     <Prices
       subTotalPrice={subTotalPrice}
       totalFees={totalFees}

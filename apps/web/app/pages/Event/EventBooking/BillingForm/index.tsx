@@ -12,7 +12,11 @@ import useGetCountries from "~/hooks/useGetCountries";
 import { useNavigation } from "@remix-run/react";
 import INPUT_DATA from "./data";
 
-const BillingForm = () => {
+type BillingFormPropsType = {
+  callback: () => void;
+};
+
+const BillingForm = ({ callback }: BillingFormPropsType) => {
   const { dialCode } = useGetCountries();
   const { state } = useNavigation();
 
@@ -28,7 +32,9 @@ const BillingForm = () => {
     },
   });
 
-  const onSubmit = (values: BookingBillingValidationType) => values;
+  const onSubmit = (values: BookingBillingValidationType) => {
+    if (values) return callback();
+  };
 
   return (
     <div className="size-full p-4 md:px-10">
@@ -58,7 +64,7 @@ const BillingForm = () => {
           />
         </div>
         <div className="flex w-full items-center justify-end border-t px-6 py-4 text-center">
-          <p className="mr-2 text-sm font-medium text-neutral-600 antialiased">
+          <p className="mr-2 text-xs font-medium text-neutral-600 antialiased">
             By clicking continue, you agree to our Terms of Service and Privacy Policy.
           </p>
           <Button

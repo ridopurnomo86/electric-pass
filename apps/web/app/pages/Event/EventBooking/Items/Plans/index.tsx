@@ -10,6 +10,7 @@ type PlansPropsType = {
   };
   event: EventDataType;
   onDeleteItem: (value: EventPlanDataType) => void;
+  isDisabledDeleteItem?: boolean;
 };
 
 const EmptyPlans = () => (
@@ -28,7 +29,12 @@ const EmptyPlans = () => (
   </div>
 );
 
-const Plans = ({ selectedPlans, event, onDeleteItem }: PlansPropsType) => {
+const Plans = ({
+  selectedPlans,
+  event,
+  onDeleteItem,
+  isDisabledDeleteItem = false,
+}: PlansPropsType) => {
   if (Object.keys(selectedPlans).length === 0) return <EmptyPlans />;
 
   return (
@@ -60,14 +66,20 @@ const Plans = ({ selectedPlans, event, onDeleteItem }: PlansPropsType) => {
                   </p>
                 </div>
               </div>
-              <Button variant="ghost" onClick={() => onDeleteItem(selectedPlans[plan])}>
-                <Icon
-                  icon="solar:trash-bin-trash-outline"
-                  width="24"
-                  height="24"
-                  className="text-neutral-600"
-                />
-              </Button>
+              {!isDisabledDeleteItem && (
+                <Button
+                  disabled={isDisabledDeleteItem}
+                  variant="ghost"
+                  onClick={() => onDeleteItem(selectedPlans[plan])}
+                >
+                  <Icon
+                    icon="solar:trash-bin-trash-outline"
+                    width="24"
+                    height="24"
+                    className="text-neutral-600"
+                  />
+                </Button>
+              )}
             </div>
           </div>
         ))}

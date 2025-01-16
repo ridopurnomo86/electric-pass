@@ -19,7 +19,7 @@ const Tickets = ({ plans, onSelectedTicket, isDisabled = true, onContinue }: Tic
     </p>
     <TicketCardList data={plans} onClick={onSelectedTicket} isShowAdd />
     <div className="flex w-full items-center justify-end border-t px-6 py-4 text-center">
-      <p className="mr-2 text-sm font-medium text-neutral-500">Please select a ticket first.</p>
+      <p className="mr-2 text-xs font-medium text-neutral-500">Please select a ticket first.</p>
       <Button
         className="w-min bg-blue-500 hover:bg-blue-500 hover:opacity-60"
         disabled={isDisabled}
