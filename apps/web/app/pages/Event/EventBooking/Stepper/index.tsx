@@ -1,6 +1,6 @@
 import TabsNavigation from "~/components/core/TabsNavigation";
 
-type StepType = "ticket" | "billing" | "summary";
+type StepType = "ticket" | "billing" | "confirmation";
 
 type StepperPropsType = {
   step: StepType;
@@ -28,11 +28,11 @@ const Stepper = ({ step, onStep }: StepperPropsType) => (
         isDisabled: step !== "billing",
       },
       {
-        id: "summary",
-        isActive: step === "summary",
-        label: "Summary",
-        onClick: () => onStep("summary"),
-        isDisabled: step !== "summary",
+        id: "confirmation",
+        isActive: step === "confirmation",
+        label: "Confirmation",
+        onClick: () => onStep("confirmation"),
+        isDisabled: step !== "confirmation",
       },
     ]}
   />

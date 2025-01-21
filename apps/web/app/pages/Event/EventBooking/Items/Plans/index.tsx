@@ -1,6 +1,4 @@
-import { Icon } from "@iconify/react";
-import dayjs from "dayjs";
-import { Button } from "~/components/ui/Button";
+import PlanCard from "~/components/cards/PlanCard";
 import { Skeleton } from "~/components/ui/Skeleton";
 import { EventDataType, EventPlanDataType } from "~/data/test-data/types";
 
@@ -42,45 +40,16 @@ const Plans = ({
       {Object.keys(selectedPlans).length > 0 &&
         Object.keys(selectedPlans).map((plan, idx) => (
           <div className="px-6 py-4" key={idx}>
-            <div className="flex justify-between">
-              <div className="flex">
-                <div className="mr-3 flex max-h-[60px] w-min max-w-[60px] items-center justify-center rounded border border-dashed border-blue-600 bg-blue-50 p-4">
-                  <Icon icon="tabler:ticket" width="24" height="24" className="text-blue-600" />
-                </div>
-                <div>
-                  <div className="flex">
-                    <p className="text-sm font-medium tracking-tight text-neutral-900">
-                      {selectedPlans[plan].name}&nbsp;
-                    </p>
-                    <p className="ml-1 text-sm font-medium text-neutral-500">
-                      {selectedPlans[plan].order?.total_order}x
-                    </p>
-                  </div>
-                  <p className="text-sm font-medium tracking-tight text-neutral-900">
-                    {event.name}
-                  </p>
-                  <p className="text-sm font-medium text-neutral-500">
-                    {dayjs(event.start_date).format("ddd")},&nbsp;
-                    {dayjs(event.start_date).format("MMM D YYYY")}&nbsp;
-                    {dayjs(event.start_date).format("HH:mm A")} - {event.country}
-                  </p>
-                </div>
-              </div>
-              {!isDisabledDeleteItem && (
-                <Button
-                  disabled={isDisabledDeleteItem}
-                  variant="ghost"
-                  onClick={() => onDeleteItem(selectedPlans[plan])}
-                >
-                  <Icon
-                    icon="solar:trash-bin-trash-outline"
-                    width="24"
-                    height="24"
-                    className="text-neutral-600"
-                  />
-                </Button>
-              )}
-            </div>
+            <PlanCard
+              country={event.country}
+              planName={selectedPlans[plan].name}
+              totalOrder={Number(selectedPlans[plan].order?.total_order)}
+              eventName={event.name}
+              eventStartDate={event.start_date}
+              isDisabledDeleteItem={isDisabledDeleteItem}
+              isShowDelete={!isDisabledDeleteItem}
+              onClickDelete={() => onDeleteItem(selectedPlans[plan])}
+            />
           </div>
         ))}
     </div>

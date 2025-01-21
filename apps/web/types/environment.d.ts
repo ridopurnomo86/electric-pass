@@ -6,6 +6,7 @@ declare global {
       SESSION_SECRET: string;
       BOOKING_SESSION_SECRET: string;
       REDIS_URL: string;
+      STRIPE_PUBLISH_API_KEY: string;
     }
   }
 }

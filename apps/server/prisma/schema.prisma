@@ -28,6 +28,7 @@ model User {
   updated_at        DateTime          @updatedAt
   city              String?           @db.VarChar(255)
   Event             Event[]
+  Order             Order[]
   image_profile     UserImageProfile?
 }
 
@@ -83,18 +84,61 @@ model Event {
 }
 
 model EventPlan {
-  id          Int       @id @default(autoincrement())
-  event_id    Int
-  name        String    @db.VarChar(255)
-  created_at  DateTime  @default(now())
-  updated_at  DateTime
-  amount      Int       @default(0)
-  description String    @db.Text
-  ended_date  DateTime? @db.Timestamp(0)
-  price       Decimal   @db.Decimal(10, 0)
-  Event       Event     @relation(fields: [event_id], references: [id],  onUpdate: Cascade, onDelete: Cascade)
+  id             Int              @id @default(autoincrement())
+  event_id       Int
+  name           String           @db.VarChar(255)
+  created_at     DateTime         @default(now())
+  updated_at     DateTime
+  amount         Int              @default(0)
+  description    String           @db.Text
+  ended_date     DateTime         @default(now()) @db.Timestamp(0)
+  price          Decimal          @db.Decimal(10, 0)
+  Event          Event            @relation(fields: [event_id], references: [id])
+  OrderEventPlan OrderEventPlan[]
 
   @@index([event_id], map: "EventPlan_event_id_fkey")
+}
+
+model Order {
+  id                   Int              @id @default(autoincrement())
+  user_id              Int
+  total_price          Int
+  created_at           DateTime?        @default(now()) @db.Timestamp(0)
+  updated_at           DateTime?        @default(now()) @db.Timestamp(0)
+  order_transaction_id String?
+  User                 User             @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  OrderEventPlan       OrderEventPlan[]
+  Transaction          Transaction[]
+
+  @@index([user_id], map: "Order_user_id_fkey")
+}
+
+model OrderEventPlan {
+  id         Int       @id @default(autoincrement())
+  user_id    Int
+  plan_id    Int
+  order_id   Int
+  quantity   Int
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_at DateTime? @default(now()) @db.Timestamp(0)
+  Order      Order     @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  EventPlan  EventPlan @relation(fields: [plan_id], references: [id], onDelete: Cascade)
+
+  @@index([order_id], map: "OrderEventPlan_order_id_fkey")
+  @@index([plan_id], map: "OrderEventPlan_plan_id_fkey")
+}
+
+model Transaction {
+  id             Int       @id @default(autoincrement())
+  user_id        Int
+  order_id       Int
+  payment_method String
+  status         String    @default("incomplete") @db.VarChar(255)
+  created_at     DateTime? @default(now()) @db.Timestamp(0)
+  updated_at     DateTime? @default(now()) @db.Timestamp(0)
+  Order          Order     @relation(fields: [order_id], references: [id], onDelete: Cascade)
+
+  @@index([order_id], map: "Transaction_order_id_fkey")
 }
 
 enum Role {

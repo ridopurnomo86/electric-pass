@@ -13,7 +13,7 @@ import { useNavigation } from "@remix-run/react";
 import INPUT_DATA from "./data";
 
 type BillingFormPropsType = {
-  callback: () => void;
+  callback: (values: BookingBillingValidationType) => void;
 };
 
 const BillingForm = ({ callback }: BillingFormPropsType) => {
@@ -33,7 +33,7 @@ const BillingForm = ({ callback }: BillingFormPropsType) => {
   });
 
   const onSubmit = (values: BookingBillingValidationType) => {
-    if (values) return callback();
+    if (values) return callback(values);
   };
 
   return (

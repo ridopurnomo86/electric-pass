@@ -4,6 +4,7 @@ import { SettingsAccountController } from "../controllers/upload";
 import upload from "../middleware/upload";
 import { validateToken } from "../middleware/validate-token";
 import { EventController } from "../controllers/event";
+import { OrderController } from "../controllers/order";
 
 export const router = Router();
 
@@ -11,7 +12,9 @@ router.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-router.post("/payment", validateToken, new PaymentController().generatePayment);
+router.post("/order", validateToken, new OrderController().createOrder);
+
+router.post("/payment/intent", validateToken, new PaymentController().generatePaymentIntent);
 
 router.post(
   "/events/image/upload",

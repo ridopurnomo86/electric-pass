@@ -27,7 +27,7 @@ const Items = ({
 }: ItemsPropsType) => (
   <div className="h-full border-x bg-[#F8FAFC]">
     <div className="border-b px-10 py-4">
-      <p className="text-lg font-semibold tracking-tight text-neutral-900">Your Items</p>
+      <p className="text-lg font-semibold tracking-tight text-neutral-900">Your Order</p>
     </div>
     <Plans
       isDisabledDeleteItem={isDisabledDeleteItem}

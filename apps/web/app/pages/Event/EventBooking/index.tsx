@@ -1,17 +1,26 @@
 import { useCachedLoaderData } from "remix-client-cache";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { EventBookingLoader } from "services/main/event/event-booking";
 import { useBlocker, useSubmit } from "@remix-run/react";
 import Overview from "./Overview";
 import EventBookingDialog from "./Dialog";
 import Items from "./Items";
-import Tickets from "./Tickets";
 import useEventBooking from "./useEventBooking";
 import Stepper from "./Stepper";
-import BillingForm from "./BillingForm";
+import EventBookingViews from "./views";
+
+type BillingDataType = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  dialing_code: string;
+  phone_number: string;
+};
 
 const EventBooking = () => {
-  const [step, setStep] = useState<"ticket" | "billing" | "summary">("ticket");
+  const userRef = useRef<BillingDataType>({} as BillingDataType);
+
+  const [step, setStep] = useState<"ticket" | "billing" | "confirmation">("ticket");
 
   const { selectedPlans, onSelectedPlans, subTotalPrice, totalFees, onRemovePlans, totalOrder } =
     useEventBooking();
@@ -31,25 +40,22 @@ const EventBooking = () => {
     submit(formData, { method: "POST" });
   };
 
-  const handleContinueStep = () => {
-    if (step === "ticket") return setStep("billing");
-  };
-
   return (
     <main>
       <section className="grid size-full min-h-screen border-b min-[1024px]:grid-cols-[70%_30%]">
         <div>
           <Overview datetime={event.start_date} location={event.country} title={event.name} />
           <Stepper step={step} onStep={setStep} />
-          {step === "ticket" && (
-            <Tickets
-              isDisabled={totalOrder <= 0}
-              onContinue={handleContinueStep}
-              plans={event.Plan}
-              onSelectedTicket={(item) => onSelectedPlans(item)}
-            />
-          )}
-          {step === "billing" && <BillingForm callback={() => setStep("summary")} />}
+          <EventBookingViews
+            onSelectedPlans={onSelectedPlans}
+            onStep={setStep}
+            plans={event.Plan}
+            selectedPlans={selectedPlans}
+            step={step}
+            subTotalPrice={subTotalPrice}
+            totalOrder={totalOrder}
+            userRef={userRef}
+          />
         </div>
         <div>
           <Items
