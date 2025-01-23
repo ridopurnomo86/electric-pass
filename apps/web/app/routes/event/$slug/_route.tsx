@@ -10,7 +10,7 @@ const renderDescriptionContent = (title: string) =>
 export const meta: MetaFunction = ({ data, location }: any) => [
   { title: `${data.eventDetail.name} | Electric Pass` },
   { name: "keywords", content: "organize event, sell event" },
-  { name: "author", content: process.env.HOSTNAME },
+  { name: "author", content: data.hostname },
   { name: "type", content: "article" },
   { name: "og:site_name", content: "Electric Pass" },
   {
@@ -31,7 +31,7 @@ export const meta: MetaFunction = ({ data, location }: any) => [
   },
   {
     name: "og:url",
-    content: `${process.env.HOSTNAME}${location.pathname}`,
+    content: `${data.hostname}${location.pathname}`,
   },
 ];
 

@@ -1,8 +1,58 @@
 import { Request, Response } from "express";
-import generatePaymentIntentSchema from "../../validation/payment";
+import { generatePaymentIntentSchema, paymentAmountSchema } from "../../validation/payment";
+import { db } from "../../config/prisma";
 import stripe from "../../config/stripe";
 
 export class PaymentController {
+  public async paymentAmount(req: Request, res: Response) {
+    const { orders, user_id: userId, payment_method: paymentMethod } = req.body;
+
+    const { error } = paymentAmountSchema.validate({
+      orders,
+      user_id: userId,
+      payment_method: paymentMethod,
+    });
+
+    if (error)
+      return res.status(422).json({
+        type: "error",
+        message: error?.details,
+      });
+
+    let totalPrice = 0;
+
+    const plans = await db.eventPlan.findMany({
+      where: {
+        id: {
+          in: orders.map((order: { id: number; total_order: number }) => order.id),
+        },
+      },
+      select: {
+        amount: true,
+        price: true,
+        id: true,
+      },
+    });
+
+    if (!plans)
+      return res.json({
+        status: "error",
+        type: "error",
+      });
+
+    plans.map((plan, idx) => {
+      totalPrice = totalPrice + Number(plan.price) * orders[idx].total_order;
+    });
+
+    return res.json({
+      status: "success",
+      type: "success",
+      data: {
+        total_price: totalPrice,
+      },
+    });
+  }
+
   public async generatePaymentIntent(req: Request, res: Response) {
     const { amount, costumer } = req.body;
 

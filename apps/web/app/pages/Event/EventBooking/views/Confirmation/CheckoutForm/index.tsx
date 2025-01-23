@@ -116,6 +116,7 @@ const CheckoutForm = ({ amount, billingData, selectedPlans }: CheckoutFormPropsT
 
   useEffect(() => {
     fetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isLoading) return <CircularLoading />;

@@ -6,10 +6,15 @@ type TicketsPropsType = {
   plans: EventPlanDataType[];
   onSelectedTicket: (item: EventPlanDataType) => void;
   isDisabled: boolean;
-  onContinue: () => void;
+  onSubmitTicket: () => void;
 };
 
-const Tickets = ({ plans, onSelectedTicket, isDisabled = true, onContinue }: TicketsPropsType) => (
+const Tickets = ({
+  plans,
+  onSelectedTicket,
+  isDisabled = true,
+  onSubmitTicket: onContinue,
+}: TicketsPropsType) => (
   <div className="size-full p-4 md:px-10">
     <p className="text-lg font-semibold tracking-tight text-neutral-900">Select a tickets</p>
     <p className="mb-4 text-sm font-medium text-neutral-500">

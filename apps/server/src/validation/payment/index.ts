@@ -1,5 +1,10 @@
 import Joi from "joi";
 
+const orderSchema = Joi.object().keys({
+  id: Joi.number().required(),
+  total_order: Joi.number().required(),
+});
+
 const generatePaymentIntentSchema = Joi.object().keys({
   amount: Joi.number().required(),
   costumer: Joi.object({
@@ -11,4 +16,10 @@ const generatePaymentIntentSchema = Joi.object().keys({
   }),
 });
 
-export default generatePaymentIntentSchema;
+const paymentAmountSchema = Joi.object().keys({
+  orders: Joi.array().items(orderSchema).required(),
+  payment_method: Joi.string().required(),
+  user_id: Joi.number().required(),
+});
+
+export { generatePaymentIntentSchema, paymentAmountSchema };

@@ -1,5 +1,5 @@
 import { useCachedLoaderData } from "remix-client-cache";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { EventBookingLoader } from "services/main/event/event-booking";
 import { useBlocker, useSubmit } from "@remix-run/react";
 import Overview from "./Overview";
@@ -20,10 +20,18 @@ type BillingDataType = {
 const EventBooking = () => {
   const userRef = useRef<BillingDataType>({} as BillingDataType);
 
-  const [step, setStep] = useState<"ticket" | "billing" | "confirmation">("ticket");
-
-  const { selectedPlans, onSelectedPlans, subTotalPrice, totalFees, onRemovePlans, totalOrder } =
-    useEventBooking();
+  const {
+    selectedPlans,
+    onSelectedPlans,
+    subTotalPrice,
+    totalFees,
+    onRemovePlans,
+    totalOrder,
+    onStep,
+    handleTicket,
+    step,
+    isRequestLoading,
+  } = useEventBooking();
 
   const submit = useSubmit();
 
@@ -45,10 +53,12 @@ const EventBooking = () => {
       <section className="grid size-full min-h-screen border-b min-[1024px]:grid-cols-[70%_30%]">
         <div>
           <Overview datetime={event.start_date} location={event.country} title={event.name} />
-          <Stepper step={step} onStep={setStep} />
+          <Stepper step={step} onStep={onStep} />
           <EventBookingViews
+            isSubmitting={isRequestLoading}
+            onSubmitTicket={handleTicket}
             onSelectedPlans={onSelectedPlans}
-            onStep={setStep}
+            onStep={onStep}
             plans={event.Plan}
             selectedPlans={selectedPlans}
             step={step}

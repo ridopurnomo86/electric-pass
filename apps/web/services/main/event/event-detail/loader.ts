@@ -4,7 +4,10 @@ import Redis from "services/modules/redis";
 
 const EVENT_DETAIL_CACHE = "event-detail";
 
-const EventDetailLoader: LoaderFunction = async ({ params }) => {
+const EventDetailLoader: LoaderFunction = async ({ params, request }) => {
+  const url = new URL(request.url);
+  const hostname = url.hostname;
+
   if (!params.slug)
     throw new Response(null, {
       status: 404,
@@ -24,10 +27,10 @@ const EventDetailLoader: LoaderFunction = async ({ params }) => {
 
     Redis.setItem(`${EVENT_DETAIL_CACHE}:${params.slug}`, JSON.stringify(eventDetail));
 
-    return { eventDetail };
+    return { eventDetail, hostname };
   }
 
-  return { eventDetail: JSON.parse(cacheEventDetail) };
+  return { eventDetail: JSON.parse(cacheEventDetail), hostname };
 };
 
 export default EventDetailLoader;

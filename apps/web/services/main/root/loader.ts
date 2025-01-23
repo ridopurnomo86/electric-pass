@@ -22,7 +22,6 @@ const RootLoader: LoaderFunction = async ({ request }: LoaderFunctionArgs) => {
       ENV: {
         BACKEND_URL: process.env.BACKEND_URL,
         API_KEY: process.env.API_KEY,
-        HOSTNAME: process.env.HOSTNAME,
         STRIPE_PUBLISH_API_KEY: process.env.STRIPE_PUBLISH_API_KEY,
       },
       csrf: token,
