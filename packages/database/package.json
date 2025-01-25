@@ -1,0 +1,31 @@
+{
+  "name": "@repo/db",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "private": true,
+  "sideEffects": false,
+  "devDependencies": {
+    "prisma": "^6.2.1",
+    "typescript": "^5.7.3"
+  },
+  "scripts": {
+    "db:pull": "prisma db pull",
+    "db:push": "prisma db push",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev --skip-generate",
+    "db:deploy": "prisma migrate deploy",
+    "build-ts": "tsc",
+    "build": "yarn build-ts && yarn db:pull && yarn db:generate"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "^6.2.1",
+    "bcryptjs": "^2.4.3"
+  }
+}

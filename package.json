@@ -7,10 +7,12 @@
   "private": true,
   "scripts": {
     "lint": "nx run-many -t lint",
-    "format:code": "nx run-many -t format:code"
+    "format:code": "nx run-many -t format:code",
+    "db:build": "npx nx build --skip-nx-cache @repo/db"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "dependencies": {},
   "devDependencies": {
