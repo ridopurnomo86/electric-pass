@@ -1,8 +1,6 @@
-import { Prisma } from "@prisma/client";
-import { json } from "@remix-run/node";
 import dayjs from "dayjs";
-import { db } from "services/prisma.server";
-import { decrypt } from "services/utils/cipher/encrypt";
+import { db } from "../..";
+import { decrypt } from "../../utils/cipher/encrypt";
 import {
   AuthorizeUserResponseType,
   AuthorizeUserType,
@@ -22,21 +20,21 @@ const UserModel = {
       });
 
       if (!checkingUser)
-        return json({
+        return {
           status: "Error",
           type: "error",
           message: "Something gone wrong",
-        });
+        };
 
       return { ...checkingUser, ...response };
     } catch (err) {
-      if (err instanceof Prisma.PrismaClientKnownRequestError)
-        return json({
+      if (err)
+        return {
           status: "Error",
           type: "error",
           message: "Something gone wrong",
-        });
-      throw json(err);
+        };
+      throw err;
     }
   },
   getUserImage: async ({ id, response }: GetUserType) => {
@@ -48,27 +46,32 @@ const UserModel = {
       });
 
       if (!user)
-        return json({
+        return {
           status: "Error",
           type: "error",
           message: "Something gone wrong",
-        });
+        };
 
       return { ...user, ...response };
     } catch (err) {
-      if (err instanceof Prisma.PrismaClientKnownRequestError)
-        return json({
+      if (err)
+        return {
           status: "Error",
           type: "error",
           message: "Something gone wrong",
-        });
-      throw json(err);
+        };
+      throw err;
     }
   },
-  authorizeUser: async ({ email, password }: AuthorizeUserType): AuthorizeUserResponseType => {
+  authorizeUser: async ({
+    email,
+    password = "",
+    id,
+  }: AuthorizeUserType): AuthorizeUserResponseType => {
     const user = await db.user.findFirst({
       where: {
-        email,
+        ...(email && { email }),
+        ...(id && { id }),
       },
     });
 
@@ -103,19 +106,16 @@ const UserModel = {
       });
 
       if (checkingUser?.email === data.email)
-        return json(
-          {
-            status: "Error",
-            type: "error",
-            message: `A user has been created.`,
-          },
-          { status: 500 }
-        );
+        return {
+          status: "Error",
+          type: "error",
+          message: `A user has been created.`,
+        };
 
       await db.user.create({
         data: {
-          email: data.email,
-          name: data.name,
+          email: String(data.email),
+          name: String(data.name),
           password: encryptPassword,
           role: data.account_type === "visitor" ? "USER" : "ORGANIZER",
           salt,
@@ -123,19 +123,19 @@ const UserModel = {
         },
       });
 
-      return json({
+      return {
         status: "Error",
         type: "error",
         message: "Sorry, email is exist",
-      });
+      };
     } catch (err) {
-      if (err instanceof Prisma.PrismaClientKnownRequestError)
-        return json({
+      if (err)
+        return {
           status: "Error",
           type: "error",
           message: "A new user cannot be created with this email.",
-        });
-      throw json(err);
+        };
+      throw err;
     }
   },
   updateUser: async ({ id, data = {} }: UpdateUserType) => {
@@ -148,21 +148,21 @@ const UserModel = {
       });
 
       if (!user)
-        return json({
+        return {
           status: "Error",
           type: "error",
           message: "Something gone wrong",
-        });
+        };
 
       return { ...user };
     } catch (err) {
-      if (err instanceof Prisma.PrismaClientKnownRequestError)
-        return json({
+      if (err)
+        return {
           status: "Error",
           type: "error",
           message: "A user cannot be update.",
-        });
-      throw json(err);
+        };
+      throw err;
     }
   },
 };

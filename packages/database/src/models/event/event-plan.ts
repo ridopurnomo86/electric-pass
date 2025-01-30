@@ -29,8 +29,6 @@ const EventPlanModel = {
       },
     });
 
-    if (!plans) throw new Error("Plan not found");
-
     return eventPlans;
   },
 };

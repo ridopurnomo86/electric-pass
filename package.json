@@ -8,7 +8,8 @@
   "scripts": {
     "lint": "nx run-many -t lint",
     "format:code": "nx run-many -t format:code",
-    "db:build": "npx nx build --skip-nx-cache @repo/db"
+    "check:code": "nx run-many -t check:code",
+    "db:build": "npx nx build --skip-nx-cache @monorepo/database"
   },
   "workspaces": [
     "apps/*",

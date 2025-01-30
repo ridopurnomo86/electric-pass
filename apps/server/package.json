@@ -7,7 +7,7 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "dev": "ts-node src/index.ts",
-    "build": "prisma db pull && prisma generate && yarn build-ts",
+    "build": "npx nx build --skip-nx-cache @monorepo/database && yarn build-ts",
     "build-ts": "tsc",
     "build:prod": "cd ../.. && nx run server:build --configuration=production",
     "serve": "node dist/index.js",
@@ -17,7 +17,7 @@
     "check:code": "npx prettier . --check && yarn lint && tsc"
   },
   "dependencies": {
-    "@prisma/client": "^5.17.0",
+    "@monorepo/database": "*",
     "cors": "^2.8.5",
     "crypto-js": "^4.2.0",
     "express": "^4.19.2",
@@ -27,7 +27,6 @@
     "joi": "^17.13.3",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
-    "prisma": "^5.17.0",
     "stripe": "^17.5.0",
     "typescript-eslint": "^7.17.0",
     "uuid": "^11.0.5"

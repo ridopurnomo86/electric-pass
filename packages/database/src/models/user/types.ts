@@ -16,8 +16,9 @@ export type UpdateUserType = {
 };
 
 export type AuthorizeUserType = {
-  email: string;
-  password: string;
+  email?: string;
+  id?: number;
+  password?: string;
 };
 
 export type AuthorizeUserResponseType = Promise<{

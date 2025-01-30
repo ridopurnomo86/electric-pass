@@ -1,13 +1,13 @@
 import { defer, LoaderFunction } from "@remix-run/node";
 import { authenticator } from "services/auth.server";
-import EventModel from "services/models/event";
+import db from "@monorepo/database";
 
 const ProjectLoader: LoaderFunction = async ({ request }) => {
   const user = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   });
 
-  const onGoingEvents = await EventModel.getEventsByUser({ userId: user?.id });
+  const onGoingEvents = await db.EventModel.getEventsByUser({ userId: user?.id });
 
   return defer({ onGoingEvents, onFinishedEvents: [] });
 };

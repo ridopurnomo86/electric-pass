@@ -1,7 +1,7 @@
 import { Authenticator } from "remix-auth";
 import { FormStrategy } from "remix-auth-form";
+import db from "@monorepo/database";
 import { sessionStorage } from "./session.server";
-import UserModel from "./models/user";
 
 type AuthenticatorResponseType = {
   id: number;
@@ -17,7 +17,8 @@ export const authenticator = new Authenticator<AuthenticatorResponseType>(sessio
 const formStrategy = new FormStrategy(async ({ form }) => {
   const email = form.get("email") as string;
   const password = form.get("password") as string;
-  const user = await UserModel.authorizeUser({ email, password });
+
+  const user = await db.UserModel.authorizeUser({ email, password });
 
   return { id: user.id, name: user.name, role: user.role };
 });

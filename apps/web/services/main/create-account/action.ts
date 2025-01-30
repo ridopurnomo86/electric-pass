@@ -7,9 +7,9 @@ import {
 } from "~/data/form-validation/CreateAccountValidation";
 import { commitSession, getSession } from "services/session.server";
 import { encrypt } from "services/utils/cipher/encrypt";
-import UserModel from "services/models/user";
 import { csrf } from "services/csrf.server";
 import { CSRFError } from "remix-utils/csrf/server";
+import db from "@monorepo/database";
 import { CreateAccountResponseType } from "./types";
 
 const CreateAccountAction = async ({
@@ -39,13 +39,13 @@ const CreateAccountAction = async ({
 
   const { hash, salt } = await encrypt({ value: data.password });
 
-  const registerUser = await UserModel.registerUser({
+  const registerUser = await db.UserModel.registerUser({
     data,
     encryptPassword: hash,
     salt,
   });
 
-  if (registerUser.status === 200) {
+  if (registerUser) {
     session.flash("create-account", {
       status: "Success",
       type: "success",

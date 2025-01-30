@@ -1,7 +1,7 @@
 import fs from "fs";
 import { Request, Response } from "express";
+import { db } from "@monorepo/database";
 import settingsAccountUploadSchema from "../../validation/upload";
-import { db } from "../../config/prisma";
 import imageKit from "../../config/imagekit";
 
 const purgeCacheImage = ({ imageUrl }: { imageUrl: string }) => imageKit.purgeCache(imageUrl);

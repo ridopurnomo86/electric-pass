@@ -1,11 +1,10 @@
 import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { CreateEventValidation } from "~/data/form-validation/CreateEventValidation";
 import { authenticator } from "services/auth.server";
-import EventModel from "services/models/event";
+import db from "@monorepo/database";
 import Redis from "services/modules/redis";
 import axios from "axios";
 import { commitSession, getSession } from "services/session.server";
-import UserModel from "services/models/user";
 import { ValuesType } from "./types";
 
 const EVENTS_CACHE = "events";
@@ -32,7 +31,7 @@ const SettingsCreateProjectAction = async ({ request }: ActionFunctionArgs) => {
   const session = await getSession(request.headers.get("Cookie"));
   const user = await authenticator.isAuthenticated(request);
 
-  const checkingUser = await UserModel.getUser({
+  const checkingUser = await db.UserModel.getUser({
     id: Number(user?.id),
   });
 
@@ -58,7 +57,7 @@ const SettingsCreateProjectAction = async ({ request }: ActionFunctionArgs) => {
       message: "Something gone wrong while uploading image",
     });
 
-  const createEvent = await EventModel.addEvent({
+  const createEvent = await db.EventModel.addEvent({
     data: validation as unknown as ValuesType,
     userId: Number(user?.id),
     imageUrl: uploadImage.data.data.url,

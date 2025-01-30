@@ -1,7 +1,7 @@
 import { defer, isSession, LoaderFunction, LoaderFunctionArgs, redirect } from "@remix-run/node";
 import { authenticator } from "services/auth.server";
 import { getSession } from "services/booking-session.server";
-import EventModel from "services/models/event";
+import db from "@monorepo/database";
 
 const EventBookingLoader: LoaderFunction = async ({ request }: LoaderFunctionArgs) => {
   await authenticator.isAuthenticated(request, {
@@ -14,7 +14,7 @@ const EventBookingLoader: LoaderFunction = async ({ request }: LoaderFunctionArg
 
   if (!isSession(bookingSession) || !event?.has_access) return redirect("/");
 
-  const getEvent = await EventModel.getEventDetail({ eventId: Number(event.event_id) });
+  const getEvent = await db.EventModel.getEventDetail({ eventId: Number(event.event_id) });
 
   return defer({
     event: getEvent,

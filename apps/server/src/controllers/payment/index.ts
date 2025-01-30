@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
+import { EventPlanModel } from "@monorepo/database";
 import { generatePaymentIntentSchema, paymentAmountSchema } from "../../validation/payment";
-import { db } from "../../config/prisma";
 import stripe from "../../config/stripe";
 
 export class PaymentController {
@@ -21,26 +21,16 @@ export class PaymentController {
 
     let totalPrice = 0;
 
-    const plans = await db.eventPlan.findMany({
-      where: {
-        id: {
-          in: orders.map((order: { id: number; total_order: number }) => order.id),
-        },
-      },
-      select: {
-        amount: true,
-        price: true,
-        id: true,
-      },
-    });
+    const checkingPlans = await EventPlanModel.getEventOrder({ plans: orders });
 
-    if (!plans)
+    if (!checkingPlans)
       return res.json({
         status: "error",
         type: "error",
+        message: "plan does not exist",
       });
 
-    plans.map((plan, idx) => {
+    checkingPlans.map((plan, idx) => {
       totalPrice = totalPrice + Number(plan.price) * orders[idx].total_order;
     });
 

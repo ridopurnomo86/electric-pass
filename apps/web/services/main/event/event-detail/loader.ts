@@ -1,5 +1,5 @@
 import { LoaderFunction } from "@remix-run/node";
-import EventModel from "services/models/event";
+import db from "@monorepo/database";
 import Redis from "services/modules/redis";
 
 const EVENT_DETAIL_CACHE = "event-detail";
@@ -17,7 +17,7 @@ const EventDetailLoader: LoaderFunction = async ({ params, request }) => {
   const cacheEventDetail = await Redis.getItem(`${EVENT_DETAIL_CACHE}:${params.slug}`);
 
   if (!cacheEventDetail) {
-    const eventDetail = await EventModel.getEventDetail({ slug: String(params.slug) });
+    const eventDetail = await db.EventModel.getEventDetail({ slug: String(params.slug) });
 
     if (!eventDetail)
       throw new Response(null, {
