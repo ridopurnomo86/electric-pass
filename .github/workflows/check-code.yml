@@ -21,6 +21,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 18
-      - run: yarn db:build
       - run: yarn install
+      - run: yarn db:build
       - run: yarn lint
