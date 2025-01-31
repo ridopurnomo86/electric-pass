@@ -15,6 +15,7 @@ jobs:
           envkey_DEBUG: false
           envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }}
           file_name: .env
+          directory: ./packages/database
           fail_on_empty: false
           sort_keys: false
       - uses: actions/checkout@v3
