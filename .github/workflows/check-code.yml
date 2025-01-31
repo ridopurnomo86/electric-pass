@@ -13,6 +13,7 @@ jobs:
       - run: |
           touch .env
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+          cp .env ./packages/database
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
