@@ -10,14 +10,9 @@ jobs:
   check-code:
     runs-on: ubuntu-latest
     steps:
-      - uses: SpicyPizza/create-envfile@v2.0
-        with:
-          envkey_DEBUG: false
-          envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          file_name: .env
-          directory: ./packages/database
-          fail_on_empty: false
-          sort_keys: false
+      - run: |
+          touch .env
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
