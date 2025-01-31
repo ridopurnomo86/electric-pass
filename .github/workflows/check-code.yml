@@ -10,9 +10,17 @@ jobs:
   check-code:
     runs-on: ubuntu-latest
     steps:
+      - uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_DEBUG: false
+          envkey_DATABASE_URL: ${{ secrets.SECRET_KEY }}
+          file_name: .env
+          fail_on_empty: false
+          sort_keys: false
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
           node-version: 18
+      - run: yarn db:build
       - run: yarn install
       - run: yarn lint
