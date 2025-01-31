@@ -11,7 +11,7 @@
     "build-ts": "tsc",
     "build:prod": "cd ../.. && nx run server:build --configuration=production",
     "serve": "node dist/index.js",
-    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
+    "lint": "eslint . -c ./eslint.config.mjs --fix",
     "type:check": "tsc --noEmit",
     "format:code": "prettier . --write",
     "check:code": "npx prettier . --check && yarn lint && tsc"
