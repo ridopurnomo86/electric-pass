@@ -8,7 +8,7 @@
   "scripts": {
     "build": "npx nx build --skip-nx-cache @monorepo/database && remix build",
     "dev": "remix dev --manual",
-    "lint": "eslint . -c ./.eslintrc.cjs --fix",
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/index.js",
     "type:check": "tsc --noEmit",
     "format:code": "prettier . --write",

@@ -65,7 +65,7 @@ const useHttpRequest = ({
           url: defautlPath,
           withCredentials: true,
           headers: {
-            Authorization: `Basic ${window.process.env.API_KEY}`,
+            "x-api-key": window.process.env.API_KEY,
             ...reqHeaders,
           },
           signal: new AbortController().signal,

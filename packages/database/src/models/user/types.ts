@@ -25,6 +25,7 @@ export type AuthorizeUserResponseType = Promise<{
   id: number;
   name: string;
   role: string | undefined;
+  email: string;
 }>;
 
 export type RegisterUserType = {

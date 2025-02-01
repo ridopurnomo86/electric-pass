@@ -25,7 +25,6 @@ export default function App() {
         <RootContext.Provider
           value={{
             backendUrl: loaderData.ENV.BACKEND_URL,
-            backendApiKey: loaderData.ENV.API_KEY,
             stripePublishApiKey: loaderData.ENV.STRIPE_PUBLISH_API_KEY,
           }}
         >

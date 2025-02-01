@@ -95,7 +95,7 @@ const Event = () => {
                 {type === "description" ? (
                   <Description description={resolve.description} />
                 ) : (
-                  <Ticket plans={resolve.Plan} eventDate={resolve.start_date} />
+                  <Ticket plans={resolve.EventPlan} eventDate={resolve.start_date} />
                 )}
               </div>
               <Information
@@ -111,7 +111,7 @@ const Event = () => {
             <BottomNavigation
               isLoading={state === "submitting"}
               onBuyTicket={onSubmit}
-              startedPrice={resolve.Plan[0]?.price}
+              startedPrice={0}
             />
           </main>
         )}

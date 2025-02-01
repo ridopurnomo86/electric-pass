@@ -36,7 +36,7 @@ const FormInput = ({ onSubmit, form, isSubmit, actionData, state }: FormInputPro
     <p className="mt-2 text-sm font-medium text-neutral-600 antialiased">
       Join and feel experience the ease of transactions and managing events at the Electric Pass.
     </p>
-    <Form form={form} onSubmit={onSubmit} forms={INPUT_DATA} className="mt-4">
+    <Form isSubmit={isSubmit} form={form} onSubmit={onSubmit} forms={INPUT_DATA} className="mt-4">
       <Button type="submit" className="text-neutral-200" disabled={isSubmit}>
         Login
       </Button>

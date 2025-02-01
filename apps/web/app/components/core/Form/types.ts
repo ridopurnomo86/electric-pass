@@ -56,4 +56,5 @@ export type FormPropstype<T extends FieldValues> = {
   forms: Array<Forms>;
   children?: React.ReactNode | React.ReactElement;
   className?: string;
+  isSubmit?: boolean;
 };

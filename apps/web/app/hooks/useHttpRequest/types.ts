@@ -16,7 +16,7 @@ export type CallbackType<ResponseDataType> = (
 
 export type RequestReturnSuccessType<ResponseDataType> = AxiosResponse<ResponseDataType>;
 
-export type RequestReturnErrorType = { error?: AxiosError };
+export type RequestReturnErrorType = { error?: AxiosError | any };
 
 export type RequestReturnType<ResponseDataType> = Partial<
   RequestReturnSuccessType<ResponseDataType>
