@@ -16,6 +16,7 @@ export const authenticator = new Authenticator<AuthenticatorResponseType>(sessio
 
 const formStrategy = new FormStrategy(async ({ form }) => {
   const email = form.get("email") as string;
+
   const password = form.get("password") as string;
 
   const user = await db.UserModel.authorizeUser({ email, password });

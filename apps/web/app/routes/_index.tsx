@@ -1,7 +1,11 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@vercel/remix";
+import type { LoaderFunctionArgs, MetaFunction, HeadersFunction } from "@remix-run/node";
 import Mainlayout from "~/components/layout/MainLayout";
 import MainHome from "~/pages/MainHome";
 import { MainHomeLoader } from "services/main/main-home";
+
+export const headers: HeadersFunction = () => ({
+  "Cache-Control": "public, max-age=300, s-maxage=3600",
+});
 
 export const meta: MetaFunction<typeof MainHomeLoader> = ({ data }) => [
   { title: "Electric Pass: Create Free Events, Organize Events & Sell Your Own Events" },

@@ -17,7 +17,7 @@ const useHttpRequest = ({
   useLoading = true,
   defaultLoadingState = false,
   baseUrl: defaultBaseUrl,
-  path: defautlPath = "",
+  path: defaultPath = "",
   query: defaultQuery = {},
   body: defaultBody = {},
   config: reqConfig = {},
@@ -54,15 +54,24 @@ const useHttpRequest = ({
           ? (params[params.length - 1] as CallbackType<ResponseDataType>)
           : defaultCallback;
 
+      const {
+        method = defaultMethod,
+        baseUrl = defaultBaseUrl || backendUrl,
+        body = defaultBody,
+        path = defaultPath,
+        config = reqConfig,
+        query = defaultQuery,
+      } = typeof params[0] === "object" ? params[0] : {};
+
       try {
         if (useLoading) setIsLoading(true);
 
         const response = await axios({
-          method: defaultMethod,
-          baseURL: defaultBaseUrl || backendUrl,
-          data: defaultBody,
-          params: defaultQuery,
-          url: defautlPath,
+          method: method,
+          baseURL: baseUrl,
+          data: body,
+          params: query,
+          url: path,
           withCredentials: true,
           headers: {
             "x-api-key": window.process.env.API_KEY,
@@ -72,7 +81,7 @@ const useHttpRequest = ({
           cancelToken: new CancelToken((c) => {
             cancelRef.current = c;
           }),
-          ...reqConfig,
+          ...config,
         });
 
         return response;

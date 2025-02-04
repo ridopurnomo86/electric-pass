@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-router.post("/auth/login", new AuthController().loginWithEmail);
+router.post("/auth/email", new AuthController().loginWithEmail);
 
 router.post("/auth/logout", new AuthController().requestLogout);
 
