@@ -6,13 +6,13 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import CircularLoading from "~/components/core/CircularLoading";
 import { Button } from "~/components/ui/Button";
 // import { useToast } from "~/components/ui/Toaster/useToast";
 import stripePromise from "~/config/stripe";
 import { EventPlanDataType } from "~/data/test-data/types";
+import useHttpRequest from "~/hooks/useHttpRequest";
 import formatPrice from "~/modules/formatPrice";
 
 type CheckoutFormPropsType = {
@@ -93,24 +93,21 @@ const CheckoutForm = ({ amount, billingData, selectedPlans }: CheckoutFormPropsT
   const [paymentIntent, setPaymentIntent] = useState<{ [key: string]: string }>({});
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetch = async () => {
-    const res = await axios.post(
-      "/payment/intent",
-      {
-        amount,
-        costumer: billingData,
-      },
-      {
-        baseURL: window.process.env.BACKEND_URL,
-        headers: {
-          Authorization: `Basic ${window.process.env.API_KEY}`,
-        },
-      }
-    );
+  const { request } = useHttpRequest({
+    path: "/payment/intent",
+    body: {
+      amount,
+      costumer: billingData,
+    },
+    method: "POST",
+  });
 
-    if (res.data?.type === "success") {
+  const fetch = async () => {
+    const { data } = await request();
+
+    if (data?.type === "success") {
       setIsLoading(false);
-      setPaymentIntent(res.data.data);
+      setPaymentIntent(data.data);
     }
   };
 

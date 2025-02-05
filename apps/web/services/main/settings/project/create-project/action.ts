@@ -15,7 +15,7 @@ const uploadImageProject = async ({ formData }: { formData: FormData }) => {
       baseURL: process.env.BACKEND_URL,
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Basic ${process.env.API_KEY}`,
+        "x-api-key": process.env.API_KEY,
       },
     });
 

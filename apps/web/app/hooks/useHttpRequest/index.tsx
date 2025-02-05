@@ -84,6 +84,8 @@ const useHttpRequest = ({
           ...config,
         });
 
+        handleResponse(response, callback);
+
         return response;
       } catch (error) {
         const axiosError = error as AxiosError;
