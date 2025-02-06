@@ -1,6 +1,13 @@
 import { Request } from "express";
 import jwt from "jsonwebtoken";
+import type { JsonWebTokenError, Jwt, JwtPayload, VerifyOptions } from "jsonwebtoken";
 import authConfig from "../../config/auth";
+
+type verifyParamsType = {
+  token: string;
+  secret: string;
+  options?: VerifyOptions;
+};
 
 export const generateToken = ({
   id,
@@ -13,16 +20,31 @@ export const generateToken = ({
     expiresIn: "5h",
   });
 
-export const verifyToken = ({ token }: { token: string }) => {
-  let response;
-  if (token !== "undefined") {
-    jwt.verify(token, process.env.JWT_TOKENKEY as string, (err, payload) => {
-      if (err) throw Error("Invalid token");
-      return (response = payload);
+export const verify = ({
+  token,
+  secret,
+  options,
+}: verifyParamsType): Promise<{
+  err?: JsonWebTokenError;
+  payload?: string | JwtPayload | Jwt | undefined;
+}> =>
+  new Promise((resolve) => {
+    jwt.verify(token, secret, options, (err, payload) => {
+      if (err) return resolve({ err });
+      return resolve({ payload });
     });
-  }
+  });
 
-  return response;
+export const verifyWithInfo = async ({ token, secret, options }: verifyParamsType) => {
+  const { err, payload } = await verify({
+    token,
+    secret,
+    options,
+  });
+
+  if (!err) return { isValid: true, payload };
+  if (err.name === "TokenExpiredError") return { isValid: false, isExpired: true };
+  return { isValid: false };
 };
 
 export const extractToken = (req: Request) => {

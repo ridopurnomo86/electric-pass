@@ -56,7 +56,7 @@ const Login = () => {
       },
     });
 
-    if (data) return submit({ ...values, csrf }, { method: "post" });
+    if (data) return submit({ ...data.data, csrf }, { method: "post" });
 
     form.resetField("password");
 

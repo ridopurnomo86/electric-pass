@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import { router } from "./routes";
 import { errorHandler, errorNotFoundHandler } from "./middleware/api-error";
 import apiAuthHandler from "./middleware/api-auth";
+import apiLimiter from "./config/rate-limiter";
 
 const app = express();
 
@@ -16,6 +17,7 @@ const PORT = Number(process.env.PORT) || 4004;
 
 app.use(morgan("dev"));
 app.use(helmet());
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -40,6 +42,8 @@ app.use(
 );
 
 app.use(apiAuthHandler);
+
+app.use(apiLimiter);
 
 app.use("/", router);
 
