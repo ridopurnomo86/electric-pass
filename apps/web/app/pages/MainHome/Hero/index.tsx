@@ -1,4 +1,5 @@
 import { UseFormReturn } from "react-hook-form";
+import GradientText from "~/components/core/GradientText";
 import { Button } from "~/components/ui/Button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "~/components/ui/Form";
 import { Input } from "~/components/ui/Input";
@@ -12,9 +13,16 @@ type HeroPropsType = {
 const Hero = ({ onSubmit, form }: HeroPropsType) => (
   <section className="bg-white">
     <div className="container mx-auto bg-white py-24">
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-        Find Your Next Event
-      </h1>
+      <GradientText
+        colors={["#40ffaa", "#4079ff", "#40ffaa", "#4079ff", "#40ffaa"]}
+        animationSpeed={5}
+        showBorder={false}
+      >
+        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+          Find Your Next Event
+        </h1>
+      </GradientText>
+
       <p className="mt-1 text-neutral-600">
         Enter your criteria and discover events that match your preferences.
       </p>
