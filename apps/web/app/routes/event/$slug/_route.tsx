@@ -1,11 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import {
+  ActionFunctionArgs,
+  HeadersFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { EventDetailAction, EventDetailLoader } from "services/main/event/event-detail";
 import Mainlayout from "~/components/layout/MainLayout";
 import EventDetailPage from "~/pages/Event/EventDetail";
 
 const renderDescriptionContent = (title: string) =>
   `See available schedules, locations and ticket prices for ${title.toUpperCase()}. Buy tickets or order online only at Electric Pass`;
+
+export const headers: HeadersFunction = ({ loaderHeaders }) => ({
+  "Cache-Control": loaderHeaders.get("Cache-Control") as string,
+});
 
 export const meta: MetaFunction = ({ data, location }: any) => [
   { title: `${data.eventDetail.name} | Electric Pass` },

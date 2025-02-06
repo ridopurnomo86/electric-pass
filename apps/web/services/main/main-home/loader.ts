@@ -1,5 +1,4 @@
-import { LoaderFunction, LoaderFunctionArgs } from "@remix-run/node";
-import { jsonHash } from "remix-utils/json-hash";
+import { defer, LoaderFunction, LoaderFunctionArgs } from "@remix-run/node";
 import db from "@monorepo/database";
 
 const MainHomeLoader: LoaderFunction = async ({ request }: LoaderFunctionArgs) => {
@@ -9,7 +8,7 @@ const MainHomeLoader: LoaderFunction = async ({ request }: LoaderFunctionArgs) =
   const type = await db.EventTypeModel.getAllEventType();
   const events = await db.EventModel.getAllEvent();
 
-  return jsonHash(
+  return defer(
     { type, events, hostname },
     {
       headers: {

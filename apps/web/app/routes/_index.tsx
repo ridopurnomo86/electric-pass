@@ -3,8 +3,8 @@ import Mainlayout from "~/components/layout/MainLayout";
 import MainHome from "~/pages/MainHome";
 import { MainHomeLoader } from "services/main/main-home";
 
-export const headers: HeadersFunction = () => ({
-  "Cache-Control": "public, max-age=300, s-maxage=3600",
+export const headers: HeadersFunction = ({ loaderHeaders }) => ({
+  "Cache-Control": loaderHeaders.get("Cache-Control") as string,
 });
 
 export const meta: MetaFunction<typeof MainHomeLoader> = ({ data }) => [
