@@ -1,4 +1,4 @@
-import { json, LoaderFunction } from "@remix-run/node";
+import { defer, LoaderFunction } from "@remix-run/node";
 import db from "@monorepo/database";
 
 const EventDetailLoader: LoaderFunction = async ({ params, request }) => {
@@ -19,7 +19,7 @@ const EventDetailLoader: LoaderFunction = async ({ params, request }) => {
       statusText: "Not Found",
     });
 
-  return json(
+  return defer(
     { eventDetail, hostname },
     {
       headers: {

@@ -1,20 +1,24 @@
 import { json, LoaderFunction, LoaderFunctionArgs } from "@remix-run/node";
-import { getSession } from "services/session.server";
 import { authenticator } from "services/auth.server";
-import { destroySession } from "services/booking-session.server";
+import {
+  destroySession as destroySessionBooking,
+  getSession as getSessionBooking,
+} from "services/booking-session.server";
 import { csrf } from "services/csrf.server";
 
 const RootLoader: LoaderFunction = async ({ request }: LoaderFunctionArgs) => {
   const headers = new Headers();
-  const bookingSession = await getSession(request.headers.get("Cookie"));
+
+  const bookingSession = await getSessionBooking(request.headers.get("Cookie"));
 
   const [token, cookieHeader] = await csrf.commitToken();
+
   const user = await authenticator.isAuthenticated(request);
 
   // Reference https://github.com/remix-run/remix/issues/231
   headers.append("Set-Cookie", cookieHeader as string);
   if (!request.url.includes("/book"))
-    headers.append("Set-Cookie", await destroySession(bookingSession));
+    headers.append("Set-Cookie", await destroySessionBooking(bookingSession));
 
   return json(
     {

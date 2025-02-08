@@ -1,15 +1,9 @@
 import TabsNavigation from "~/components/core/TabsNavigation";
 import { Suspense, useEffect, useState } from "react";
 import { EventDetailAction, EventDetailLoader } from "services/main/event/event-detail";
-import {
-  Await,
-  useActionData,
-  useLoaderData,
-  useLocation,
-  useNavigation,
-  useSubmit,
-} from "@remix-run/react";
+import { Await, useActionData, useLocation, useNavigation, useSubmit } from "@remix-run/react";
 import { useToast } from "~/components/ui/Toaster/useToast";
+import { useCachedLoaderData } from "remix-client-cache";
 import Description from "./content/Description";
 import Ticket from "./content/Ticket";
 import Header from "./Header";
@@ -25,7 +19,7 @@ const Event = () => {
   const submit = useSubmit();
   const location = useLocation();
 
-  const { eventDetail } = useLoaderData<typeof EventDetailLoader>();
+  const { eventDetail } = useCachedLoaderData<typeof EventDetailLoader>();
 
   const actionData = useActionData<typeof EventDetailAction>();
 

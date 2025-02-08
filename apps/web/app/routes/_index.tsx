@@ -1,7 +1,9 @@
 import type { LoaderFunctionArgs, MetaFunction, HeadersFunction } from "@remix-run/node";
 import Mainlayout from "~/components/layout/MainLayout";
-import MainHome from "~/pages/MainHome";
+import MainHomePage from "~/pages/MainHome";
 import { MainHomeLoader } from "services/main/main-home";
+import { ClientLoaderFunctionArgs } from "@remix-run/react";
+import { cacheClientLoader } from "remix-client-cache";
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => ({
   "Cache-Control": loaderHeaders.get("Cache-Control") as string,
@@ -32,10 +34,14 @@ export const meta: MetaFunction<typeof MainHomeLoader> = ({ data }) => [
 
 export const loader = async (params: LoaderFunctionArgs) => await MainHomeLoader(params);
 
-const Index = () => (
+export const clientLoader = async (params: ClientLoaderFunctionArgs) => cacheClientLoader(params);
+
+clientLoader.hydrate = true;
+
+const MainHome = () => (
   <Mainlayout>
-    <MainHome />
+    <MainHomePage />
   </Mainlayout>
 );
 
-export default Index;
+export default MainHome;
