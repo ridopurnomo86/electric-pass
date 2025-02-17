@@ -8,9 +8,10 @@ const purgeCacheImage = ({ imageUrl }: { imageUrl: string }) => imageKit.purgeCa
 
 export class EventController {
   public async uploadImage(req: Request, res: Response) {
-    const { user_id, event_name } = req.body;
+    const { id: userId } = req.user;
+    const { event_name } = req.body;
 
-    const { error } = EventsUploadSchema.validate({ user_id, event_name });
+    const { error } = EventsUploadSchema.validate({ user_id: userId, event_name });
 
     if (error || !req.file?.path)
       return res.status(422).json({
@@ -24,7 +25,7 @@ export class EventController {
         imageKit.upload(
           {
             file: data,
-            fileName: `${user_id}-${convertSlug(event_name)}`,
+            fileName: `${userId}-${convertSlug(event_name)}`,
             folder: "/events",
             overwriteFile: true,
             useUniqueFileName: false,

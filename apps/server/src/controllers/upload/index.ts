@@ -10,13 +10,14 @@ const deleteImage = ({ fileId }: { fileId: string }) => imageKit.deleteFile(file
 
 export class SettingsAccountController {
   public async uploadImage(req: Request, res: Response) {
-    const { user_id, name } = req.body;
+    const { id: userId } = req.user;
+    const { name } = req.body;
 
-    const { error } = settingsAccountUploadSchema.validate({ user_id, name });
+    const { error } = settingsAccountUploadSchema.validate({ user_id: userId, name });
 
     const userImageProfile = await db.userImageProfile.findFirst({
       where: {
-        userId: Number(user_id),
+        userId: Number(userId),
       },
     });
 
@@ -37,7 +38,7 @@ export class SettingsAccountController {
         imageKit.upload(
           {
             file: data,
-            fileName: `${user_id}-${name}`,
+            fileName: `${userId}-${name}`,
             folder: "/users",
             overwriteFile: true,
             useUniqueFileName: false,
@@ -48,7 +49,7 @@ export class SettingsAccountController {
               purgeCacheImage({ imageUrl: result.url });
               await db.userImageProfile.upsert({
                 where: {
-                  userId: Number(user_id),
+                  userId: Number(userId),
                 },
                 update: {
                   image_url: result.url,
@@ -61,7 +62,7 @@ export class SettingsAccountController {
                   image_url: result.url,
                   file_id: result.fileId,
                   version: 0,
-                  userId: Number(user_id),
+                  userId: Number(userId),
                 },
               });
               return res.json({
@@ -83,9 +84,10 @@ export class SettingsAccountController {
   }
 
   public async deleteImage(req: Request, res: Response) {
-    const { user_id, name } = req.body;
+    const { id: userId } = req.user;
+    const { name } = req.body;
 
-    const { error } = settingsAccountUploadSchema.validate({ user_id, name });
+    const { error } = settingsAccountUploadSchema.validate({ user_id: userId, name });
 
     if (error)
       return res.status(422).json({
@@ -97,7 +99,7 @@ export class SettingsAccountController {
     try {
       const deleteUserImage = await db.userImageProfile.delete({
         where: {
-          userId: Number(user_id),
+          userId: Number(userId),
         },
       });
 

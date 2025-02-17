@@ -1,16 +1,18 @@
 import { Request, Response } from "express";
-import { EventPlanModel } from "@monorepo/database";
-import { generatePaymentIntentSchema, paymentAmountSchema } from "../../validation/payment";
+import { EventPlanModel, OrderModel } from "@monorepo/database";
+import {
+  generatePaymentIntentSchema,
+  paymentAmountSchema,
+  paymentOrderSchema,
+} from "../../validation/payment";
 import stripe from "../../config/stripe";
 
 export class PaymentController {
   public async paymentAmount(req: Request, res: Response) {
-    const { orders, user_id: userId, payment_method: paymentMethod } = req.body;
+    const { orders } = req.body;
 
     const { error } = paymentAmountSchema.validate({
       orders,
-      user_id: userId,
-      payment_method: paymentMethod,
     });
 
     if (error)
@@ -40,6 +42,34 @@ export class PaymentController {
       data: {
         total_price: totalPrice,
       },
+    });
+  }
+
+  public async paymentOrder(req: Request, res: Response) {
+    const { id: userId } = req.user;
+    const { payment_method: paymentMethod, orders } = req.body;
+
+    const { error } = paymentOrderSchema.validate({
+      orders,
+      payment_method: paymentMethod,
+      user_id: userId,
+    });
+
+    await OrderModel.createOrder({
+      orders,
+      paymentMethod,
+      userId,
+    });
+
+    if (error)
+      return res.status(422).json({
+        type: "error",
+        message: error?.details,
+      });
+
+    return res.status(200).json({
+      type: "success",
+      message: "success",
     });
   }
 

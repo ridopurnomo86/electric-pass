@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request } from "express";
 import jwt from "jsonwebtoken";
 import type { JsonWebTokenError, Jwt, JwtPayload, VerifyOptions } from "jsonwebtoken";
@@ -7,6 +8,18 @@ type verifyParamsType = {
   token: string;
   secret: string;
   options?: VerifyOptions;
+};
+
+type ResponseVerifyInfoType = {
+  isValid?: boolean;
+  isExpired?: boolean;
+  payload?: {
+    id?: number;
+    email?: string;
+    name?: string;
+    iat?: number;
+    exp?: number;
+  };
 };
 
 export const generateToken = ({
@@ -35,14 +48,18 @@ export const verify = ({
     });
   });
 
-export const verifyWithInfo = async ({ token, secret, options }: verifyParamsType) => {
+export const verifyWithInfo = async ({
+  token,
+  secret,
+  options,
+}: verifyParamsType): Promise<ResponseVerifyInfoType> => {
   const { err, payload } = await verify({
     token,
     secret,
     options,
   });
 
-  if (!err) return { isValid: true, payload };
+  if (!err) return { isValid: true, payload: payload as any };
   if (err.name === "TokenExpiredError") return { isValid: false, isExpired: true };
   return { isValid: false };
 };

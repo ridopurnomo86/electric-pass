@@ -18,6 +18,8 @@ router.post("/auth/logout", new AuthController().requestLogout);
 
 router.post("/payment/amount", AuthMiddleware.requireAuth, new PaymentController().paymentAmount);
 
+router.post("/payment/order", AuthMiddleware.requireAuth, new PaymentController().paymentOrder);
+
 router.post(
   "/payment/intent",
   AuthMiddleware.requireAuth,

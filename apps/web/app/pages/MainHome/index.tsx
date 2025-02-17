@@ -9,11 +9,11 @@ import ORGANIZER_DATA from "~/data/test-data/organizer";
 import { Await, useLocation } from "@remix-run/react";
 import { MainHomeLoader } from "services/main/main-home";
 import { Suspense } from "react";
+import { useCachedLoaderData } from "remix-client-cache";
 import EventCardListLoading from "~/components/data-display/EventCardList/loading";
 import { EVENT_DATA } from "~/data/test-data/data";
 import CategoryCardListLoading from "~/components/data-display/CategoryCardList/loading";
 import Hero from "./Hero";
-import { useCachedLoaderData } from "remix-client-cache";
 
 const MainHome = () => {
   const location = useLocation();

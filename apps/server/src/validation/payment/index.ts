@@ -18,8 +18,12 @@ const generatePaymentIntentSchema = Joi.object().keys({
 
 const paymentAmountSchema = Joi.object().keys({
   orders: Joi.array().items(orderSchema).required(),
+});
+
+const paymentOrderSchema = Joi.object().keys({
+  orders: Joi.array().items(orderSchema).required(),
   payment_method: Joi.string().required(),
   user_id: Joi.number().required(),
 });
 
-export { generatePaymentIntentSchema, paymentAmountSchema };
+export { generatePaymentIntentSchema, paymentAmountSchema, paymentOrderSchema };
