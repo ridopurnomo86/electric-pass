@@ -47,18 +47,22 @@ export class PaymentController {
 
   public async paymentOrder(req: Request, res: Response) {
     const { id: userId } = req.user;
-    const { payment_method: paymentMethod, orders } = req.body;
+    const { payment_method: paymentMethod, orders, total_price: totalPrice, status } = req.body;
 
     const { error } = paymentOrderSchema.validate({
       orders,
       payment_method: paymentMethod,
       user_id: userId,
+      total_price: totalPrice,
+      status,
     });
 
     await OrderModel.createOrder({
       orders,
       paymentMethod,
       userId,
+      status,
+      totalPrice,
     });
 
     if (error)

@@ -9,11 +9,12 @@ import {
 import { useEffect, useRef, useState } from "react";
 import CircularLoading from "~/components/core/CircularLoading";
 import { Button } from "~/components/ui/Button";
-// import { useToast } from "~/components/ui/Toaster/useToast";
+import { useToast } from "~/components/ui/Toaster/useToast";
 import stripePromise from "~/config/stripe";
 import { EventPlanDataType } from "~/data/test-data/types";
 import useHttpRequest from "~/hooks/useHttpRequest";
 import formatPrice from "~/modules/formatPrice";
+import useEventBooking from "../../../useEventBooking";
 
 type CheckoutFormPropsType = {
   amount: number;
@@ -37,51 +38,60 @@ const Form = ({
   selectedPlans: CheckoutFormPropsType["selectedPlans"];
 }) => {
   const submit = useSubmit();
-  // const { toast } = useToast();
+  const { toast } = useToast();
   const stripe = useStripe();
   const elements = useElements();
+
+  const { handleOrder, isRequestOrder } = useEventBooking();
 
   const handleSubmit = async (event: Event) => {
     event.preventDefault();
 
-    const formData = new FormData();
-
     if (!stripe || !elements) return;
 
-    // const result = await stripe.confirmPayment({
-    //   elements,
-    //   redirect: "if_required",
-    //   confirmParams: {
-    //     return_url: `${window.location.origin}/order/success`,
-    //   },
-    // });
+    const formData = new FormData();
 
-    // if (result.error || !result)
-    //   return toast({
-    //     title: "Warning",
-    //     description: result.error.message,
-    //     variant: "destructive",
-    //   });
+    const orders = Object.keys(selectedPlans).map((plan) => ({
+      id: selectedPlans[Number(plan)].id,
+      total_order: Number(selectedPlans[Number(plan)].order?.total_order),
+    }));
 
-    const orders = [
-      ...Object.keys(selectedPlans).map((plan) => ({
-        id: selectedPlans[Number(plan)].id,
-        total_order: selectedPlans[Number(plan)].order?.total_order,
-      })),
-    ];
+    const result = await stripe.confirmPayment({
+      elements,
+      redirect: "if_required",
+      confirmParams: {
+        return_url: `${window.location.origin}/order/success`,
+      },
+    });
 
-    formData.append("orders", JSON.stringify(orders));
+    if (result.error || !result)
+      return toast({
+        title: "Warning",
+        description: result.error?.message ? result.error?.message : "A processing error occurred.",
+        variant: "destructive",
+      });
 
-    submit(formData, { method: "POST", encType: "multipart/form-data" });
+    const transactionStatus =
+      result.paymentIntent.status === "succeeded" ? "SUCCEEDED" : "INCOMPLETE";
 
-    // return result;
+    await handleOrder({
+      paymentMethod: "card",
+      totalPrice: amount,
+      orders,
+      status: transactionStatus,
+    });
+
+    // Need put value inside LocalStorage, for order/success page
+    formData.append("transaction_type", transactionStatus);
+
+    submit(formData, { method: "POST" });
   };
 
   return (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     <form onSubmit={handleSubmit as any}>
       <PaymentElement />
-      <Button disabled={!stripe} className="mt-4 w-full">
+      <Button disabled={!stripe || isRequestOrder} className="mt-4 w-full">
         Pay {formatPrice(amount)}
       </Button>
     </form>

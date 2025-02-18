@@ -11,6 +11,24 @@ const EventBookingAction: ActionFunction = async ({ request }: ActionFunctionArg
 
   const dialog = formData.get("dialog");
 
+  const transactionType = formData.get("transaction_type");
+
+  if (transactionType === "SUCCEEDED") {
+    return redirect("/order/success", {
+      headers: {
+        "Set-Cookie": await destroySession(bookingSession),
+      },
+    });
+  }
+
+  if (transactionType === "INCOMPLETE") {
+    return redirect("/order/incomplete", {
+      headers: {
+        "Set-Cookie": await destroySession(bookingSession),
+      },
+    });
+  }
+
   if (dialog === "reset")
     return redirect("/", {
       headers: {

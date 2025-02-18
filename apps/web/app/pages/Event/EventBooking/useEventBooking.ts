@@ -3,6 +3,13 @@ import { useToast } from "~/components/ui/Toaster/useToast";
 import { EventPlanDataType } from "~/data/test-data/types";
 import useHttpRequest from "~/hooks/useHttpRequest";
 
+type HandleOrderParamsType = {
+  status: "INCOMPLETE" | "SUCCEEDED";
+  paymentMethod: string;
+  totalPrice: number;
+  orders: Array<{ id: number; total_order: number }>;
+};
+
 const useEventBooking = () => {
   const { toast } = useToast();
 
@@ -34,7 +41,7 @@ const useEventBooking = () => {
             ? Number(prev[item.id]?.order?.total_order) + 1
             : 1,
           total_price: Number(prev[item.id]?.order?.total_price)
-            ? Number(prev[item.id]?.order?.total_price) + Number(prev[item.id]?.order?.total_price)
+            ? Number(prev[item.id]?.order?.total_price) + Number(prev[item.id]?.price)
             : Number(item.price),
         },
       },
@@ -58,6 +65,11 @@ const useEventBooking = () => {
     },
   });
 
+  const { request: requestOrder, isLoading: isRequestOrder } = useHttpRequest({
+    path: "/payment/order",
+    method: "POST",
+  });
+
   const handleTicket = async () => {
     const { data, error } = await requestAmount();
 
@@ -77,6 +89,31 @@ const useEventBooking = () => {
     });
   };
 
+  const handleOrder = async ({
+    status = "INCOMPLETE",
+    paymentMethod = "card",
+    totalPrice,
+    orders,
+  }: HandleOrderParamsType) => {
+    const { data, error } = await requestOrder({
+      body: {
+        orders,
+        payment_method: paymentMethod,
+        total_price: totalPrice,
+        status,
+      },
+    });
+
+    if (error || !data)
+      return toast({
+        title: "Warning",
+        description: error.message ? error.message : "Something gone wrong",
+        variant: "destructive",
+      });
+
+    return data;
+  };
+
   return {
     selectedPlans,
     subTotalPrice,
@@ -88,6 +125,8 @@ const useEventBooking = () => {
     onStep: setStep,
     handleTicket,
     isRequestLoading: isRequestAmount,
+    handleOrder,
+    isRequestOrder,
   };
 };
 
