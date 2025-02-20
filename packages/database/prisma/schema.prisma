@@ -121,6 +121,7 @@ model Transaction {
   status         TransactionStatus? @default(INCOMPLETE)
   created_at     DateTime?          @default(now())
   updated_at     DateTime?          @updatedAt
+  stripe_id      String
   Order          Order              @relation(fields: [order_id], references: [id], onDelete: Cascade)
 
   @@index([order_id], map: "Transaction_order_id_fkey")

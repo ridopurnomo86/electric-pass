@@ -23,31 +23,40 @@ export class PaymentController {
 
     let totalPrice = 0;
 
-    const checkingPlans = await EventPlanModel.getEventOrder({ plans: orders });
+    try {
+      const checkingPlans = await EventPlanModel.getEventOrder({ plans: orders });
 
-    if (!checkingPlans)
-      return res.json({
-        status: "error",
-        type: "error",
-        message: "plan does not exist",
+      checkingPlans.map((plan, idx) => {
+        totalPrice = totalPrice + Number(plan.price) * orders[idx].total_order;
       });
 
-    checkingPlans.map((plan, idx) => {
-      totalPrice = totalPrice + Number(plan.price) * orders[idx].total_order;
-    });
-
-    return res.json({
-      status: "success",
-      type: "success",
-      data: {
-        total_price: totalPrice,
-      },
-    });
+      return res.json({
+        status: "success",
+        type: "success",
+        data: {
+          total_price: totalPrice,
+        },
+      });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      const { message, type, status } = JSON.parse(err.message);
+      return res.status(500).json({
+        type,
+        message,
+        status,
+      });
+    }
   }
 
   public async paymentOrder(req: Request, res: Response) {
     const { id: userId } = req.user;
-    const { payment_method: paymentMethod, orders, total_price: totalPrice, status } = req.body;
+    const {
+      payment_method: paymentMethod,
+      orders,
+      total_price: totalPrice,
+      status,
+      stripe_id: stripeId,
+    } = req.body;
 
     const { error } = paymentOrderSchema.validate({
       orders,
@@ -55,14 +64,7 @@ export class PaymentController {
       user_id: userId,
       total_price: totalPrice,
       status,
-    });
-
-    await OrderModel.createOrder({
-      orders,
-      paymentMethod,
-      userId,
-      status,
-      totalPrice,
+      stripe_id: stripeId,
     });
 
     if (error)
@@ -70,6 +72,29 @@ export class PaymentController {
         type: "error",
         message: error?.details,
       });
+
+    try {
+      await EventPlanModel.getEventOrder({ plans: orders });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      const { message, type, status } = JSON.parse(err.message);
+      return res.status(500).json({
+        type,
+        message,
+        status,
+      });
+    }
+
+    await OrderModel.createOrder({
+      orders,
+      paymentMethod,
+      userId,
+      status,
+      totalPrice,
+      stripeId,
+    });
+
+    await EventPlanModel.updateEventPlanAmount({ orders });
 
     return res.status(200).json({
       type: "success",

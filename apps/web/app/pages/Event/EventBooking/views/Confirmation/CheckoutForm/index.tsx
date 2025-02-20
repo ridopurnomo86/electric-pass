@@ -79,6 +79,7 @@ const Form = ({
       totalPrice: amount,
       orders,
       status: transactionStatus,
+      stripeId: result.paymentIntent.id,
     });
 
     // Need put value inside LocalStorage, for order/success page

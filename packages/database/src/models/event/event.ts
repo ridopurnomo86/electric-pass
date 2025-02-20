@@ -49,6 +49,7 @@ const EventModel = {
         },
         EventCategory: {
           connect: {
+            // TODO: Create by choosing event-category profile/event/create
             id: 1,
           },
         },

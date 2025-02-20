@@ -4,8 +4,9 @@ type CreateOrderParamsType = {
   userId: number;
   orders: Array<{ total_order: number; id: number }>;
   paymentMethod: string;
-  status?: "INCOMPLETE" | "SUCCEEDED";
-  totalPrice?: number;
+  status: "INCOMPLETE" | "SUCCEEDED";
+  totalPrice: number;
+  stripeId: string;
 };
 
 const OrderModel = {
@@ -14,11 +15,13 @@ const OrderModel = {
     orders,
     paymentMethod = "card",
     status: defaultStatus = "INCOMPLETE",
-    totalPrice = 100,
+    totalPrice,
+    stripeId,
   }: CreateOrderParamsType) => {
     try {
       const createOrder = await db.order.create({
         data: {
+          user_id: Number(userId),
           total_price: totalPrice,
           OrderEventPlan: {
             create: orders.map((order: { total_order: number; id: number }) => ({
@@ -36,9 +39,9 @@ const OrderModel = {
               payment_method: paymentMethod,
               user_id: Number(userId),
               status: defaultStatus as "INCOMPLETE",
+              stripe_id: stripeId,
             },
           },
-          user_id: Number(userId),
         },
       });
 

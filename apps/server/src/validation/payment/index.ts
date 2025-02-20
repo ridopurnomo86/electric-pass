@@ -26,6 +26,7 @@ const paymentOrderSchema = Joi.object().keys({
   user_id: Joi.number().required(),
   total_price: Joi.number().required(),
   status: Joi.string().required(),
+  stripe_id: Joi.string().required(),
 });
 
 export { generatePaymentIntentSchema, paymentAmountSchema, paymentOrderSchema };
