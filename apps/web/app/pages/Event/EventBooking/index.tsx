@@ -59,6 +59,7 @@ const EventBooking = () => {
             onSubmitTicket={handleTicket}
             onSelectedPlans={onSelectedPlans}
             onStep={onStep}
+            event={event}
             plans={event.EventPlan}
             selectedPlans={selectedPlans}
             step={step}

@@ -11,8 +11,9 @@ import CircularLoading from "~/components/core/CircularLoading";
 import { Button } from "~/components/ui/Button";
 import { useToast } from "~/components/ui/Toaster/useToast";
 import stripePromise from "~/config/stripe";
-import { EventPlanDataType } from "~/data/test-data/types";
+import { EventDataType, EventPlanDataType } from "~/data/test-data/types";
 import useHttpRequest from "~/hooks/useHttpRequest";
+import dayjs from "dayjs";
 import formatPrice from "~/modules/formatPrice";
 import useEventBooking from "../../../useEventBooking";
 
@@ -25,6 +26,7 @@ type CheckoutFormPropsType = {
     dialing_code: string;
     phone_number: string;
   };
+  event: EventDataType;
   selectedPlans: {
     [key: number]: EventPlanDataType;
   };
@@ -33,9 +35,11 @@ type CheckoutFormPropsType = {
 const Form = ({
   amount,
   selectedPlans,
+  eventDetail,
 }: {
   amount: number;
   selectedPlans: CheckoutFormPropsType["selectedPlans"];
+  eventDetail: EventDataType;
 }) => {
   const submit = useSubmit();
   const { toast } = useToast();
@@ -82,8 +86,25 @@ const Form = ({
       stripeId: result.paymentIntent.id,
     });
 
-    // Need put value inside LocalStorage, for order/success page
     formData.append("transaction_type", transactionStatus);
+
+    const responseMessage = {
+      transaction_id: String(result.paymentIntent.id),
+      transaction_date: dayjs().format(),
+      orders: Object.keys(selectedPlans).map((plan) => ({
+        order: selectedPlans[Number(plan)].order,
+        name: selectedPlans[Number(plan)].name,
+      })),
+      total_price: String(amount),
+      payment_method: "Card",
+      event: {
+        name: eventDetail.name,
+        country: eventDetail.country,
+        start_date: eventDetail.start_date,
+      },
+    };
+
+    formData.append("message", JSON.stringify(responseMessage));
 
     submit(formData, { method: "POST" });
   };
@@ -99,7 +120,7 @@ const Form = ({
   );
 };
 
-const CheckoutForm = ({ amount, billingData, selectedPlans }: CheckoutFormPropsType) => {
+const CheckoutForm = ({ amount, billingData, selectedPlans, event }: CheckoutFormPropsType) => {
   const elementRef = useRef(null);
   const [paymentIntent, setPaymentIntent] = useState<{ [key: string]: string }>({});
   const [isLoading, setIsLoading] = useState(true);
@@ -134,7 +155,7 @@ const CheckoutForm = ({ amount, billingData, selectedPlans }: CheckoutFormPropsT
       <div ref={elementRef}>
         <ExpressCheckoutElement onReady={() => setIsLoading(false)} onConfirm={() => {}} />
         <div className="my-4"></div>
-        <Form amount={amount} selectedPlans={selectedPlans} />
+        <Form amount={amount} selectedPlans={selectedPlans} eventDetail={event} />
       </div>
     </Elements>
   );

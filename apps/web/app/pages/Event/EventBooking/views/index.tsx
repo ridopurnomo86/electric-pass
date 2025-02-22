@@ -1,5 +1,5 @@
 import { MutableRefObject } from "react";
-import { EventPlanDataType } from "~/data/test-data/types";
+import { EventDataType, EventPlanDataType } from "~/data/test-data/types";
 import Tickets from "./Tickets";
 import BillingForm from "./BillingForm";
 import Confirmation from "./Confirmation";
@@ -27,6 +27,7 @@ type EventBookingViewsPropstype = {
   userRef: MutableRefObject<BillingDataType>;
   onSubmitTicket: () => void;
   isSubmitting: boolean;
+  event: EventDataType;
 };
 
 const EventBookingViews = ({
@@ -40,6 +41,7 @@ const EventBookingViews = ({
   userRef,
   onSubmitTicket,
   isSubmitting,
+  event,
 }: EventBookingViewsPropstype) => {
   if (step === "ticket")
     return (
@@ -63,6 +65,7 @@ const EventBookingViews = ({
 
   return (
     <Confirmation
+      event={event}
       billingData={userRef.current}
       amount={subTotalPrice}
       selectedPlans={selectedPlans}

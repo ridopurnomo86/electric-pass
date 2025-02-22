@@ -9,8 +9,8 @@ type PlanCardPropsType = {
   country: string;
   planName: string;
   isDisabledDeleteItem: boolean;
-  isShowDelete: boolean;
-  onClickDelete: () => void;
+  isShowDelete?: boolean;
+  onClickDelete?: () => void;
 };
 
 const PlanCard = ({
