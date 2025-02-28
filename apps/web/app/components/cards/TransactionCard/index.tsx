@@ -6,10 +6,9 @@ import Description from "./Description";
 
 type TransactionCardPropsType = {
   eventStartDate: string;
-  orderId: number;
+  orderId: string;
   eventName: string;
   country: string;
-  customerName: string;
   paymentMethod: string;
   paymentStatus: "success" | "failed";
   plans: Array<{ amount: number; name: string; id: number }>;
@@ -22,7 +21,6 @@ const TransactionCard = ({
   orderId,
   eventName,
   country,
-  customerName,
   paymentMethod,
   paymentStatus,
   plans = [],
@@ -33,7 +31,7 @@ const TransactionCard = ({
     <div className="flex items-center justify-between border-b border-dotted pb-3">
       <div className="flex items-center">
         <p className="text-sm font-medium text-neutral-600">Order:</p>
-        <p className="ml-1 text-sm font-medium text-indigo-600">{orderId}</p>
+        <p className="ml-1 w-[100px] truncate text-sm font-medium text-indigo-600">{orderId}</p>
       </div>
       <div className="flex items-center">
         <Badge paymentStatus={paymentStatus} />
@@ -50,7 +48,7 @@ const TransactionCard = ({
         plans={plans}
       />
     </div>
-    <Description customerName={customerName} orderDate={orderDate} paymentMethod={paymentMethod} />
+    <Description orderDate={orderDate} paymentMethod={paymentMethod} />
   </article>
 );
 

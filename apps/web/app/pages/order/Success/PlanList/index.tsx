@@ -9,7 +9,7 @@ type PlanListPropsType = {
 const PlanList = ({ plans, event }: PlanListPropsType) => (
   <div className="border-t p-4 md:px-8 md:py-4">
     {plans.map((plan, idx) => (
-      <div key={idx}>
+      <div key={idx} className="mb-2">
         <PlanCard
           country={event.country}
           planName={plan.name}

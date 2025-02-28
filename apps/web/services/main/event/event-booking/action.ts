@@ -15,6 +15,13 @@ const EventBookingAction: ActionFunction = async ({ request }: ActionFunctionArg
 
   const dialog = formData.get("dialog");
 
+  if (dialog === "reset")
+    return redirect("/", {
+      headers: {
+        "Set-Cookie": await destroySession(bookingSession),
+      },
+    });
+
   const transactionType = formData.get("transaction_type");
 
   const message = String(formData.get("message"));
@@ -41,13 +48,6 @@ const EventBookingAction: ActionFunction = async ({ request }: ActionFunctionArg
       },
     });
   }
-
-  if (dialog === "reset")
-    return redirect("/", {
-      headers: {
-        "Set-Cookie": await destroySession(bookingSession),
-      },
-    });
 
   return null;
 };

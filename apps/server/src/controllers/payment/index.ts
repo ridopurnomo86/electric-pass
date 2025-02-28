@@ -56,6 +56,7 @@ export class PaymentController {
       total_price: totalPrice,
       status,
       stripe_id: stripeId,
+      event_id: eventId,
     } = req.body;
 
     const { error } = paymentOrderSchema.validate({
@@ -65,6 +66,7 @@ export class PaymentController {
       total_price: totalPrice,
       status,
       stripe_id: stripeId,
+      event_id: eventId,
     });
 
     if (error)
@@ -92,6 +94,7 @@ export class PaymentController {
       status,
       totalPrice,
       stripeId,
+      eventId,
     });
 
     await EventPlanModel.updateEventPlanAmount({ orders });

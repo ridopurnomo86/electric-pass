@@ -79,11 +79,12 @@ const Form = ({
       result.paymentIntent.status === "succeeded" ? "SUCCEEDED" : "INCOMPLETE";
 
     await handleOrder({
-      paymentMethod: "card",
+      paymentMethod: "Card",
       totalPrice: amount,
       orders,
       status: transactionStatus,
       stripeId: result.paymentIntent.id,
+      eventId: eventDetail.id,
     });
 
     formData.append("transaction_type", transactionStatus);

@@ -9,6 +9,7 @@ type HandleOrderParamsType = {
   totalPrice: number;
   orders: Array<{ id: number; total_order: number }>;
   stripeId: string;
+  eventId: number;
 };
 
 const useEventBooking = () => {
@@ -92,10 +93,11 @@ const useEventBooking = () => {
 
   const handleOrder = async ({
     status = "INCOMPLETE",
-    paymentMethod = "card",
+    paymentMethod = "Card",
     totalPrice,
     orders,
     stripeId,
+    eventId,
   }: HandleOrderParamsType) => {
     const { data, error } = await requestOrder({
       body: {
@@ -104,6 +106,7 @@ const useEventBooking = () => {
         total_price: totalPrice,
         status,
         stripe_id: stripeId,
+        event_id: eventId,
       },
     });
 
