@@ -82,6 +82,7 @@ const Transaction = () => {
           <EmptyTransaction />
         )}
         <TransactionDetailDialog
+          totalItems={1}
           discount={0}
           fee={0}
           orderDate="2025-03-01T15:14:17+07:00"

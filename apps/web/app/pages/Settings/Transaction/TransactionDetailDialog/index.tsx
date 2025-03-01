@@ -20,6 +20,7 @@ type TransactionDetailDialogPropsType = {
   fee: number;
   totalPrice: number;
   onOpen: () => void;
+  totalItems: 1;
 };
 
 const TransactionDetailDialog = ({
@@ -31,6 +32,7 @@ const TransactionDetailDialog = ({
   fee,
   totalPrice,
   onOpen,
+  totalItems,
 }: TransactionDetailDialogPropsType) => (
   <Dialog open={isOpen} onOpenChange={onOpen}>
     <DialogContent
@@ -58,6 +60,12 @@ const TransactionDetailDialog = ({
           phoneCode={1}
         />
         <div className="border-b py-4">
+          <div className="mb-2 flex items-center">
+            <p className="mr-2 text-sm font-medium text-neutral-900">Items:</p>
+            <p className="rounded bg-neutral-200 px-2 text-sm font-medium text-neutral-900">
+              {totalItems}
+            </p>
+          </div>
           <PlanList
             country={"indonesia"}
             eventName={"Asking Alexandria"}
