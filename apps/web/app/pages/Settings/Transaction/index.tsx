@@ -2,7 +2,10 @@ import TransactionCard from "~/components/cards/TransactionCard";
 import { useLoaderData } from "@remix-run/react";
 import { TransactionLoader } from "services/main/settings/transaction";
 import { Skeleton } from "~/components/ui/Skeleton";
+import { useState } from "react";
+
 import ProfileLayout from "../components/Layout";
+import TransactionDetailDialog from "./TransactionDetailDialog";
 
 type OrderDataType = {
   id: number;
@@ -45,6 +48,7 @@ const EmptyTransaction = () => (
 );
 
 const Transaction = () => {
+  const [openDialog, setOpenDialog] = useState(false);
   const { orders } = useLoaderData<typeof TransactionLoader>();
 
   return (
@@ -60,8 +64,9 @@ const Transaction = () => {
           <div className="grid grid-cols-none gap-4 md:grid-cols-2">
             {orders.map((order: OrderDataType) => (
               <TransactionCard
+                onMoreDetail={() => setOpenDialog(true)}
+                onShowTicket={() => {}}
                 key={order.id}
-                onClickDetail={() => {}}
                 country={order.event.country}
                 eventName={order.event.name}
                 eventStartDate={order.event.start_date}
@@ -76,6 +81,16 @@ const Transaction = () => {
         ) : (
           <EmptyTransaction />
         )}
+        <TransactionDetailDialog
+          discount={0}
+          fee={0}
+          orderDate="2025-03-01T15:14:17+07:00"
+          paymentMethod="Card"
+          subTotal={100}
+          totalPrice={100}
+          onOpen={() => setOpenDialog(false)}
+          isOpen={openDialog}
+        />
       </section>
     </ProfileLayout>
   );
