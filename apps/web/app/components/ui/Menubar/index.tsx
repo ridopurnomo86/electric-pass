@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import * as MenubarPrimitive from "@radix-ui/react-menubar";
-import { Check, ChevronRight, Circle } from "lucide-react";
+
 import cn from "~/modules/cn";
+import { Icon } from "@iconify/react";
 
 function MenubarMenu({ ...props }: React.ComponentProps<typeof MenubarPrimitive.Menu>) {
   return <MenubarPrimitive.Menu {...props} />;
@@ -71,7 +72,7 @@ const MenubarSubTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <ChevronRight className="ml-auto h-4 w-4" />
+    <Icon icon="material-symbols:chevron-right-rounded" width="24" height="24" />
   </MenubarPrimitive.SubTrigger>
 ));
 MenubarSubTrigger.displayName = MenubarPrimitive.SubTrigger.displayName;
@@ -144,7 +145,7 @@ const MenubarCheckboxItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <MenubarPrimitive.ItemIndicator>
-        <Check className="h-4 w-4" />
+        <Icon icon="material-symbols:check-rounded" width="24" height="24" />
       </MenubarPrimitive.ItemIndicator>
     </span>
     {children}
@@ -166,7 +167,7 @@ const MenubarRadioItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <MenubarPrimitive.ItemIndicator>
-        <Circle className="h-4 w-4 fill-current" />
+        <Icon icon="material-symbols:radio-button-checked" width="24" height="24" />
       </MenubarPrimitive.ItemIndicator>
     </span>
     {children}
