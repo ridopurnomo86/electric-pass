@@ -8,7 +8,7 @@ const authConfig: { cookieConfig: CookieOptions; USER_TOKEN_COOKIE_NAME: string 
     path: "/",
     secure: process.env.NODE_ENV === "production",
     domain: process.env.NODE_ENV === "production" ? process.env.SUB_DOMAIN_COOKIE : "",
-    sameSite: "strict",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   },
 };
 
