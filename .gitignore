@@ -30,3 +30,8 @@ Thumbs.db
 # Nx
 .nx/
 .vercel
+
+# docker
+db
+redis
+Redis

@@ -8,6 +8,10 @@ type EventPlanDataType = {
   updated_at: string;
   created_at: string;
   ended_date: string;
+  order?: {
+    total_order?: number;
+    total_price?: number;
+  };
 };
 
 export default EventPlanDataType;

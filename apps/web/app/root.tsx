@@ -4,6 +4,7 @@ import stylesheet from "~/styles/globals.css";
 import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
 import { RootLoader } from "services/main/root";
 import { Toaster } from "./components/ui/Toaster/toaster";
+import { RootContext } from "./context/root-context";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: stylesheet }];
 
@@ -21,9 +22,16 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <AuthenticityTokenProvider token={loaderData.csrf}>
-          <Outlet context={loaderData} />
-        </AuthenticityTokenProvider>
+        <RootContext.Provider
+          value={{
+            backendUrl: loaderData.ENV.BACKEND_URL,
+            stripePublishApiKey: loaderData.ENV.STRIPE_PUBLISH_API_KEY,
+          }}
+        >
+          <AuthenticityTokenProvider token={loaderData.csrf}>
+            <Outlet context={loaderData} />
+          </AuthenticityTokenProvider>
+        </RootContext.Provider>
         <script
           dangerouslySetInnerHTML={{
             __html: `window.process = ${JSON.stringify({

@@ -4,6 +4,7 @@ import { LoginValidation, LoginValidationType } from "~/data/form-validation/Log
 import { useActionData, useLoaderData, useNavigation, useSubmit } from "@remix-run/react";
 import { useToast } from "~/components/ui/Toaster/useToast";
 import { useAuthenticityToken } from "remix-utils/csrf/react";
+import useHttpRequest from "~/hooks/useHttpRequest";
 import { useEffect } from "react";
 import FormInput from "./FormInput";
 import Thumbnail from "./Thumbnail";
@@ -30,6 +31,11 @@ const Login = () => {
     },
   });
 
+  const { request, isLoading } = useHttpRequest({
+    path: "/auth/email",
+    method: "POST",
+  });
+
   useEffect(() => {
     if (loader?.message) {
       toast({
@@ -42,8 +48,33 @@ const Login = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loader]);
 
-  const onSubmit = (values: LoginValidationType) => {
-    submit({ ...values, csrf }, { method: "post" });
+  const onSubmit = async (values: LoginValidationType) => {
+    const { data, error } = await request({
+      body: {
+        email: values.email,
+        password: values.password,
+      },
+    });
+
+    if (data) return submit({ ...data.data, csrf }, { method: "post" });
+
+    form.resetField("password");
+
+    if (!data || error) {
+      const { message } = error.response.data;
+
+      return toast({
+        title: "Warning",
+        description: message,
+        variant: "destructive",
+      });
+    }
+
+    return toast({
+      title: "Warning",
+      description: "Something gone wrong",
+      variant: "destructive",
+    });
   };
 
   return (
@@ -52,7 +83,7 @@ const Login = () => {
         <FormInput
           form={form}
           onSubmit={onSubmit}
-          isSubmit={state === "submitting"}
+          isSubmit={state === "submitting" || isLoading}
           actionData={actionData}
           state={state}
         />

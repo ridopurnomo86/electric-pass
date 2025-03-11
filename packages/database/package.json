@@ -1,0 +1,30 @@
+{
+  "name": "@monorepo/database",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "private": true,
+  "sideEffects": false,
+  "devDependencies": {
+    "prisma": "^6.2.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.7.3"
+  },
+  "scripts": {
+    "db:pull": "prisma db pull",
+    "db:push": "prisma db push",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev --skip-generate",
+    "db:deploy": "prisma migrate deploy",
+    "build-ts": "tsc",
+    "build": "yarn db:pull && yarn db:generate && yarn build-ts",
+    "prebuild": "rm -rf tsconfig.tsbuildinfo dist generated"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "^6.2.1",
+    "bcryptjs": "^2.4.3"
+  }
+}

@@ -6,17 +6,18 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "types": ["node"],
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
-    }
+    },
+    "typeRoots": ["@types"]
   },
+
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   },
   "include": ["src/**/*.ts", "environment.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"]
 }

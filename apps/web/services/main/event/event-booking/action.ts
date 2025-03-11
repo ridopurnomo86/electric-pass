@@ -1,11 +1,15 @@
-import { ActionFunction, ActionFunctionArgs, redirect } from "@remix-run/node";
+import { ActionFunction, ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { authenticator } from "services/auth.server";
-import { destroySession, getSession } from "services/booking-session.server";
+import {
+  destroySession,
+  getSession as getBookingSession,
+  commitSession,
+} from "services/booking-session.server";
 
 const EventBookingAction: ActionFunction = async ({ request }: ActionFunctionArgs) => {
   await authenticator.isAuthenticated(request);
 
-  const bookingSession = await getSession(request.headers.get("Cookie"));
+  const bookingSession = await getBookingSession(request.headers.get("Cookie"));
 
   const formData = await request.formData();
 
@@ -17,6 +21,33 @@ const EventBookingAction: ActionFunction = async ({ request }: ActionFunctionArg
         "Set-Cookie": await destroySession(bookingSession),
       },
     });
+
+  const transactionType = formData.get("transaction_type");
+
+  const message = String(formData.get("message"));
+
+  const data = {
+    transactionId: JSON.parse(message).transaction_id,
+    transactionDate: JSON.parse(message).transaction_date,
+    paymentMethod: JSON.parse(message).payment_method,
+    totalPrice: JSON.parse(message).total_price,
+    orders: JSON.parse(message).orders,
+    event: JSON.parse(message).event,
+    fees: 0,
+    type: "success",
+  };
+
+  if (transactionType === "SUCCEEDED") {
+    bookingSession.flash("order-transaction", data);
+
+    json(data);
+
+    return redirect("/order/success", {
+      headers: {
+        "Set-Cookie": await commitSession(bookingSession),
+      },
+    });
+  }
 
   return null;
 };

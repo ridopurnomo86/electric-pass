@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  redis:
+    container_name: Redis
+    image: redis:latest
+    restart: always
+    volumes:
+      - ./redis:/data
+    ports:
+      - "6371:6379"
+  mysql:
+    container_name: MySql
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: "elastic-pass_db"
+      MYSQL_USER: "351642_elastic"
+      MYSQL_PASSWORD: "password"
+      MYSQL_ROOT_PASSWORD: "password"
+    ports:
+      - "3307:3306"
+    expose:
+      - "3307"
+    volumes:
+      - db:/var/lib/mysql
+      - ./db/init/sql:/docker-entrypoint-initdb.d/init.sql
+volumes:
+  db:
+    driver: local

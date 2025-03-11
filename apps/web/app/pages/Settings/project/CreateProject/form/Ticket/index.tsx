@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { MutableRefObject } from "react";
 import CoreForm from "~/components/core/Form";
+import dayjs from "dayjs";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
   CreateEventPriceValidation,
@@ -28,6 +29,7 @@ const Ticket = ({ currentData }: TicketPropsType) => {
           description: "",
           price: "0",
           pricing_name: "",
+          ended_date: dayjs(currentData.current.ended_date).format(),
         },
       ],
     },
@@ -48,6 +50,7 @@ const Ticket = ({ currentData }: TicketPropsType) => {
     };
 
     formData.append("user_id", user.id);
+
     Object.keys(submitValues).forEach((item) => {
       if (item === "plans") return formData.append(item, JSON.stringify(submitValues.plans));
       return formData.append(item, submitValues[item]);
@@ -87,7 +90,14 @@ const Ticket = ({ currentData }: TicketPropsType) => {
             <Button
               variant="outline"
               type="button"
-              onClick={() => append({ description: "", price: "0", pricing_name: "" })}
+              onClick={() =>
+                append({
+                  description: "",
+                  price: "0",
+                  pricing_name: "",
+                  ended_date: dayjs(currentData.current.ended_date).format(),
+                })
+              }
               className="flex items-center"
               disabled={state === "submitting"}
             >

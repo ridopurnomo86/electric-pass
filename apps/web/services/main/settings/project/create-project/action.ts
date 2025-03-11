@@ -1,11 +1,13 @@
 import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { CreateEventValidation } from "~/data/form-validation/CreateEventValidation";
 import { authenticator } from "services/auth.server";
-import EventModel from "services/models/event";
+import db from "@monorepo/database";
+import Redis from "services/modules/redis";
 import axios from "axios";
-import { getSession } from "services/session.server";
-import UserModel from "services/models/user";
+import { commitSession, getSession } from "services/session.server";
 import { ValuesType } from "./types";
+
+const EVENTS_CACHE = "events";
 
 const uploadImageProject = async ({ formData }: { formData: FormData }) => {
   try {
@@ -13,7 +15,7 @@ const uploadImageProject = async ({ formData }: { formData: FormData }) => {
       baseURL: process.env.BACKEND_URL,
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Basic ${process.env.API_KEY}`,
+        "x-api-key": process.env.API_KEY,
       },
     });
 
@@ -29,7 +31,7 @@ const SettingsCreateProjectAction = async ({ request }: ActionFunctionArgs) => {
   const session = await getSession(request.headers.get("Cookie"));
   const user = await authenticator.isAuthenticated(request);
 
-  const checkingUser = await UserModel.getUser({
+  const checkingUser = await db.UserModel.getUser({
     id: Number(user?.id),
   });
 
@@ -55,26 +57,39 @@ const SettingsCreateProjectAction = async ({ request }: ActionFunctionArgs) => {
       message: "Something gone wrong while uploading image",
     });
 
-  const createEvent = await EventModel.addEvent({
+  const createEvent = await db.EventModel.addEvent({
     data: validation as unknown as ValuesType,
     userId: Number(user?.id),
     imageUrl: uploadImage.data.data.url,
     plans: validation.plans,
   });
 
-  if (createEvent) {
-    session.flash("create-event", {
-      status: "Success",
-      type: "success",
-      message: "Event Has Created",
+  if (!createEvent)
+    return json({
+      status: "Error",
+      type: "error",
+      message: "Something gone wrong when create project",
     });
 
-    json({
-      status: "Success",
-      type: "success",
-      message: "Event Has Created",
-    });
-  }
+  session.flash("create-event", {
+    status: "Success",
+    type: "success",
+    message: "Event Has Created",
+  });
+
+  json({
+    status: "Success",
+    type: "success",
+    message: "Event Has Created",
+  });
+
+  await Redis.deleteItem(EVENTS_CACHE);
+
+  return redirect("/settings/project", {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 };
 
 export default SettingsCreateProjectAction;

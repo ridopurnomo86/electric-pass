@@ -32,6 +32,7 @@ const Form = <T extends FieldValues>({
   forms = [],
   children,
   className = "",
+  isSubmit = false,
 }: FormPropstype<T>) => (
   <FormCore {...form}>
     <form onSubmit={form.handleSubmit(onSubmit)} className={`space-y-4 ${className}`}>
@@ -49,7 +50,7 @@ const Form = <T extends FieldValues>({
             description={item.description}
             placeholder={item.placeholder}
             items={item.items}
-            isDisabled={item.isDisabled}
+            isDisabled={item.isDisabled || isSubmit}
             icon={item.icon}
             data={item.data}
             emptyState={item.emptyState}

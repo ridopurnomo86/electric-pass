@@ -6,16 +6,19 @@ import EventCardList from "~/components/data-display/EventCardList";
 import CreatorCardList from "~/components/data-display/CreatorCardList";
 import CategoryCardList from "~/components/data-display/CategoryCardList";
 import ORGANIZER_DATA from "~/data/test-data/organizer";
-import { Await, useLoaderData } from "@remix-run/react";
+import { Await, useLocation } from "@remix-run/react";
 import { MainHomeLoader } from "services/main/main-home";
 import { Suspense } from "react";
+import { useCachedLoaderData } from "remix-client-cache";
 import EventCardListLoading from "~/components/data-display/EventCardList/loading";
 import { EVENT_DATA } from "~/data/test-data/data";
 import CategoryCardListLoading from "~/components/data-display/CategoryCardList/loading";
 import Hero from "./Hero";
 
 const MainHome = () => {
-  const { type, events } = useLoaderData<typeof MainHomeLoader>();
+  const location = useLocation();
+
+  const { type, events } = useCachedLoaderData<typeof MainHomeLoader>();
 
   const form = useForm<z.infer<typeof HomeSearchValidation>>({
     resolver: zodResolver(HomeSearchValidation),
@@ -30,7 +33,7 @@ const MainHome = () => {
     <main className="min-h-screen bg-[#F8FAFC]">
       <Hero form={form} onSubmit={onSubmit} />
       <Suspense fallback={<EventCardListLoading className="container mx-auto mt-12" />}>
-        <Await resolve={events}>
+        <Await resolve={events} key={location.key}>
           {(events) => (
             <EventCardList
               data={events}
@@ -42,7 +45,7 @@ const MainHome = () => {
         </Await>
       </Suspense>
       <Suspense fallback={<CategoryCardListLoading className="container mx-auto mt-12" />}>
-        <Await resolve={type}>
+        <Await resolve={type} key={location.key}>
           {(type) => (
             <CategoryCardList
               className="container mx-auto mt-12"

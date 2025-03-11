@@ -1,33 +1,32 @@
-import { LoaderFunction } from "@remix-run/node";
-import EventModel from "services/models/event";
-import Redis from "services/modules/redis";
+import { defer, LoaderFunction } from "@remix-run/node";
+import db from "@monorepo/database";
 
-const EVENT_DETAIL_CACHE = "event-detail";
+const EventDetailLoader: LoaderFunction = async ({ params, request }) => {
+  const url = new URL(request.url);
+  const hostname = url.hostname;
 
-const EventDetailLoader: LoaderFunction = async ({ params }) => {
   if (!params.slug)
     throw new Response(null, {
       status: 404,
       statusText: "Not Found",
     });
 
-  const cacheEventDetail = await Redis.getItem(`${EVENT_DETAIL_CACHE}:${params.slug}`);
+  const eventDetail = await db.EventModel.getEventDetail({ slug: String(params.slug) });
 
-  if (!cacheEventDetail) {
-    const eventDetail = await EventModel.getEventDetail({ slug: String(params.slug) });
+  if (!eventDetail)
+    throw new Response(null, {
+      status: 404,
+      statusText: "Not Found",
+    });
 
-    if (!eventDetail)
-      throw new Response(null, {
-        status: 404,
-        statusText: "Not Found",
-      });
-
-    Redis.setItem(`${EVENT_DETAIL_CACHE}:${params.slug}`, JSON.stringify(eventDetail));
-
-    return { eventDetail };
-  }
-
-  return { eventDetail: JSON.parse(cacheEventDetail) };
+  return defer(
+    { eventDetail, hostname },
+    {
+      headers: {
+        "Cache-Control": "public, max-age=300, s-maxage=3600",
+      },
+    }
+  );
 };
 
 export default EventDetailLoader;

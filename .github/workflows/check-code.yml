@@ -15,4 +15,9 @@ jobs:
         with:
           node-version: 18
       - run: yarn install
+      - run: |
+          touch .env
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+          cp .env ./packages/database
+      - run: yarn db:build
       - run: yarn lint

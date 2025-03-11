@@ -18,5 +18,5 @@ export const errorHandler = (err: WebError, req: Request, res: Response): void =
 };
 
 export const errorNotFoundHandler = (req: Request, res: Response, next: NextFunction): void => {
-  next(createError(404));
+  next(createError(404, "Not Found"));
 };

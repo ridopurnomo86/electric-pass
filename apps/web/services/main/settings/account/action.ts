@@ -1,7 +1,7 @@
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import { AccountProfileValidation } from "~/data/form-validation/AccountProfileValidation";
 import { authenticator } from "services/auth.server";
-import UserModel from "services/models/user";
+import db from "@monorepo/database";
 import { getSession } from "services/session.server";
 
 const SettingsAccountAction = async ({ request }: ActionFunctionArgs) => {
@@ -15,7 +15,7 @@ const SettingsAccountAction = async ({ request }: ActionFunctionArgs) => {
 
   if (!validation) return json({ validation });
 
-  const updateUser = await UserModel.updateUser({
+  const updateUser = await db.UserModel.updateUser({
     id: Number(user?.id),
     data: {
       address: data.address,

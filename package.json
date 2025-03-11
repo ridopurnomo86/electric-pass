@@ -1,18 +1,20 @@
 {
-  "name": "elastic-pass-monorepo",
+  "name": "electric-pass-monorepo",
   "version": "1.0.0",
-  "repository": "https://github.com/ridopurnomo86/elastic-pass.git",
+  "repository": "https://github.com/ridopurnomo86/electric-pass.git",
   "author": "ridopurnomo <ridopurnomo86@gmail.com>",
   "license": "MIT",
   "private": true,
   "scripts": {
     "lint": "nx run-many -t lint",
-    "format:code": "nx run-many -t format:code"
+    "format:code": "nx run-many -t format:code",
+    "check:code": "nx run-many -t check:code",
+    "db:build": "npx nx build --skip-nx-cache @monorepo/database"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
-  "dependencies": {},
   "devDependencies": {
     "nx": "^19.4.2",
     "prettier": "^3.3.3"

@@ -1,6 +1,6 @@
 import { LoaderFunction, defer } from "@remix-run/node";
 import { authenticator } from "services/auth.server";
-import UserModels from "services/models/user";
+import db from "@monorepo/database";
 
 const SettingsAccountLoader: LoaderFunction = async ({ request }) => {
   const user = await authenticator.isAuthenticated(request, {
@@ -8,7 +8,7 @@ const SettingsAccountLoader: LoaderFunction = async ({ request }) => {
   });
 
   const [getUser, getUserImage] = await Promise.all([
-    UserModels.getUser({
+    db.UserModel.getUser({
       id: user.id,
       select: {
         address: true,
@@ -19,7 +19,7 @@ const SettingsAccountLoader: LoaderFunction = async ({ request }) => {
         name: true,
       },
     }),
-    UserModels.getUserImage({
+    db.UserModel.getUserImage({
       id: user.id,
     }),
   ]);

@@ -6,9 +6,9 @@ import {
   ChangePasswordValidationType,
 } from "~/data/form-validation/ChangePasswordValidation";
 import { authenticator } from "services/auth.server";
-import { Prisma, db } from "services/prisma.server";
 import { getSession } from "services/session.server";
-import { decrypt, encrypt } from "services/utils/cipher/encrypt";
+import { encrypt } from "services/utils/cipher/encrypt";
+import db from "@monorepo/database";
 
 const SecurityAction = async ({ request }: ActionFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request);
@@ -25,39 +25,28 @@ const SecurityAction = async ({ request }: ActionFunctionArgs) => {
 
   if (errors) return json({ errors, defaultValues });
 
-  try {
-    const checkingUser = await db.user.findFirst({
-      where: {
-        id: user?.id,
-      },
+  const matchUser = db.UserModel.authorizeUser({
+    id: Number(user?.id),
+    password: data.password,
+  });
+
+  if (!matchUser)
+    return json({
+      status: "Error",
+      type: "error",
+      message: "Something gone wrong",
     });
 
-    const match = await decrypt({
-      hash: checkingUser?.password as string,
-      value: data.password,
-    });
+  const { hash } = await encrypt({ value: data.newPassword });
 
-    if (match) {
-      const { hash } = await encrypt({ value: data.newPassword });
+  const updatePassword = db.UserModel.updateUser({
+    id: Number(user?.id),
+    data: {
+      password: hash,
+    },
+  });
 
-      await db.user.update({
-        where: { id: user?.id },
-        data: { password: hash },
-      });
-
-      session.flash("change-password", {
-        status: "Success",
-        type: "success",
-        message: "Success changing password",
-      });
-
-      return json({
-        status: "Success",
-        type: "success",
-        message: `Success changing password`,
-      });
-    }
-
+  if (!updatePassword) {
     session.flash("change-password", {
       status: "Error",
       type: "error",
@@ -69,16 +58,19 @@ const SecurityAction = async ({ request }: ActionFunctionArgs) => {
       type: "error",
       message: "Password Incorrect",
     });
-  } catch (err) {
-    if (err instanceof Prisma.PrismaClientKnownRequestError)
-      return json({
-        status: "Error",
-        type: "error",
-        message: "Something gone wrong",
-      });
-
-    throw json(err);
   }
+
+  session.flash("change-password", {
+    status: "Success",
+    type: "success",
+    message: "Success changing password",
+  });
+
+  return json({
+    status: "Success",
+    type: "success",
+    message: `Success changing password`,
+  });
 };
 
 export default SecurityAction;

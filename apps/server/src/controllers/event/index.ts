@@ -1,24 +1,22 @@
 import fs from "fs";
 import { Request, Response } from "express";
-import ImageKit from "imagekit";
+import EventsUploadSchema from "../../validation/events/upload";
 import convertSlug from "../../modules/slug";
-
-const imageKit = new ImageKit({
-  publicKey: process.env.IMAGEKIT_RESTRICTED_PUBLIC_KEY as string,
-  privateKey: process.env.IMAGEKIT_RESTRICTED_PRIVATE_KEY as string,
-  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT as string,
-});
+import imageKit from "../../config/imagekit";
 
 const purgeCacheImage = ({ imageUrl }: { imageUrl: string }) => imageKit.purgeCache(imageUrl);
 
 export class EventController {
   public async uploadImage(req: Request, res: Response) {
-    const { user_id, event_name } = req.body;
+    const { id: userId } = req.user;
+    const { event_name } = req.body;
 
-    if (!req.file?.path)
+    const { error } = EventsUploadSchema.validate({ user_id: userId, event_name });
+
+    if (error || !req.file?.path)
       return res.status(422).json({
         type: "error",
-        message: "Cannot find file path",
+        message: error ? error.details : "Cannot find file path",
       });
 
     return fs.readFile(req.file?.path as string, (err, data) => {
@@ -27,7 +25,7 @@ export class EventController {
         imageKit.upload(
           {
             file: data,
-            fileName: `${user_id}-${convertSlug(event_name)}`,
+            fileName: `${userId}-${convertSlug(event_name)}`,
             folder: "/events",
             overwriteFile: true,
             useUniqueFileName: false,

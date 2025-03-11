@@ -6,7 +6,7 @@ import {
   SettingsBasicInfoValidationType,
 } from "~/data/form-validation/ProfileValidation";
 import { authenticator } from "services/auth.server";
-import UserModel from "services/models/user";
+import db from "@monorepo/database";
 import { getSession } from "services/session.server";
 
 const SettingsBasicInfoAction = async ({ request }: ActionFunctionArgs) => {
@@ -24,7 +24,7 @@ const SettingsBasicInfoAction = async ({ request }: ActionFunctionArgs) => {
 
   if (errors) return json({ errors, defaultValues });
 
-  const updateUser = await UserModel.updateUser({
+  const updateUser = await db.UserModel.updateUser({
     id: Number(user?.id),
     data: {
       name: data?.name,

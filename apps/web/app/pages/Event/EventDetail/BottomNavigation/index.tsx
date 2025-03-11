@@ -3,10 +3,15 @@ import formatPrice from "~/modules/formatPrice";
 
 type BottomNavigationPropsType = {
   startedPrice: number;
-  onBuyTicket: () => void;
+  onBuyTicket: (e: React.FormEvent) => void;
+  isLoading: boolean;
 };
 
-const BottomNavigation = ({ startedPrice, onBuyTicket }: BottomNavigationPropsType) => (
+const BottomNavigation = ({
+  startedPrice,
+  onBuyTicket,
+  isLoading = false,
+}: BottomNavigationPropsType) => (
   <div className="fixed bottom-0 w-full min-[1024px]:hidden">
     <div className="flex w-full items-center justify-between bg-white px-6 py-4">
       <div>
@@ -15,7 +20,9 @@ const BottomNavigation = ({ startedPrice, onBuyTicket }: BottomNavigationPropsTy
           {startedPrice > 0 ? formatPrice(startedPrice) : "Free"}
         </p>
       </div>
-      <Button onClick={onBuyTicket}>Buy Ticket</Button>
+      <Button onClick={onBuyTicket} disabled={isLoading}>
+        Buy Ticket
+      </Button>
     </div>
   </div>
 );
