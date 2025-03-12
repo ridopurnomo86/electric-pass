@@ -5,8 +5,9 @@ export const cookie = createCookie("csrf", {
   path: "/",
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "lax",
+  sameSite: "strict",
   secrets: [process.env.SESSION_SECRET],
+  domain: process.env.NODE_ENV === "production" ? process.env.SUB_DOMAIN_COOKIE : "localhost",
 });
 
 export const csrf = new CSRF({
