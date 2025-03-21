@@ -5,6 +5,7 @@ import { useActionData, useLoaderData, useNavigation, useSubmit } from "@remix-r
 import { useToast } from "~/components/ui/Toaster/useToast";
 import { useAuthenticityToken } from "remix-utils/csrf/react";
 import useHttpRequest from "~/hooks/useHttpRequest";
+import Cookie from "js-cookie";
 import { useEffect } from "react";
 import FormInput from "./FormInput";
 import Thumbnail from "./Thumbnail";
@@ -56,7 +57,14 @@ const Login = () => {
       },
     });
 
-    if (data) return submit({ ...data.data, csrf }, { method: "post" });
+    if (data.data) {
+      Cookie.set("ep-tkn", data.data.token, {
+        path: "/",
+        sameSite: "strict",
+        secure: true,
+      });
+      return submit({ ...data.data, csrf }, { method: "post" });
+    }
 
     form.resetField("password");
 
