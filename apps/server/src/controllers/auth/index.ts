@@ -31,19 +31,22 @@ export class AuthController {
         },
       });
 
-      return res
-        .status(200)
-        .cookie(authConfig.USER_TOKEN_COOKIE_NAME, token, authConfig.cookieConfig)
-        .json({
-          type: "success",
-          message: "success",
-          data: {
-            name: userData.name,
-            email: userData.email,
-            id: userData.id,
-            role: userData.role,
-          },
-        });
+      return (
+        res
+          .status(200)
+          // .cookie(authConfig.USER_TOKEN_COOKIE_NAME, token, authConfig.cookieConfig)
+          .json({
+            type: "success",
+            message: "success",
+            data: {
+              name: userData.name,
+              email: userData.email,
+              id: userData.id,
+              role: userData.role,
+              token,
+            },
+          })
+      );
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const { message, type, status } = JSON.parse(err.message);

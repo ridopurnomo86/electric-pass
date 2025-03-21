@@ -50,7 +50,7 @@ app.use("/", router);
 app.use(errorNotFoundHandler);
 app.use(errorHandler);
 
-app.listen(PORT, "localhost", () => {
+app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Server Started localhost:${PORT}`);
 });
