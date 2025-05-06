@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosError, Canceler, isCancel } from "axios";
 import { useEffect, useRef, useState } from "react";
+import Cookie from "js-cookie";
 import { useRootContext } from "~/context/root-context";
 import useFn from "../react/useFn";
 import {
@@ -26,6 +27,7 @@ const useHttpRequest = ({
   reqHeaders = {},
 }: UseHttpRequestParamsType<ResponseDataType>): UseHttpRequestReturnType<ResponseDataType> => {
   const { backendUrl } = useRootContext();
+  const token = Cookie.get("ep-tkn");
 
   const cancelRef = useRef<Canceler>();
 
@@ -75,6 +77,7 @@ const useHttpRequest = ({
           withCredentials: true,
           headers: {
             "x-api-key": window.process.env.API_KEY,
+            ...(token && { Authorization: token }),
             ...reqHeaders,
           },
           signal: new AbortController().signal,

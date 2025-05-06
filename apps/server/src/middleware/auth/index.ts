@@ -1,12 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextFunction, Response } from "express";
-import { extractToken, verifyWithInfo } from "../../modules/token";
+import { NextFunction, Request, Response } from "express";
+import { verifyWithInfo } from "../../modules/token";
 
 const AuthMiddleware = {
-  requireAuth: async (req: any, res: Response, next: NextFunction) => {
-    const token = extractToken(req);
+  requireAuth: async (req: Request, res: Response, next: NextFunction) => {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ");
 
-    const data = await verifyWithInfo({ token, secret: process.env.JWT_TOKENKEY as string });
+    if (token == null) return res.sendStatus(401);
+
+    const data = await verifyWithInfo({
+      token: String(token),
+      secret: process.env.JWT_TOKENKEY as string,
+    });
 
     if (!data.isValid)
       return res.status(401).json({
@@ -17,9 +22,9 @@ const AuthMiddleware = {
 
     req.user = {
       isValid: data.isValid,
-      id: data.payload?.id,
-      name: data.payload?.name,
-      email: data.payload?.email,
+      id: Number(data.payload?.id),
+      name: String(data.payload?.name),
+      email: String(data.payload?.email),
     };
 
     return next();
