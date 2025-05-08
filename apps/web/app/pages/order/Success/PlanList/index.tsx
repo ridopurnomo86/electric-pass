@@ -9,7 +9,7 @@ type PlanListPropsType = {
 const PlanList = ({ plans, event }: PlanListPropsType) => (
   <div className="border-t p-4 md:px-8 md:py-4">
     {plans.map((plan, idx) => (
-      <div key={idx} className="mb-2">
+      <div key={idx}>
         <PlanCard
           country={event.country}
           planName={plan.name}
@@ -18,6 +18,7 @@ const PlanList = ({ plans, event }: PlanListPropsType) => (
           eventStartDate={event.start_date}
           isDisabledDeleteItem
         />
+        {idx !== plans.length - 1 && <div className="mb-2" />}
       </div>
     ))}
   </div>

@@ -2,7 +2,8 @@ import TransactionCard from "~/components/cards/TransactionCard";
 import { useLoaderData } from "@remix-run/react";
 import { TransactionLoader } from "services/main/settings/transaction";
 import { Skeleton } from "~/components/ui/Skeleton";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { EventPlanDataType } from "~/data/test-data/types";
 
 import ProfileLayout from "../components/Layout";
 import TransactionDetailDialog from "./TransactionDetailDialog";
@@ -19,7 +20,9 @@ type OrderDataType = {
     payment_method: string;
     status: "SUCCEEDED" | "INCOMPLETE";
     order_date: string;
+    id: number;
   };
+  totalPrice: number;
   plans: Array<{ amount: number; name: string; id: number }>;
 };
 
@@ -48,6 +51,7 @@ const EmptyTransaction = () => (
 );
 
 const Transaction = () => {
+  const dialogRef = useRef<OrderDataType>();
   const [openDialog, setOpenDialog] = useState(false);
   const { orders } = useLoaderData<typeof TransactionLoader>();
 
@@ -64,7 +68,10 @@ const Transaction = () => {
           <div className="grid grid-cols-none gap-4 md:grid-cols-2">
             {orders.map((order: OrderDataType) => (
               <TransactionCard
-                onMoreDetail={() => setOpenDialog(true)}
+                onMoreDetail={() => {
+                  dialogRef.current = order;
+                  setOpenDialog(true);
+                }}
                 onShowTicket={() => {}}
                 key={order.id}
                 country={order.event.country}
@@ -82,15 +89,27 @@ const Transaction = () => {
           <EmptyTransaction />
         )}
         <TransactionDetailDialog
-          totalItems={1}
+          totalItems={Number(dialogRef.current?.plans.length)}
           discount={0}
           fee={0}
-          orderDate="2025-03-01T15:14:17+07:00"
-          paymentMethod="Card"
-          subTotal={100}
-          totalPrice={100}
+          plans={dialogRef.current?.plans as EventPlanDataType[]}
+          orderDate={dialogRef.current?.transaction.order_date as string}
+          paymentMethod={dialogRef.current?.transaction.payment_method as string}
+          subTotal={Number(dialogRef.current?.totalPrice)}
+          paymentStatus={
+            dialogRef.current?.transaction.status === "SUCCEEDED" ? "success" : "failed"
+          }
+          totalPrice={Number(dialogRef.current?.totalPrice)}
           onOpen={() => setOpenDialog(false)}
           isOpen={openDialog}
+          customerEmail=""
+          customerFullName=""
+          customerPhoneCode={1}
+          customerPhoneNumber={1}
+          eventCountry={String(dialogRef.current?.event.country)}
+          eventName={String(dialogRef.current?.event.name)}
+          eventStartDate={String(dialogRef.current?.event.start_date)}
+          orderId={Number(dialogRef.current?.transaction?.id)}
         />
       </section>
     </ProfileLayout>
