@@ -7,47 +7,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/DropdownMenu";
+import Cookies from "js-cookie";
 import { Link, useSubmit } from "@remix-run/react";
-import useHttpRequest from "~/hooks/useHttpRequest";
-import { useToast } from "~/components/ui/Toaster/useToast";
 
 type DropdownPropsType = {
   name: string;
 };
 
 const Dropdown = ({ name }: DropdownPropsType) => {
-  const { toast } = useToast();
-
   const submit = useSubmit();
 
-  const { request } = useHttpRequest({
-    path: "/auth/logout",
-    method: "POST",
-  });
-
-  const onSubmit = async (event: React.MouseEvent<HTMLElement>) => {
-    const { data, error } = await request();
-
-    if (data)
-      return submit(event.currentTarget as HTMLButtonElement, {
-        method: "post",
-        action: "/logout",
-      });
-
-    if (!data || error) {
-      const { message } = error.response.data;
-
-      return toast({
-        title: "Warning",
-        description: message,
-        variant: "destructive",
-      });
-    }
-
-    return toast({
-      title: "Warning",
-      description: "Something gone wrong",
-      variant: "destructive",
+  const onSubmit = (event: React.MouseEvent<HTMLElement>) => {
+    Cookies.remove("ep-tkn");
+    submit(event.currentTarget as HTMLButtonElement, {
+      method: "post",
+      action: "/logout",
     });
   };
 
@@ -71,9 +45,11 @@ const Dropdown = ({ name }: DropdownPropsType) => {
             <DropdownMenuItem>Settings</DropdownMenuItem>
           </Link>
           <DropdownMenuItem>
-            <button onClick={onSubmit}>
-              <p className="text-sm font-medium text-red-600 antialiased">Logout</p>
-            </button>
+            <form action="/">
+              <button onClick={onSubmit} type="submit">
+                <p className="text-sm font-medium text-red-600 antialiased">Logout</p>
+              </button>
+            </form>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

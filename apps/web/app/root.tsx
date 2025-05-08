@@ -1,7 +1,6 @@
 import { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
 import stylesheet from "~/styles/globals.css";
-import { AuthenticityTokenProvider } from "remix-utils/csrf/react";
 import { RootLoader } from "services/main/root";
 import { Toaster } from "./components/ui/Toaster/toaster";
 import { RootContext } from "./context/root-context";
@@ -28,9 +27,7 @@ export default function App() {
             stripePublishApiKey: loaderData.ENV.STRIPE_PUBLISH_API_KEY,
           }}
         >
-          <AuthenticityTokenProvider token={loaderData.csrf}>
-            <Outlet context={loaderData} />
-          </AuthenticityTokenProvider>
+          <Outlet context={loaderData} />
         </RootContext.Provider>
         <script
           dangerouslySetInnerHTML={{

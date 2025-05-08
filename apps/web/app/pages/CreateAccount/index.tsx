@@ -8,11 +8,9 @@ import { useActionData, useNavigation, useSubmit } from "@remix-run/react";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/Alert";
 import { useForm } from "react-hook-form";
 import { CreateAccountAction } from "services/main/create-account";
-import { useAuthenticityToken } from "remix-utils/csrf/react";
 import FormInput from "./FormInput";
 
 const CreateAccount = () => {
-  const csrf = useAuthenticityToken();
   const submit = useSubmit();
   const { state } = useNavigation();
   const actionData = useActionData<typeof CreateAccountAction>();
@@ -27,7 +25,7 @@ const CreateAccount = () => {
   });
 
   const onSubmit = (values: CreateAccountValidationType) => {
-    submit({ ...values, csrf }, { method: "post" });
+    submit({ ...values }, { method: "post" });
   };
 
   return (

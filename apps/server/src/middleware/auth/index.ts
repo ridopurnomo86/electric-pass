@@ -6,7 +6,7 @@ const AuthMiddleware = {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ");
 
-    if (token == null) return res.sendStatus(401);
+    if (token === null) return res.sendStatus(401);
 
     const data = await verifyWithInfo({
       token: String(token),
