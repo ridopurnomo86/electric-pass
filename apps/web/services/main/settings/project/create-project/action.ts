@@ -2,20 +2,18 @@ import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { CreateEventValidation } from "~/data/form-validation/CreateEventValidation";
 import { authenticator } from "services/auth.server";
 import db from "@monorepo/database";
-import Redis from "services/modules/redis";
 import axios from "axios";
 import { commitSession, getSession } from "services/session.server";
 import { ValuesType } from "./types";
 
-const EVENTS_CACHE = "events";
-
-const uploadImageProject = async ({ formData }: { formData: FormData }) => {
+const uploadImageProject = async ({ formData, token }: { formData: FormData; token: string }) => {
   try {
     const post = await axios.post("/events/image/upload", formData, {
       baseURL: process.env.BACKEND_URL,
       headers: {
         "Content-Type": "multipart/form-data",
         "x-api-key": process.env.API_KEY,
+        Authorization: token,
       },
     });
 
@@ -48,7 +46,9 @@ const SettingsCreateProjectAction = async ({ request }: ActionFunctionArgs) => {
 
   if (!validation) return redirect(`/settings/project/create?message=form-error`);
 
-  const uploadImage = await uploadImageProject({ formData });
+  const uploadImage = await uploadImageProject({ formData, token: String(values.token) });
+
+  console.log(uploadImage);
 
   if (!uploadImage)
     return json({
@@ -82,8 +82,6 @@ const SettingsCreateProjectAction = async ({ request }: ActionFunctionArgs) => {
     type: "success",
     message: "Event Has Created",
   });
-
-  await Redis.deleteItem(EVENTS_CACHE);
 
   return redirect("/settings/project", {
     headers: {
