@@ -48,8 +48,6 @@ const SettingsCreateProjectAction = async ({ request }: ActionFunctionArgs) => {
 
   const uploadImage = await uploadImageProject({ formData, token: String(values.token) });
 
-  console.log(uploadImage);
-
   if (!uploadImage)
     return json({
       status: "Error",

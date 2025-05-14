@@ -1,5 +1,3 @@
-
-
 type CacheControlOptions = {
   maxAge?: number;
   staleWhileRevalidate?: number;

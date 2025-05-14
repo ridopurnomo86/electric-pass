@@ -14,8 +14,8 @@ const MainNavigation = ({ hasHideNavigation = false }: MainNavigationPropsType) 
     </Link>
     {!hasHideNavigation && (
       <div className="flex gap-8 max-[894px]:hidden">
-        <Link to="/dashboard">
-          <p className="text-sm font-medium text-neutral-600 antialiased">Dashboard</p>
+        <Link to="/events">
+          <p className="text-sm font-medium text-neutral-600 antialiased">Events</p>
         </Link>
         <Link to="/reporting">
           <p className="text-sm font-medium text-neutral-600 antialiased">Reporting</p>
