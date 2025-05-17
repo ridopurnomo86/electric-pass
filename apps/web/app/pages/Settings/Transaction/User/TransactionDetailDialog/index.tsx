@@ -49,7 +49,7 @@ const PlanCard = ({
 }) => (
   <div className="flex">
     <div className="mr-3 flex max-h-[60px] w-min max-w-[60px] items-center justify-center rounded border border-dashed border-blue-600 bg-blue-50 p-4">
-      <Icon icon="tabler:ticket" width="24" height="24" className="text-blue-600" />
+      <Icon icon="tabler:ticket" width="16" height="16" className="text-blue-600" />
     </div>
     <div>
       <div className="flex">

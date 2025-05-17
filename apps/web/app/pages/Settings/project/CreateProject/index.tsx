@@ -10,7 +10,7 @@ export type StepType = "about" | "description" | "ticket";
 
 export type CurrentDataRefType = {
   event_name: string;
-  topic_type: string;
+  topic_type: number;
   event_type: number;
   start_date: string;
   ended_date: string;
@@ -47,6 +47,11 @@ const CreateProject = () => {
     label: item.name,
   }));
 
+  const category = loaderData.category.map((item: { name: string; id: number }) => ({
+    value: item.id,
+    label: item.name,
+  }));
+
   useEffect(() => {
     if (actionData) {
       toast({
@@ -62,7 +67,13 @@ const CreateProject = () => {
     <ProfileLayout resolve={type}>
       <section>
         <Header step={step} />
-        <Form eventTypes={type} currentData={currentDataRef} onStep={setStep} step={step} />
+        <Form
+          eventTypes={type}
+          eventCategories={category}
+          currentData={currentDataRef}
+          onStep={setStep}
+          step={step}
+        />
       </section>
     </ProfileLayout>
   );

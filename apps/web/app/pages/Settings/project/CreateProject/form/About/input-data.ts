@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 type InputDataType = {
-  eventTypeData: any[];
+  eventTypeData: { value: string; label: string }[];
+  eventCategoryData: { value: string; label: string }[];
 };
 
-const INPUT_DATA = ({ eventTypeData }: InputDataType) => [
+const INPUT_DATA = ({ eventTypeData, eventCategoryData }: InputDataType) => [
   {
     id: "event_name",
     label: "Event Name",
@@ -18,7 +17,8 @@ const INPUT_DATA = ({ eventTypeData }: InputDataType) => [
     name: "topic_type",
     placeholder: "Business",
     icon: "bxs:category",
-    type: "text",
+    data: eventCategoryData,
+    type: "select",
     description: "Is a classification derived from the Topic of events presented.",
   },
   {

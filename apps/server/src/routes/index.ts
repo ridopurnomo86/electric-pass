@@ -5,7 +5,6 @@ import upload from "../middleware/upload";
 import { EventController } from "../controllers/event";
 import { AuthController } from "../controllers/auth";
 import AuthMiddleware from "../middleware/auth";
-import { OrderController } from "../controllers/order";
 
 export const router = Router();
 
@@ -20,8 +19,6 @@ router.post("/auth/logout", new AuthController().requestLogout);
 router.post("/payment/amount", AuthMiddleware.requireAuth, new PaymentController().paymentAmount);
 
 router.post("/payment/order", AuthMiddleware.requireAuth, new PaymentController().paymentOrder);
-
-router.get("/profile/order", AuthMiddleware.requireAuth, new OrderController().getOrder);
 
 router.post(
   "/payment/intent",

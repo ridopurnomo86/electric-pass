@@ -125,7 +125,15 @@ const EventModel = {
 
     return eventDetail;
   },
-  getAllEvent: async ({ sortBy, take = 10 }: { sortBy?: "asc" | "desc"; take?: number }) => {
+  getAllEvent: async ({
+    sortBy,
+    take = 6,
+    page,
+  }: {
+    sortBy?: "asc" | "desc";
+    take?: number;
+    page?: number;
+  }) => {
     const events = await db.event.findMany({
       take,
       include: {
