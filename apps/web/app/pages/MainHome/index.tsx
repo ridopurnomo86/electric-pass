@@ -18,7 +18,7 @@ import Hero from "./Hero";
 const MainHome = () => {
   const location = useLocation();
 
-  const { type, events } = useCachedLoaderData<typeof MainHomeLoader>();
+  const { type, events, organizers } = useCachedLoaderData<typeof MainHomeLoader>();
 
   const form = useForm<z.infer<typeof HomeSearchValidation>>({
     resolver: zodResolver(HomeSearchValidation),
@@ -59,7 +59,7 @@ const MainHome = () => {
       <CreatorCardList
         title="Featured Artists & Organizers"
         subtitle="Follow the creator from these events and get notified when they create new ones."
-        data={ORGANIZER_DATA}
+        data={organizers}
       />
       <EventCardList
         data={EVENT_DATA}

@@ -2,8 +2,11 @@ import CreatorCard from "~/components/cards/CreatorCard";
 
 type CreatorDataType = {
   id: number;
-  title: string;
-  imgUrl: string;
+  name: string;
+  images: {
+    image_url: string;
+    version: number;
+  };
 };
 
 type CreatorCardListPropsType = {
@@ -21,8 +24,8 @@ const CreatorCardList = ({ title, subtitle, data }: CreatorCardListPropsType) =>
         <div className="min-w-[350px]" key={item.id}>
           <CreatorCard
             navigateTo="#"
-            title={item.title}
-            imgUrl={item.imgUrl}
+            title={item.name}
+            imgUrl={item.images}
             description="Popular venue opened since 2002"
           />
         </div>

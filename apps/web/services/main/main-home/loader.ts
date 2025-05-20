@@ -8,9 +8,10 @@ const MainHomeLoader: LoaderFunction = async ({ request }: LoaderFunctionArgs) =
 
   const type = await db.EventTypeModel.getAllEventType();
   const events = await db.EventModel.getAllEvent({});
+  const organizers = await db.UserModel.getOrganizers();
 
   return defer(
-    { type, events, hostname },
+    { type, events, hostname, organizers },
     {
       headers: cacheHeaders.dynamic(),
     }
