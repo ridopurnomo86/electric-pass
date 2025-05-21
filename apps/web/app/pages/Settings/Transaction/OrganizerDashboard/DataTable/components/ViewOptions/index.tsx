@@ -37,7 +37,7 @@ const ViewOptions = <TData,>({ table }: ViewOptionsPropsType<TData>) => (
             checked={column.getIsVisible()}
             onCheckedChange={(value) => column.toggleVisibility(!!value)}
           >
-            {column.id}
+            {column.id.split("_").join(" ")}
           </DropdownMenuCheckboxItem>
         ))}
     </DropdownMenuContent>
