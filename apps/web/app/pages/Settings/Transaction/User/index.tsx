@@ -64,7 +64,7 @@ const UserTransaction = () => {
             Manage your recent transaction orders and invoices
           </p>
         </div>
-        {orders.length > 0 ? (
+        {orders && orders.length > 0 ? (
           <div className="grid grid-cols-none gap-4 md:grid-cols-2">
             {orders.map((order: OrderDataType) => (
               <TransactionCard

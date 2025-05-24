@@ -2,9 +2,9 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import formatPrice from "~/modules/formatPrice";
+import dayjs from "dayjs";
 import { Task } from "./data/schema";
 import ColumnHeader from "./components/ColumnHeader";
-import RowActions from "./components/RowActions";
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -24,6 +24,35 @@ export const columns: ColumnDef<Task>[] = [
     ),
   },
   {
+    accessorKey: "order_date",
+    header: ({ column }) => <ColumnHeader column={column} title="Order Date" />,
+    cell: ({ row }) => (
+      <div className="flex space-x-2">
+        <span className="max-w-[500px] truncate font-medium">
+          {dayjs(row.getValue("order_date")).format("MMM DD, mm:ss A")}
+        </span>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "payment_method",
+    header: ({ column }) => <ColumnHeader column={column} title="Payment" />,
+    cell: ({ row }) => (
+      <div className="flex space-x-2">
+        <span className="max-w-[500px] truncate font-medium">{row.getValue("payment_method")}</span>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => <ColumnHeader column={column} title="Status" />,
+    cell: ({ row }) => (
+      <div className="flex space-x-2">
+        <span className="max-w-[500px] truncate font-medium">{row.getValue("status")}</span>
+      </div>
+    ),
+  },
+  {
     accessorKey: "total_price",
     header: ({ column }) => <ColumnHeader column={column} title="Total Price" />,
     cell: ({ row }) => (
@@ -33,9 +62,5 @@ export const columns: ColumnDef<Task>[] = [
         </span>
       </div>
     ),
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => <RowActions row={row} />,
   },
 ];

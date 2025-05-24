@@ -39,7 +39,6 @@
     ]
   },
   "dependencies": {
-    "@faker-js/faker": "^9.8.0",
     "@hookform/resolvers": "^3.3.4",
     "@lexical/react": "^0.17.0",
     "@monorepo/database": "*",
