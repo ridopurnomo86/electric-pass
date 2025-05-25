@@ -51,7 +51,7 @@ export const CreateEventValidation = z
 export const CreateEventAboutValidation = z
   .object({
     event_name: z.string().min(1, { message: "The field is required." }),
-    topic_type: z.string().min(1, { message: "The field is required." }),
+    topic_type: z.number(),
     event_type: z.number(),
     country: z.string().min(1, { message: "The field is required." }),
     city: z.string().min(1, { message: "The field is required." }),

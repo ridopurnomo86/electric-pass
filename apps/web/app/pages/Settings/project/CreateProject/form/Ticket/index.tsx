@@ -9,6 +9,7 @@ import {
   CreateEventPriceValidationType,
 } from "~/data/form-validation/CreateEventValidation";
 import { Button } from "~/components/ui/Button";
+import Cookies from "js-cookie";
 import { useNavigation, useOutletContext, useSubmit } from "@remix-run/react";
 import { CurrentDataRefType } from "../..";
 import CardPlan from "./CardPlan";
@@ -50,6 +51,7 @@ const Ticket = ({ currentData }: TicketPropsType) => {
     };
 
     formData.append("user_id", user.id);
+    formData.append("token", Cookies.get("ep-tkn") as string);
 
     Object.keys(submitValues).forEach((item) => {
       if (item === "plans") return formData.append(item, JSON.stringify(submitValues.plans));

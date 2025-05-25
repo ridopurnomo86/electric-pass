@@ -37,6 +37,29 @@ const UserModel = {
       throw err;
     }
   },
+  getOrganizers: async () => {
+    const organizers = await db.user.findMany({
+      where: {
+        role: "ORGANIZER",
+      },
+      select: {
+        name: true,
+        created_at: true,
+        updated_at: true,
+        id: true,
+      },
+    });
+
+    return await Promise.all(
+      organizers.map(async (organizer) => {
+        const images = await UserModel.getUserImage({ id: organizer.id });
+        return {
+          ...organizer,
+          images: images ? images : {},
+        };
+      })
+    );
+  },
   getUserImage: async ({ id, response }: GetUserType) => {
     try {
       const user = await db.userImageProfile.findFirst({

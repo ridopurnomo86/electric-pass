@@ -1,19 +1,19 @@
 import { defer, LoaderFunction, LoaderFunctionArgs } from "@remix-run/node";
 import db from "@monorepo/database";
+import { cacheHeaders } from "~/utils/cache.server";
 
 const MainHomeLoader: LoaderFunction = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const hostname = url.hostname;
 
   const type = await db.EventTypeModel.getAllEventType();
-  const events = await db.EventModel.getAllEvent();
+  const events = await db.EventModel.getAllEvent({});
+  const organizers = await db.UserModel.getOrganizers();
 
   return defer(
-    { type, events, hostname },
+    { type, events, hostname, organizers },
     {
-      headers: {
-        "Cache-Control": "public, max-age=300, s-maxage=3600",
-      },
+      headers: cacheHeaders.dynamic(),
     }
   );
 };

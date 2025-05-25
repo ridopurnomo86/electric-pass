@@ -19,11 +19,12 @@ import INPUT_DATA from "./input-data";
 
 type AboutPropsType = {
   eventTypes: { value: string; label: string }[];
+  eventCategories: { value: string; label: string }[];
   onStep: (value: StepType) => void;
   currentData: MutableRefObject<CurrentDataRefType>;
 };
 
-const About = ({ eventTypes, onStep, currentData }: AboutPropsType) => {
+const About = ({ eventTypes, onStep, currentData, eventCategories }: AboutPropsType) => {
   const { state } = useNavigation();
   const { country } = useGetCountries();
 
@@ -31,7 +32,7 @@ const About = ({ eventTypes, onStep, currentData }: AboutPropsType) => {
     resolver: zodResolver(CreateEventAboutValidation),
     defaultValues: {
       event_name: "",
-      topic_type: "",
+      topic_type: 0,
       event_type: 0,
       start_date: new Date(),
       ended_date: new Date(),
@@ -69,6 +70,7 @@ const About = ({ eventTypes, onStep, currentData }: AboutPropsType) => {
 
     if (submitValues) {
       currentData.current = submitValues;
+
       onStep("description");
     }
 
@@ -80,7 +82,7 @@ const About = ({ eventTypes, onStep, currentData }: AboutPropsType) => {
       className="mb-8"
       form={form}
       onSubmit={onSubmit}
-      forms={INPUT_DATA({ eventTypeData: eventTypes })}
+      forms={INPUT_DATA({ eventTypeData: eventTypes, eventCategoryData: eventCategories })}
     >
       <div className="grid grid-cols-3 items-start gap-4">
         <CoreDate

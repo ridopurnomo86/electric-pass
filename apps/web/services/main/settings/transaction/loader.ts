@@ -7,6 +7,12 @@ const TransactionLoader: LoaderFunction = async ({ request }: LoaderFunctionArgs
     failureRedirect: "/login",
   });
 
+  if (user.role === "organizer") {
+    const transactions = await db.TransactionModel.getTransaction({ organizerId: user.id });
+
+    return json({ transactions });
+  }
+
   const orders = await db.OrderModel.getOrders({ userId: user.id });
 
   return json({ orders });

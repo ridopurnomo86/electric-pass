@@ -19,6 +19,7 @@ type ResponseVerifyInfoType = {
     name?: string;
     iat?: number;
     exp?: number;
+    role?: "ORGANIZER" | "USER";
   };
 };
 

@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginValidation, LoginValidationType } from "~/data/form-validation/LoginValidation";
 import { useActionData, useLoaderData, useNavigation, useSubmit } from "@remix-run/react";
 import { useToast } from "~/components/ui/Toaster/useToast";
-import { useAuthenticityToken } from "remix-utils/csrf/react";
 import useHttpRequest from "~/hooks/useHttpRequest";
 import Cookie from "js-cookie";
 import { useEffect } from "react";
@@ -11,7 +10,6 @@ import FormInput from "./FormInput";
 import Thumbnail from "./Thumbnail";
 
 const Login = () => {
-  const csrf = useAuthenticityToken();
   const actionData = useActionData<{
     message: string;
     type: string;
@@ -57,13 +55,13 @@ const Login = () => {
       },
     });
 
-    if (data.data) {
+    if (data?.data) {
       Cookie.set("ep-tkn", data.data.token, {
         path: "/",
         sameSite: "strict",
         secure: true,
       });
-      return submit({ ...data.data, csrf }, { method: "post" });
+      return submit({ ...data.data }, { method: "post" });
     }
 
     form.resetField("password");

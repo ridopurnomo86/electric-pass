@@ -13,6 +13,7 @@ model User {
   name              String            @db.VarChar(255)
   email             String            @unique
   username          String?           @db.VarChar(255)
+  slug              String?           @db.VarChar(255) @default("")
   password          String            @db.VarChar(255)
   salt              String?           @db.VarChar(255)
   address           String?           @db.VarChar(255)

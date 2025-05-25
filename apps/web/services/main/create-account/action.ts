@@ -7,8 +7,6 @@ import {
 } from "~/data/form-validation/CreateAccountValidation";
 import { commitSession, getSession } from "services/session.server";
 import { encrypt } from "services/utils/cipher/encrypt";
-import { csrf } from "services/csrf.server";
-import { CSRFError } from "remix-utils/csrf/server";
 import db from "@monorepo/database";
 import { CreateAccountResponseType } from "./types";
 
@@ -16,15 +14,6 @@ const CreateAccountAction = async ({
   request,
 }: ActionFunctionArgs): Promise<CreateAccountResponseType> => {
   const session = await getSession(request.headers.get("Cookie"));
-
-  await csrf.validate(request).catch((err) => {
-    if (err instanceof CSRFError) {
-      throw new Response(null, {
-        status: 403,
-        statusText: "Forbidden",
-      });
-    }
-  });
 
   const {
     errors,
@@ -36,6 +25,26 @@ const CreateAccountAction = async ({
   );
 
   if (errors) throw json({ errors, defaultValues });
+
+  const existingUser = await db.db.user.findFirst({
+    where: {
+      email: data.email,
+    },
+  });
+
+  if (existingUser) {
+    session.flash("create-account", {
+      status: "Error",
+      type: "error",
+      message: "User / Email has been registered",
+    });
+
+    return json({
+      status: "Error",
+      type: "error",
+      message: "User / Email has been registered",
+    });
+  }
 
   const { hash, salt } = await encrypt({ value: data.password });
 

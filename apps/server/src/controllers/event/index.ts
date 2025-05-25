@@ -11,7 +11,7 @@ export class EventController {
     const { id: userId } = req.user;
     const { event_name } = req.body;
 
-    const { error } = EventsUploadSchema.validate({ user_id: userId, event_name });
+    const { error } = EventsUploadSchema.validate({ user_id: Number(userId), event_name });
 
     if (error || !req.file?.path)
       return res.status(422).json({

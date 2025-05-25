@@ -125,8 +125,17 @@ const EventModel = {
 
     return eventDetail;
   },
-  getAllEvent: async () => {
+  getAllEvent: async ({
+    sortBy,
+    take = 6,
+    page,
+  }: {
+    sortBy?: "asc" | "desc";
+    take?: number;
+    page?: number;
+  }) => {
     const events = await db.event.findMany({
+      take,
       include: {
         EventCategory: {
           select: {
@@ -139,6 +148,9 @@ const EventModel = {
           },
         },
         EventPlan: true,
+      },
+      orderBy: {
+        ...(sortBy && { created_at: { sort: sortBy } }),
       },
     });
 

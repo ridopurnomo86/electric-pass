@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 const settingsAccountUploadSchema = Joi.object().keys({
-  user_id: Joi.string().required(),
+  user_id: Joi.number().required(),
   name: Joi.string().required(),
 });
 

@@ -10,14 +10,22 @@ type CreateProjectForm = {
   currentData: MutableRefObject<CurrentDataRefType>;
   onStep: (step: StepType) => void;
   eventTypes: { value: string; label: string }[];
+  eventCategories: { value: string; label: string }[];
   step: StepType;
 };
 
-const Form = ({ currentData, onStep, eventTypes, step }: CreateProjectForm) => {
+const Form = ({ currentData, onStep, eventTypes, eventCategories, step }: CreateProjectForm) => {
   const renderComponent = () => {
     switch (step) {
       case "about":
-        return <AboutForm currentData={currentData} onStep={onStep} eventTypes={eventTypes} />;
+        return (
+          <AboutForm
+            currentData={currentData}
+            onStep={onStep}
+            eventTypes={eventTypes}
+            eventCategories={eventCategories}
+          />
+        );
       case "description":
         return <DescriptionForm currentData={currentData} onStep={onStep} />;
       case "ticket":
