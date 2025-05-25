@@ -5,7 +5,6 @@ import { HomeSearchValidation } from "~/data/form-validation/HomeSearchValidatio
 import EventCardList from "~/components/data-display/EventCardList";
 import CreatorCardList from "~/components/data-display/CreatorCardList";
 import CategoryCardList from "~/components/data-display/CategoryCardList";
-import ORGANIZER_DATA from "~/data/test-data/organizer";
 import { Await, useLocation } from "@remix-run/react";
 import { MainHomeLoader } from "services/main/main-home";
 import { Suspense } from "react";
