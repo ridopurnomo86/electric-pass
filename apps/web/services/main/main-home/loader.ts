@@ -6,8 +6,8 @@ const MainHomeLoader: LoaderFunction = async ({ request }: LoaderFunctionArgs) =
   const url = new URL(request.url);
   const hostname = url.hostname;
 
-  const type = await db.EventTypeModel.getAllEventType();
-  const events = await db.EventModel.getAllEvent({});
+  const type = db.EventTypeModel.getAllEventType();
+  const events = db.EventModel.getAllEvent({});
   const organizers = await db.UserModel.getOrganizers();
 
   return defer(
