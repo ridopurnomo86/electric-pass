@@ -3,7 +3,7 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "
 import stylesheet from "~/styles/globals.css";
 import { RootLoader } from "services/main/root";
 import { Toaster } from "./components/ui/Toaster/toaster";
-import { RootContext } from "./context/root-context";
+import { RootContext } from "./context/RootContext";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: stylesheet }];
 
@@ -15,8 +15,6 @@ export default function App() {
   return (
     <html lang="en">
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>

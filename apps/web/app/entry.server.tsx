@@ -48,8 +48,7 @@ export default function handleRequest(
         },
         onError: (error: unknown) => {
           didError = true;
-
-          console.error(error);
+          console.error("Error during render:", error);
         },
       }
     );
@@ -58,5 +57,10 @@ export default function handleRequest(
   });
 }
 
-export const handleDataRequest: HandleDataRequestFunction = async (response, { request }) =>
-  await cors(request, response);
+export const handleDataRequest: HandleDataRequestFunction = async (response, { request }) => {
+  const corsResponse = await cors(request, response, {
+    credentials: true,
+    maxAge: 600,
+  });
+  return corsResponse;
+};

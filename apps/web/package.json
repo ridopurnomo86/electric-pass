@@ -78,7 +78,7 @@
     "html-react-parser": "^5.1.18",
     "imagekitio-react": "^4.1.0",
     "ioredis": "^5.4.1",
-    "isbot": "^4",
+    "isbot": "^5.1.28",
     "js-cookie": "^3.0.5",
     "lexical": "^0.17.0",
     "react": "^18.2.0",

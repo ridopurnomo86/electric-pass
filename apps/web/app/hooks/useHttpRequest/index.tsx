@@ -2,7 +2,7 @@
 import axios, { AxiosError, Canceler, isCancel } from "axios";
 import { useEffect, useRef, useState } from "react";
 import Cookie from "js-cookie";
-import { useRootContext } from "~/context/root-context";
+import { useRootContext } from "~/context/RootContext";
 import useFn from "../react/useFn";
 import {
   CallbackType,

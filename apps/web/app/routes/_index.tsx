@@ -24,6 +24,7 @@ export const meta: MetaFunction<typeof MainHomeLoader> = ({ data }) => [
     content: "Electric Pass: Create Free Events, Organize Events & Sell Your Own Events",
   },
   { name: "og:type", content: "website" },
+  { name: "og:site_name", content: "Electric Pass" },
   { name: "og:url", content: data.hostname },
   {
     name: "og:description",
