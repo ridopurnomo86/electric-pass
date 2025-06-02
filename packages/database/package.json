@@ -6,8 +6,13 @@
   "sideEffects": false,
   "devDependencies": {
     "prisma": "^6.2.1",
+    "rollup": "^4.41.1",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-typescript": "^11.1.1"
   },
   "scripts": {
     "db:pull": "prisma db pull",
@@ -16,8 +21,9 @@
     "db:migrate": "prisma migrate dev --skip-generate",
     "db:deploy": "prisma migrate deploy",
     "build-ts": "tsc",
-    "build": "yarn db:pull && yarn db:generate && yarn build-ts",
-    "prebuild": "rm -rf tsconfig.tsbuildinfo dist generated"
+    "build": "yarn db:pull && yarn db:generate && rollup -c",
+    "prebuild": "rm -rf tsconfig.tsbuildinfo dist generated",
+    "start": "rollup -c -w"
   },
   "keywords": [],
   "author": "",

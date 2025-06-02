@@ -18,9 +18,7 @@
     "declaration": true,
     "composite": true,
     "declarationMap": true,
-
     // "noEmit": true,
-
     "lib": ["es2022", "dom", "dom.iterable"]
   },
   "exclude": ["generated", "dist"]
